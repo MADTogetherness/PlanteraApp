@@ -1,0 +1,20 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.PlanteraApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/Button_Primary</item>
+        <item name="colorPrimaryVariant">@color/App_Container</item>
+        <item name="colorOnPrimary">@color/Button_Font</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/Section_Container</item>
+        <item name="colorSecondaryVariant">@color/Section_Shadow</item>
+        <item name="colorOnSecondary">@color/Primary_Font</item>
+        <!-- Status bar color. -->
+        <item name="android:windowBackground">#fff</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>
