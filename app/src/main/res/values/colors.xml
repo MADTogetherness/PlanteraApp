@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="App_Container">#F1F1F1</color>
+    <color name="Section_Container">#FFFFFF</color>
+    <color name="Primary_Font">#111111</color>
+    <color name="Button_Font">#FFFFFF</color>
+    <color name="Section_Shadow">#BABABA</color>
+    <color name="Button_Primary">#007C6F</color>
+    <color name="Button_Secondary">#2DD3C2</color>
+
+    //Intro Activity Colors
+    <color name="image1">#FDD7D7</color>
+    <color name="image1_Button">#FF1616</color>
+    <color name="image2">#FDF3FF</color>
+    <color name="image2_Button">#65005E</color>
+    <color name="image3">#F4D9E6</color>
+    <color name="image3_Button">#D10063</color>
+</resources>
