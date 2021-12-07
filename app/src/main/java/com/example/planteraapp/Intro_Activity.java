@@ -2,31 +2,19 @@ package com.example.planteraapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
-import androidx.transition.TransitionManager;
 import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Html;
-import android.transition.Slide;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import com.example.planteraapp.Utilities.SlideAdapter;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 public class Intro_Activity extends AppCompatActivity {
     private ViewPager viewPager;
     private SlideAdapter slideAdapter;
-    private ImageButton Skip;
     private  Button Next;
 
 
@@ -38,7 +26,6 @@ public class Intro_Activity extends AppCompatActivity {
     }
 
     public void init(){
-        Skip = findViewById(R.id.skip_intro);
         Next = findViewById(R.id.next_intro);
         viewPager = findViewById(R.id.intro_view_pager);
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
@@ -50,7 +37,8 @@ public class Intro_Activity extends AppCompatActivity {
             if(viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
         });
-        Skip.setOnClickListener(view -> {NewActivity();});
+        ImageButton skip = findViewById(R.id.skip_intro);
+        skip.setOnClickListener(view -> NewActivity());
     }
 
     public void NewActivity(){

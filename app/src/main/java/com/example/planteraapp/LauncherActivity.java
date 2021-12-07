@@ -3,10 +3,8 @@ package com.example.planteraapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.Animator;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.TextView;
