@@ -16,8 +16,6 @@ public class Intro_Activity extends AppCompatActivity {
     private ViewPager viewPager;
     private SlideAdapter slideAdapter;
     private  Button Next;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
