@@ -2,22 +2,22 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@id/calendar_fragment">
+    app:startDestination="@id/calendar">
 
     <fragment
-        android:id="@+id/calendar_fragment"
+        android:id="@+id/calendar"
         android:name="com.example.planteraapp.homefragments.Calendar"
-        android:label="fragment_calender"
+        android:label="@string/calender"
         tools:layout="@layout/fragment_calender" />
     <fragment
-        android:id="@+id/search_fragment"
+        android:id="@+id/search"
         android:name="com.example.planteraapp.homefragments.Search"
-        android:label="fragment_search"
+        android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/allPlants_fragment"
+        android:id="@+id/all_plants"
         android:name="com.example.planteraapp.homefragments.AllPlants"
-        android:label="fragment_all_plants"
+        android:label="@string/all_plants"
         tools:layout="@layout/fragment_all_plants" />
     <fragment
         android:id="@+id/newPlant_fragment"
@@ -38,9 +38,9 @@
             />
     </fragment>
     <fragment
-        android:id="@+id/settings_fragment"
+        android:id="@+id/settings"
         android:name="com.example.planteraapp.homefragments.Settings"
-        android:label="fragment_settings"
+        android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
         android:id="@+id/colorTheme"

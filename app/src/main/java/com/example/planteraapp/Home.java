@@ -1,5 +1,4 @@
 package com.example.planteraapp;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuItemImpl;
@@ -9,10 +8,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+
 import java.util.Objects;
 
 public class Home extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener {
@@ -27,78 +28,46 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         init();
     }
 
-    @SuppressLint("RestrictedApi")
     public void init(){
         bottomNavigationView = findViewById(R.id.bottom_nav_view);
         add_plants_fab = findViewById(R.id.add_plants_fab);
         navController = Navigation.findNavController(this, R.id.nav_controller);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-        options = new NavOptions.Builder();
-        options.setLaunchSingleTop(true)
+        //Animating enter & exit activities --- Exit for previous, Enter for next
+        options = new NavOptions.Builder()
+                .setLaunchSingleTop(true)
                 .setEnterAnim(R.anim.fragment_enter_anim)
                 .setExitAnim(R.anim.fragment_exit_anim)
                 .setPopEnterAnim(R.anim.fragment_popenter_anim)
                 .setPopExitAnim(R.anim.fragment_popexit_anim);
-        bottomNavigationView.getMenu().getItem(0).setChecked(true);
-        add_plants_fab.setOnClickListener(view -> {
-            if(isValidDestination(R.id.newPlant_fragment)){
-                MenuItem menuItem = bottomNavigationView.getMenu().findItem(bottomNavigationView.getSelectedItemId());
-                ((MenuItemImpl) menuItem).setExclusiveCheckable(false);
-                menuItem.setChecked(false);
-                ((MenuItemImpl) menuItem).setExclusiveCheckable(true);
-                Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.newPlant_fragment, null, options.build());
-            }
-        });
+
+        add_plants_fab.setOnClickListener(view -> { if(isValidDestination(R.id.newPlant_fragment)) fabSelection(); });
         bottomNavigationView.setOnItemSelectedListener(this);
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void fabSelection(){
+        MenuItem menuItem = bottomNavigationView.getMenu().findItem(bottomNavigationView.getSelectedItemId());
+        ((MenuItemImpl) menuItem).setExclusiveCheckable(false);
+        menuItem.setChecked(false);
+        ((MenuItemImpl) menuItem).setExclusiveCheckable(true);
+        //Navigate to FAB fragment AKA add new plants fragment
+        Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.newPlant_fragment, null, options.build());
+    }
+
+    private boolean isValidDestination(int destination){
+        //Checking if current fragment is equal to desired fragment
+        return destination != Objects.requireNonNull(Navigation.findNavController(this, R.id.nav_controller).getCurrentDestination()).getId();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if(!isValidDestination(getCorrespondingFragmentsId(item.getItemId()))){
-            return false;
-        }
-        switch (item.getItemId()){
-            case R.id.calendar:
-                Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.calendar_fragment, null, options.build());
-                break;
-            case R.id.search:
-                Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.search_fragment, null, options.build());
-                break;
-            case R.id.all_plants:
-                Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.allPlants_fragment, null, options.build());
-                break;
-            case R.id.settings:
-                Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.settings_fragment, null, options.build());
-                break;
-            default:
-                return false;
-        }
+        //Checking for second click on same fragment
+        if(!isValidDestination(item.getItemId())) return false;
+        //Popping of the stack up until calender fragment
+        if ((item.getOrder() & Menu.CATEGORY_SECONDARY) == 0) options.setPopUpTo(R.id.calendar, false);
+        //Navigating to the desired fragment
+        Navigation.findNavController(this, R.id.nav_controller).navigate(item.getItemId(), null, options.build());
         return true;
-    }
-
-    private boolean isValidDestination(int destination){
-        return destination != Objects.requireNonNull(Navigation.findNavController(this, R.id.nav_controller).getCurrentDestination()).getId();
-    }
-
-    private int getCorrespondingFragmentsId(int id){
-        switch (id){
-            case R.id.calendar:
-                return R.id.calendar_fragment;
-            case R.id.calendar_fragment:
-                return R.id.calendar;
-            case R.id.search:
-                return R.id.search_fragment;
-            case R.id.search_fragment:
-                return  R.id.search;
-            case R.id.all_plants:
-                return R.id.allPlants_fragment;
-            case R.id.allPlants_fragment:
-                return R.id.all_plants;
-            case R.id.settings:
-                return R.id.settings_fragment;
-            case R.id.settings_fragment:
-                return R.id.settings;
-        }
-        return -1;
     }
 }
