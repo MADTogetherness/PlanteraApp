@@ -13,6 +13,7 @@
 
     <!--    Add New Plants Option-->
     <item
+        android:id="@+id/placeholder"
         android:enabled="false"
         android:title=""/>
 

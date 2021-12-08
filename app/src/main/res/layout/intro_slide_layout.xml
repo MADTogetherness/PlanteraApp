@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:src="@drawable/img_intro3_image"
-        android:layout_weight="4.5"
+        android:layout_weight="4"
         android:background="@drawable/ic_random_shape_intro"
-        android:backgroundTint="#F4D9E6"
+        android:backgroundTint="#F1B7D3"
         android:foregroundGravity="center"/>
 
     <TextView
@@ -21,10 +21,11 @@
         android:layout_height="wrap_content"
         android:textColor="#111"
         android:layout_marginStart="16dp"
-        android:fontFamily="@font/opensans_bold"
+        android:fontFamily="@font/cursive_font"
         android:textAlignment="viewStart"
+        android:textFontWeight="900"
         android:text="dfgbf"
-        android:textSize="26sp"/>
+        android:textSize="22sp"/>
 
     <TextView
         android:id="@+id/intro_description"
@@ -37,6 +38,6 @@
         android:text="dfgbhg"
         android:fontFamily="@font/opensans_semibold"
         android:textAlignment="viewStart"
-        android:textSize="14sp"/>
+        android:textSize="15sp"/>
 
 </LinearLayout>

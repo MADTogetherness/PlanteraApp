@@ -11,19 +11,19 @@
         android:id="@+id/image_logo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/text_logo"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/text_logo"
         android:background="@drawable/plantera_background">
 
         <ImageView
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
-            android:src="@drawable/ic_launcher_foreground"
             android:layout_marginBottom="30dp"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher_foreground" />
     </FrameLayout>
 
     <TextView
@@ -33,12 +33,14 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"
-        android:fontFamily="@font/opensans_extrabold"
-        android:letterSpacing="0.2"
+        android:layout_marginBottom="100dp"
+        android:fontFamily="@font/cursive_font"
+        android:textFontWeight="900"
+        android:letterSpacing="0.05"
         android:text="PLANTERA"
         android:textAlignment="center"
         android:textColor="#007C6F"
-        android:textSize="30sp" />
+        android:textSize="26sp"
+        tools:targetApi="p" />
 
 </RelativeLayout>

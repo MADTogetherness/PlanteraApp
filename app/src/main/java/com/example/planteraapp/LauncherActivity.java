@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
+    public static String SharedFile = "LaunchFiles";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,7 @@ public class LauncherActivity extends AppCompatActivity {
     }
 
     public Class<? extends AppCompatActivity> checkNewUser(){
-        return this.getPreferences(Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class: Home.class;
+        Log.d("IsOld", String.valueOf(getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0)));
+        return getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class: Home.class;
     }
 }

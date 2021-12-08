@@ -22,12 +22,13 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/bottom_navigation_fragments" />
+            app:navGraph="@navigation/bottom_navigation_fragments"
+            />
 
 <!--        Remember to add 96dp bottom padding in fragments after implementing layout or using scrollViews-->
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="96dp"
+            android:layout_height="100dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentStart="true">
@@ -54,7 +55,7 @@
                     android:background="@android:color/transparent"
                     app:itemIconTint="@drawable/com_bottom_navigation_icon_color"
                     app:itemTextColor="@drawable/com_bottom_navigation_icon_color"
-                    app:itemIconSize="24dp"
+                    app:itemIconSize="22dp"
                     app:elevation="0dp"
                     app:menu="@menu/bottom_navigation_options" />
 
@@ -68,10 +69,11 @@
                 android:contentDescription="Add a new plant"
                 android:src="@drawable/ic_add_new_plant_icon_24"
                 app:backgroundTint="@color/Section_Container"
+                app:elevation="4dp"
                 app:fabCustomSize="60dp"
                 app:layout_anchorGravity="bottom"
                 app:layout_anchor="@id/bottom_app_bar"
-                app:maxImageSize="60dp"
+                app:maxImageSize="55dp"
                 app:tint="@color/Button_Primary" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import com.example.planteraapp.Utilities.SlideAdapter;
@@ -40,7 +41,7 @@ public class Intro_Activity extends AppCompatActivity {
     }
 
     public void NewActivity(){
-        SharedPreferences.Editor editor = this.getPreferences(Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
         editor.putInt("IsOld", 1);
         editor.apply();
         startActivity(new Intent(Intro_Activity.this, Home.class));
