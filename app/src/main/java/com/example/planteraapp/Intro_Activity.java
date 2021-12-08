@@ -7,9 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageButton;
 import com.example.planteraapp.Utilities.SlideAdapter;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -36,7 +34,7 @@ public class Intro_Activity extends AppCompatActivity {
             if(viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
         });
-        ImageButton skip = findViewById(R.id.skip_intro);
+        Button skip = findViewById(R.id.skip_intro);
         skip.setOnClickListener(view -> NewActivity());
     }
 

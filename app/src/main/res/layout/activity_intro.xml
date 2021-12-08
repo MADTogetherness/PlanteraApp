@@ -37,7 +37,7 @@
             android:drawableEnd="@drawable/ic_right_icon"
             android:drawableTint="#fff"
             android:fontFamily="@font/opensans_bold"
-            android:text="Next"
+            android:text="@string/NextButton"
             android:textColor="#fff" />
 
         <View
@@ -75,10 +75,10 @@
         android:scaleType="fitStart"
         android:src="@drawable/logo_transparent" />
 
-    <ImageButton
+    <Button
         android:id="@+id/skip_intro"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="16dp"
@@ -86,10 +86,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/com_round_shape"
-        android:backgroundTint="#006064"
-        android:padding="10dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_right_skip_icon" />
+        android:drawableEnd="@drawable/ic_right_skip_icon"
+        android:text="@string/SkipButton"
+        android:textStyle="bold"
+        tools:ignore="TouchTargetSizeCheck" />
 
 
 
