@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="5"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/intro_image"
+    <View
+        android:id="@+id/intro_image_background"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:src="@drawable/img_intro3_image"
-        android:layout_weight="4"
+        android:layout_height="match_parent"
         android:background="@drawable/ic_random_shape_intro"
-        android:backgroundTint="#F1B7D3"
-        android:foregroundGravity="center"/>
+        android:backgroundTint="#F1B7D3" />
 
-    <TextView
-        android:id="@+id/intro_head"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#111"
-        android:layout_marginStart="16dp"
-        android:fontFamily="@font/cursive_font"
-        android:textAlignment="viewStart"
-        android:textFontWeight="900"
-        android:text="dfgbf"
-        android:textSize="22sp"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/intro_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="#979696"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="dfgbhg"
-        android:fontFamily="@font/opensans_semibold"
-        android:textAlignment="viewStart"
-        android:textSize="15sp"/>
+        <ImageView
+            android:id="@+id/intro_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_above="@+id/intro_head"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:foregroundGravity="center"
+            android:contentDescription="Slide Image"
+            android:src="@drawable/img_intro3_image" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/intro_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/intro_description"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/cursive_font"
+            android:text="dfg"
+            android:textAlignment="viewStart"
+            android:textColor="#111"
+            android:textFontWeight="900"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/intro_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:textColor="#979696"
+            android:text="dfd"
+            android:fontFamily="@font/opensans_semibold"
+            android:textAlignment="viewStart"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</FrameLayout>

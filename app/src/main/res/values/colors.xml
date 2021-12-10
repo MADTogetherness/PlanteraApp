@@ -9,10 +9,10 @@
     <color name="Button_Secondary">#5FB5AC</color>
 
     //Intro Activity Colors
-    <color name="image1">#FDD7D7</color>
-    <color name="image1_Button">#FF1616</color>
-    <color name="image2">#FDF3FF</color>
-    <color name="image2_Button">#AF00A3</color>
-    <color name="image3">#F1B7D3</color>
-    <color name="image3_Button">#9A416B</color>
+    <color name="image1">#FFEAEA</color>
+    <color name="image1_Button">#E50202</color>
+    <color name="image2">#FFF1FE</color>
+    <color name="image2_Button">#B201A6</color>
+    <color name="image3">#F5EAE0</color>
+    <color name="image3_Button">#9F5C1D</color>
 </resources>

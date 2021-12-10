@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,9 +51,9 @@ public class SlideAdapter extends PagerAdapter {
     };
 
     public String[] descriptions = {
-            "\nAdd your garden here & manage your plants efficiently all at single place just like a pro...",
-            "\nYou need not worry anymore..We manage all your notifications about your plant needs and remind you timely of it...",
-            "\nAdding more to it, You can also record your plant progress...Just like it's your own child progressing forward!! \n\nLet's get started then..."
+            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, ",
+            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, ",
+            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, "
     };
 
     public int[] nextButton_backgroundTint ={
@@ -79,13 +80,14 @@ public class SlideAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Log.d("OBJECT_VIEW", String.valueOf(position));
-        layoutInflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.intro_slide_layout, container,false);
-        TextView head =  view.findViewById(R.id.intro_head),
-                description =  view.findViewById(R.id.intro_description);
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.intro_slide_layout, container, false);
+        TextView head = view.findViewById(R.id.intro_head),
+                description = view.findViewById(R.id.intro_description);
 
-        ImageView Slide_image  = view.findViewById(R.id.intro_image);
-        Slide_image.setBackgroundTintList(ContextCompat.getColorStateList(context,slide_images_backgroundTint[position]));
+        ImageView Slide_image = view.findViewById(R.id.intro_image);
+        View Slide_image_back = view.findViewById(R.id.intro_image_background);
+        Slide_image_back.setBackgroundTintList(ContextCompat.getColorStateList(context, slide_images_backgroundTint[position]));
         Slide_image.setImageResource(slide_images[position]);
         head.setText(headings[position]);
         description.setText(descriptions[position]);
@@ -95,6 +97,6 @@ public class SlideAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((LinearLayout) object);
+        container.removeView((FrameLayout) object);
     }
 }

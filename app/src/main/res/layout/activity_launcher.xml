@@ -23,7 +23,8 @@
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_launcher_foreground" />
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Logo" />
     </FrameLayout>
 
     <TextView
@@ -37,7 +38,8 @@
         android:fontFamily="@font/cursive_font"
         android:textFontWeight="900"
         android:letterSpacing="0.05"
-        android:text="PLANTERA"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
         android:textAlignment="center"
         android:textColor="#007C6F"
         android:textSize="26sp"
