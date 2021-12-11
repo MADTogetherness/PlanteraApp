@@ -8,6 +8,8 @@
     <color name="Button_Primary">#006064</color>
     <color name="Button_Secondary">#5FB5AC</color>
 
+    //Transparent Color
+    <color name="transparent">#00000000</color>
     //Intro Activity Colors
     <color name="image1">#FFEAEA</color>
     <color name="image1_Button">#E50202</color>

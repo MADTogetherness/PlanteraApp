@@ -66,15 +66,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:contentDescription="Add a new plant"
                 android:src="@drawable/ic_add_new_plant_icon_24"
-                app:backgroundTint="@color/Section_Container"
+                android:contentDescription="@string/add_new_plant"
+                android:backgroundTint="@color/Section_Container"
                 app:elevation="4dp"
                 app:fabCustomSize="60dp"
                 app:layout_anchorGravity="bottom"
                 app:layout_anchor="@id/bottom_app_bar"
                 app:maxImageSize="55dp"
-                app:tint="@color/Button_Primary" />
+                app:tint="@color/Button_Primary"
+                app:backgroundTint="@color/Section_Container"
+                app:borderWidth="2.5dp" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
