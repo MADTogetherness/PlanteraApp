@@ -5,93 +5,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Intro_Activity"
-    android:background="@drawable/img_intro_background_image">
+    android:background="@color/App_Container">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/intro_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/bottom_linear_layout"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <LinearLayout
+        android:id="@+id/bottom_linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:weightSum="4">
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_margin="18dp"
+        android:orientation="horizontal">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/intro_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3.75" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
-
+        <TextView
+            android:id="@+id/skip_intro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/SkipButton"
+            android:textSize="16sp"
+            android:textColor="@color/Secondary_Font"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_weight="2" />
 
         <Button
             android:id="@+id/next_intro"
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/image1_Button"
+            android:layout_height="wrap_content"
             android:drawableEnd="@drawable/ic_right_icon"
-            android:drawableTint="#fff"
+            android:backgroundTint="@color/Button_Primary"
+            android:drawableTint="@color/Button_Font"
             android:fontFamily="@font/opensans_bold"
             android:text="@string/NextButton"
-            android:textColor="#fff" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp" />
-
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-            android:id="@+id/dots_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            app:dotsColor="#90EEFA"
-            app:dotsCornerRadius="12dp"
-            app:dotsSize="8dp"
-            app:dotsSpacing="5dp"
-            app:dotsWidthFactor="2.5"
-            app:progressMode="false"
-            app:selectedDotColor="#006064" />
+            android:textColor="@color/Button_Font" />
 
     </LinearLayout>
 
-
-    <ImageView
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="180dp"
-        android:layout_toStartOf="@+id/skip_intro"
-        android:adjustViewBounds="true"
-        android:contentDescription="Logo"
-        android:padding="4dp"
-        android:scaleType="fitStart"
-        android:src="@drawable/logo_transparent" />
-
-    <Button
-        android:id="@+id/skip_intro"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/com_round_shape"
-        android:drawableEnd="@drawable/ic_right_skip_icon"
-        android:text="@string/SkipButton"
-        android:textStyle="bold"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:backgroundTint="@android:color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp">
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo_transparent" />
 
+    </FrameLayout>
 
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dots_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/bottom_linear_layout"
+        android:layout_marginBottom="170dp"
+        android:layout_gravity="center"
+        app:dotsColor="@color/Button_Secondary"
+        app:dotsCornerRadius="12dp"
+        app:dotsSize="10dp"
+        app:dotsSpacing="5dp"
+        app:dotsWidthFactor="2.5"
+        app:progressMode="false"
+        app:selectedDotColor="@color/Button_Primary" />
 
 </RelativeLayout>

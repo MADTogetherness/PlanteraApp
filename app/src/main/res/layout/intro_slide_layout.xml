@@ -1,60 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/App_Container">
 
-    <View
-        android:id="@+id/intro_image_background"
+
+    <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_random_shape_intro"
-        android:backgroundTint="#F1B7D3" />
+        android:layout_height="0dp"
+        android:layout_above="@id/intro_head"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="68dp"
+        android:background="@color/Button_Primary"
+        android:alpha="0.79"
+        app:shapeAppearanceOverlay="@style/Image_oval_bottom" />
 
-    <RelativeLayout
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/intro_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_above="@id/intro_head"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="80dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_intro1_image"
+        app:contentPaddingBottom="-30dp"
+        app:shapeAppearanceOverlay="@style/Image_oval_bottom" />
 
-        <ImageView
-            android:id="@+id/intro_image"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_above="@+id/intro_head"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:foregroundGravity="center"
-            android:contentDescription="Slide Image"
-            android:src="@drawable/img_intro3_image" />
 
-        <TextView
-            android:id="@+id/intro_head"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/intro_description"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_centerHorizontal="true"
-            android:fontFamily="@font/cursive_font"
-            android:text="dfg"
-            android:textAlignment="viewStart"
-            android:textColor="#111"
-            android:textFontWeight="900"
-            android:textSize="22sp" />
+    <TextView
+        android:id="@+id/intro_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/intro_description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/cursive_font"
+        android:textAlignment="center"
+        android:textColor="@color/Primary_Font"
+        android:textFontWeight="900"
+        android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/intro_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:textColor="#979696"
-            android:text="dfd"
-            android:fontFamily="@font/opensans_semibold"
-            android:textAlignment="viewStart"
-            android:textSize="14sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/intro_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:fontFamily="@font/opensans_semibold"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textAlignment="center"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="13sp" />
 
-</FrameLayout>
+</RelativeLayout>

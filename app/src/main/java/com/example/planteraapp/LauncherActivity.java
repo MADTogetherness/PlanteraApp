@@ -20,10 +20,11 @@ public class LauncherActivity extends AppCompatActivity {
         FrameLayout logo_image = findViewById(R.id.image_logo);
         TextView logo_text = findViewById(R.id.text_logo);
 
-        logo_image.animate().translationY(-3200).setDuration(800).setStartDelay(4000);
-        logo_text.animate().translationY(1400).setDuration(800).setStartDelay(4000).setListener(new Animator.AnimatorListener() {
+        logo_image.animate().translationY(-3200).setDuration(800).setStartDelay(2500);
+        logo_text.animate().translationY(1400).setDuration(800).setStartDelay(2500).setListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animator) {}
+            public void onAnimationStart(Animator animator) {
+            }
 
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -31,6 +32,7 @@ public class LauncherActivity extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 finish();
             }
+
             @Override
             public void onAnimationCancel(Animator animator) {}
             @Override

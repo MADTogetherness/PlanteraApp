@@ -3,11 +3,14 @@ package com.example.planteraapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.example.planteraapp.Utilities.SlideAdapter;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -26,7 +29,7 @@ public class Intro_Activity extends AppCompatActivity {
         Next = findViewById(R.id.next_intro);
         viewPager = findViewById(R.id.intro_view_pager);
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
-        slideAdapter = new SlideAdapter(this);
+        slideAdapter = new SlideAdapter(this.getApplicationContext());
         viewPager.setAdapter(slideAdapter);
         viewPager.addOnPageChangeListener(viewListener);
         dotsIndicator.setViewPager(viewPager);
@@ -34,7 +37,7 @@ public class Intro_Activity extends AppCompatActivity {
             if(viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
         });
-        Button skip = findViewById(R.id.skip_intro);
+        TextView skip = findViewById(R.id.skip_intro);
         skip.setOnClickListener(view -> NewActivity());
     }
 
@@ -47,7 +50,6 @@ public class Intro_Activity extends AppCompatActivity {
         finish();
     }
     public void change_NextButton_Color(int pos){
-        Next.setBackgroundTintList(ContextCompat.getColorStateList(this,slideAdapter.getNextButton_backgroundTint(pos)));
         Next.setText(slideAdapter.getCount() - 1 == pos ? "Get Started": "Next");
     }
 

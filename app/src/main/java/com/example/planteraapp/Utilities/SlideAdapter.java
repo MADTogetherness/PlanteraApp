@@ -2,7 +2,12 @@ package com.example.planteraapp.Utilities;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +17,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
@@ -28,26 +34,23 @@ import java.util.Objects;
 public class SlideAdapter extends PagerAdapter {
     Context context;
     LayoutInflater layoutInflater;
+    ImageView Slide_image;
 
     public SlideAdapter(Context context){
         this.context = context;
     }
-    public int[] slide_images ={
+
+    public int[] slide_images = {
             R.drawable.img_intro1_image,
             R.drawable.img_intro2_image,
             R.drawable.img_intro3_image
     };
 
-    public int[] slide_images_backgroundTint ={
-            R.color.image1,
-            R.color.image2,
-            R.color.image3
-    };
 
     public String[] headings = {
-            "Manage efficiently",
             "Care more, Forget less",
-            "Record your progress"
+            "Record your progress",
+            "Manage efficiently",
     };
 
     public String[] descriptions = {
@@ -55,16 +58,6 @@ public class SlideAdapter extends PagerAdapter {
             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, ",
             "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, "
     };
-
-    public int[] nextButton_backgroundTint ={
-            R.color.image1_Button,
-            R.color.image2_Button,
-            R.color.image3_Button
-    };
-
-    public int getNextButton_backgroundTint(int pos){
-        return nextButton_backgroundTint[pos];
-    }
 
     @Override
     public int getCount() {
@@ -85,9 +78,7 @@ public class SlideAdapter extends PagerAdapter {
         TextView head = view.findViewById(R.id.intro_head),
                 description = view.findViewById(R.id.intro_description);
 
-        ImageView Slide_image = view.findViewById(R.id.intro_image);
-        View Slide_image_back = view.findViewById(R.id.intro_image_background);
-        Slide_image_back.setBackgroundTintList(ContextCompat.getColorStateList(context, slide_images_backgroundTint[position]));
+        Slide_image = view.findViewById(R.id.intro_image);
         Slide_image.setImageResource(slide_images[position]);
         head.setText(headings[position]);
         description.setText(descriptions[position]);
@@ -97,6 +88,8 @@ public class SlideAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((FrameLayout) object);
+        container.removeView((RelativeLayout) object);
     }
+
+
 }
