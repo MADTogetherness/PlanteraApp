@@ -37,28 +37,10 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     FloatingActionButton add_plants_fab;
     NavController navController;
     NavOptions.Builder options;
-    PlantDAO DAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DAO = AppDatabase.getInstance(this).plantDAO();
-        PlantType[] list1 = {new PlantType("Archangiran"), new PlantType("Lolarian"), new PlantType("Kelarian")};
-        PlantLocation[] list2 = {new PlantLocation("Kitchen"), new PlantLocation("Balcony"), new PlantLocation("Ground Floor")};
-
-        try {
-            long[] Types = DAO.insertPlantTypes(list1);
-            long[] Locations = DAO.insertPlantLocations(list2);
-            for (long type : Types) {
-                Log.d("Types", String.valueOf(type));
-            }
-            for (long location : Locations) {
-                Log.d("Locations", String.valueOf(location));
-            }
-            Toast.makeText(this, "INSERTED REMINDERS", Toast.LENGTH_SHORT).show();
-        } catch (SQLiteConstraintException ex) {
-            ex.printStackTrace();
-        }
         setContentView(R.layout.activity_home);
         init();
     }
