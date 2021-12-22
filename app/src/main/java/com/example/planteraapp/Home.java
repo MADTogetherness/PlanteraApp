@@ -9,15 +9,27 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
+
 import android.annotation.SuppressLint;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, NavController.OnDestinationChangedListener {
@@ -25,10 +37,28 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     FloatingActionButton add_plants_fab;
     NavController navController;
     NavOptions.Builder options;
+    PlantDAO DAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DAO = AppDatabase.getInstance(this).plantDAO();
+        PlantType[] list1 = {new PlantType("Archangiran"), new PlantType("Lolarian"), new PlantType("Kelarian")};
+        PlantLocation[] list2 = {new PlantLocation("Kitchen"), new PlantLocation("Balcony"), new PlantLocation("Ground Floor")};
+
+        try {
+            long[] Types = DAO.insertPlantTypes(list1);
+            long[] Locations = DAO.insertPlantLocations(list2);
+            for (long type : Types) {
+                Log.d("Types", String.valueOf(type));
+            }
+            for (long location : Locations) {
+                Log.d("Locations", String.valueOf(location));
+            }
+            Toast.makeText(this, "INSERTED REMINDERS", Toast.LENGTH_SHORT).show();
+        } catch (SQLiteConstraintException ex) {
+            ex.printStackTrace();
+        }
         setContentView(R.layout.activity_home);
         init();
     }
