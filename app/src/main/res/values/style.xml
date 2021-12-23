@@ -5,4 +5,8 @@
         <item name="cornerSizeBottomRight">280dp</item>
         <item name="cornerFamilyBottomRight">rounded</item>
     </style>
+
+    <style name="Image_circle">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
