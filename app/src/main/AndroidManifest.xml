@@ -25,6 +25,6 @@
         <activity android:name=".Intro_Activity" />
         <activity android:name=".Home" />
     </application>
-	//asdasd
+	//asdasdasdasd
 
 </manifest>
