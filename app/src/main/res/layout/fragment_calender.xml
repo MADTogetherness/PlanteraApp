@@ -118,33 +118,45 @@
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_save_data"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="SAVE" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+
+        <EditText
+            android:id="@+id/name_to_load"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Type the name of plant to load" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
+
+        <Button
+            android:id="@+id/btn_load_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#D81B60"
+            android:layout_gravity="center"
+            android:fontFamily="@font/opensans_bold"
+            android:textColor="#fff"
+            android:text="Load" />
+
+        <TextView
+            android:id="@+id/extra_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:fontFamily="@font/cursive_font" />
 
-            <Button
-                android:id="@+id/btn_load_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#D81B60"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="#fff"
-                android:text="Load" />
-
-            <View
-                android:layout_width="16dp"
-                android:layout_height="match_parent" />
-
-            <Button
-                android:id="@+id/btn_save_data"
-                android:layout_width="wrap_content"
-                android:fontFamily="@font/opensans_bold"
-                android:layout_height="wrap_content"
-                android:text="SAVE" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

@@ -1,5 +1,8 @@
 package com.example.planteraapp.homefragments;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,8 +12,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +35,8 @@ import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
@@ -38,9 +45,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Calendar extends Fragment {
-    private TextView imageNameTV;
+    private TextView imageNameTV, extraTextTV;
     private AutoCompleteTextView typeATV, locationATV;
-    private EditText plantNameET, descriptionET;
+    private EditText plantNameET, descriptionET, nameToLoadET;
     private ShapeableImageView plantImage;
     private Button loadData, saveData;
     private View view;
@@ -88,7 +95,9 @@ public class Calendar extends Fragment {
 
     public void init() {
         imageNameTV = view.findViewById(R.id.image_name);
+        extraTextTV = view.findViewById(R.id.extra_text);
         plantNameET = view.findViewById(R.id.plant_name);
+        nameToLoadET = view.findViewById(R.id.name_to_load);
         typeATV = view.findViewById(R.id.type_spinner);
         locationATV = view.findViewById(R.id.location_spinner);
         descriptionET = view.findViewById(R.id.plant_description);
@@ -102,13 +111,14 @@ public class Calendar extends Fragment {
         plantImage.setOnClickListener(view -> mSetContent.launch("image/*"));
 
         saveData.setOnClickListener(view -> {
+            extraTextTV.setText("");
             String name = plantNameET.getText().toString().trim(), description = descriptionET.getText().toString().trim();
             String type = typeATV.getText().toString().trim(), location = locationATV.getText().toString().trim();
-
+            if (name.equals("") || type.equals("") || description.equals("") || location.equals(""))
+                return;
             PlantType newType = new PlantType(type);
             PlantLocation newLocation = new PlantLocation(location);
             Images image = new Images(imageName, imageSource);
-
             try {
                 long s = DAO.insertPlantTypes(newType)[0];
                 Log.d("insertT", String.valueOf(s));
@@ -128,12 +138,40 @@ public class Calendar extends Fragment {
             long s = DAO.insertPlantProfileImages(image)[0];
             Plant plant = new Plant(newType.type, newLocation.location, s, 23455, name, description);
 
-            long successfull = DAO.InsertNewPlant(plant)[0];
-            Log.d("insertP", String.valueOf(successfull));
-            if (successfull != -1) {
-                Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
-            }
+            long successful = DAO.InsertNewPlant(plant)[0];
+            Log.d("insertP", String.valueOf(successful));
+            Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
 
+            Reminder[] all_reminders = {
+                    new Reminder(successful, "Water", System.currentTimeMillis(), 203044456),
+                    new Reminder(successful, "Fertile", System.currentTimeMillis(), 203044456),
+                    new Reminder(successful, "Be With Them", System.currentTimeMillis(), 203044456)
+            };
+
+            long[] successfulR = DAO.insertReminders(all_reminders);
+            Log.d("insertR", "Successful");
+        });
+
+        loadData.setOnClickListener(view -> {
+            extraTextTV.setText("");
+            String name = nameToLoadET.getText().toString().trim();
+            if (name.equals("")) return;
+            PlantsWithEverything plant = DAO.getAllPlantAttributes(name);
+            if (plant == null) {
+                Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            plantNameET.setText(name);
+            descriptionET.setText(plant.plant.description);
+            typeATV.setText(plant.type.type);
+            locationATV.setText(plant.location.location);
+            plantImage.setImageBitmap(AttributeConverters.StringToBitMap(plant.profileImage.imageData));
+            imageNameTV.setText(plant.profileImage.imageName);
+            List<Reminder> all_reminders = plant.Reminders;
+            for (Reminder r : all_reminders) {
+                extraTextTV.append("Reminder : " + r.reminderID + "\n");
+                extraTextTV.append(r.name + " plant today " + r.time + " repeat after " + r.repeatInterval + "\n\n");
+            }
 
         });
     }
