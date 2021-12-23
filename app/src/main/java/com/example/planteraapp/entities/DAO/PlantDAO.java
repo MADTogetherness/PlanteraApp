@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
@@ -33,6 +34,9 @@ public interface PlantDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] InsertNewPlant(Plant... plant);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] InsertNewBlog(Blog... blog);
 
     @Transaction
     @Query("SELECT * FROM PlantType")
