@@ -149,13 +149,15 @@
             android:layout_gravity="center"
             android:fontFamily="@font/opensans_bold"
             android:textColor="#fff"
-            android:text="Load" />
+            android:text="Load"
+            android:layout_marginBottom="25dp"/>
 
         <TextView
             android:id="@+id/extra_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/cursive_font" />
+            android:fontFamily="@font/cursive_font"
+            android:layout_marginBottom="100dp"/>
 
 
     </LinearLayout>
