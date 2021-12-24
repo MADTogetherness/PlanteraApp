@@ -35,9 +35,6 @@ public interface PlantDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] InsertNewPlant(Plant... plant);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long[] InsertNewBlog(Blog... blog);
-
     @Transaction
     @Query("SELECT * FROM PlantType")
     List<PlantType> getAllPlantTypes();
