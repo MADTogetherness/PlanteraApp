@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2d4ae7381682a951074272005e9cab92",
+    "identityHash": "4abe5b097000f7832275c5d019dacc69",
     "entities": [
       {
         "tableName": "Reminder",
@@ -283,12 +283,99 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Blog",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blogID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantID` INTEGER NOT NULL, `dateCreated` INTEGER NOT NULL, `description` TEXT, FOREIGN KEY(`plantID`) REFERENCES `Plant`(`plantID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "blogID",
+            "columnName": "blogID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "plantID",
+            "columnName": "plantID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateCreated",
+            "columnName": "dateCreated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "blogID"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Blog_plantID",
+            "unique": false,
+            "columnNames": [
+              "plantID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blog_plantID` ON `${TABLE_NAME}` (`plantID`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Plant",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "plantID"
+            ],
+            "referencedColumns": [
+              "plantID"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "BlogImagesCrossRef",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bID` INTEGER NOT NULL, `iID` INTEGER NOT NULL, PRIMARY KEY(`bID`, `iID`))",
+        "fields": [
+          {
+            "fieldPath": "bID",
+            "columnName": "bID",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iID",
+            "columnName": "iID",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "bID",
+            "iID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d4ae7381682a951074272005e9cab92')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4abe5b097000f7832275c5d019dacc69')"
     ]
   }
 }

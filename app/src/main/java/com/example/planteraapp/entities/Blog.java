@@ -41,15 +41,14 @@ public class Blog {
     public long dateCreated;
     public String description;
 
-    public Blog(long blogID, long plantID, long dateCreated, String description) {
-        this.blogID = blogID;
+    public Blog(long plantID, String description) {
         this.plantID = plantID;
-        this.dateCreated = dateCreated;
+        this.dateCreated = System.currentTimeMillis();
         this.description = description;
     }
 
     @NonNull
     public String toString() {
-        return blogID + " " + plantID;
+        return plantID + " " + description;
     }
 }

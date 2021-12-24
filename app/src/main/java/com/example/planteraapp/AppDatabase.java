@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
@@ -22,7 +23,8 @@ import com.example.planteraapp.entities.Reminder;
         PlantLocation.class,
         Plant.class,
         Images.class,
-        Blog.class
+        Blog.class,
+        BlogImagesCrossRef.class
 }, version = 1)
 @TypeConverters({AttributeConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
