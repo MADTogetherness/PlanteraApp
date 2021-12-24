@@ -126,30 +126,7 @@ public class Settings extends Fragment {
                 e.printStackTrace();
             }
 
-            //try {
-            //    long s = DAO.insertPlantTypes(newType)[0];
-            //    Log.d("insertT", String.valueOf(s));
-            //    Toast.makeText(requireContext(), "NEW TYPE Inserted : " + newType.toString(), Toast.LENGTH_SHORT).show();
-            //} catch (SQLiteConstraintException e) {
-            //    e.printStackTrace();
-            //}
 
-            //long s = DAO.insertPlantProfileImages(image)[0];
-
-            //Plant plant = new Plant(newType.type, newLocation.location, s, 23455, name, description);
-
-            //long successful = DAO.InsertNewPlant(plant)[0];
-            //Log.d("insertP", String.valueOf(successful));
-            //Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
-
-            //Reminder[] all_reminders = {
-            //        new Reminder(successful, "Water", System.currentTimeMillis(), 203044456),
-            //        new Reminder(successful, "Fertile", System.currentTimeMillis(), 203044456),
-            //        new Reminder(successful, "Be With Them", System.currentTimeMillis(), 203044456)
-            //};
-
-            //long[] successfulR = DAO.insertReminders(all_reminders);
-            //Log.d("insertR", "Successful");
         });
 
         loadData.setOnClickListener(view -> {
@@ -190,27 +167,6 @@ public class Settings extends Fragment {
 
             //for (Blog b : all_blogs) {
             //    extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description);
-            //}
-
-
-
-            //PlantsWithEverything plant = DAO.getAllPlantAttributes(name);
-            //if (plant == null) {
-            //    Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
-            //    return;
-            //}
-
-            //plantNameET.setText(name);
-            //descriptionET.setText(plant.plant.description);
-            //typeATV.setText(plant.type.type);
-            //locationATV.setText(plant.location.location);
-            //plantImage.setImageBitmap(AttributeConverters.StringToBitMap(plant.profileImage.imageData));
-            //imageNameTV.setText(plant.profileImage.imageName);
-
-            //List<Reminder> all_reminders = plant.Reminders;
-            //for (Reminder r : all_reminders) {
-            //    extraTextTV.append("Reminder : " + r.reminderID + "\n");
-            //    extraTextTV.append(r.name + " plant today " + r.time + " repeat after " + r.repeatInterval + "\n\n");
             //}
 
 
