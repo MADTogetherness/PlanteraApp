@@ -14,6 +14,7 @@ import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Relations.PlantAndImages;
 import com.example.planteraapp.entities.Relations.PlantAndReminders;
+import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 
@@ -54,6 +55,18 @@ public interface PlantDAO {
     @Transaction
     @Query("SELECT * FROM Plant WHERE name = :name")
     PlantsWithEverything getAllPlantAttributes(String name);
+
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE blogID = :ID")
+    List<Blog> getAllBlogs(long ID);
+
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE plantID = :ID")
+    List<Blog> getAllBlogsPlantID(long ID);
+
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantID = :ID")
+    public List<PlantsWithBlogsANDImages> getPlantsWithBlogsANDImages(long ID);
 
     @Transaction
     @Query("SELECT * FROM Blog WHERE blogID = :ID")

@@ -1,14 +1,35 @@
 package com.example.planteraapp.homefragments;
 
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Images;
+import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Reminder;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +38,12 @@ import com.example.planteraapp.R;
  */
 public class Settings extends Fragment {
 
+    private TextView extraTextTV;
+    private EditText blogDescET, plantIDET, nameToLoadET;
+    private Button loadData, saveData;
+
+    private View view;
+    private PlantDAO DAO;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -62,5 +89,132 @@ public class Settings extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.view = view;
+        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
+        init();
+    }
+
+    public void init() {
+        blogDescET = view.findViewById(R.id.blog_description);
+        loadData = view.findViewById(R.id.btn_load_data);
+        saveData = view.findViewById(R.id.btn_save_data);
+        extraTextTV = view.findViewById(R.id.extra_text);
+        nameToLoadET = view.findViewById(R.id.name_to_load);
+        plantIDET = view.findViewById(R.id.plant_id);
+
+        saveData.setOnClickListener(view -> {
+            extraTextTV.setText("");
+            String desc = blogDescET.getText().toString().trim();
+            long pid = Long.parseLong(plantIDET.getText().toString().trim());
+            if (desc.equals(""))
+                return;
+
+            Blog newBlog = new Blog(pid, desc);
+            //PlantType newType = new PlantType(type);
+            //Images image = new Images(imageName, imageSource);
+
+            try {
+                long s = DAO.InsertNewBlog(newBlog)[0];
+                Log.d("insertB", String.valueOf(s));
+                Toast.makeText(requireContext(), "NEW BLOG Inserted : " + newBlog.toString(), Toast.LENGTH_SHORT).show();
+            } catch (SQLiteConstraintException e) {
+                e.printStackTrace();
+            }
+
+            //try {
+            //    long s = DAO.insertPlantTypes(newType)[0];
+            //    Log.d("insertT", String.valueOf(s));
+            //    Toast.makeText(requireContext(), "NEW TYPE Inserted : " + newType.toString(), Toast.LENGTH_SHORT).show();
+            //} catch (SQLiteConstraintException e) {
+            //    e.printStackTrace();
+            //}
+
+            //long s = DAO.insertPlantProfileImages(image)[0];
+
+            //Plant plant = new Plant(newType.type, newLocation.location, s, 23455, name, description);
+
+            //long successful = DAO.InsertNewPlant(plant)[0];
+            //Log.d("insertP", String.valueOf(successful));
+            //Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
+
+            //Reminder[] all_reminders = {
+            //        new Reminder(successful, "Water", System.currentTimeMillis(), 203044456),
+            //        new Reminder(successful, "Fertile", System.currentTimeMillis(), 203044456),
+            //        new Reminder(successful, "Be With Them", System.currentTimeMillis(), 203044456)
+            //};
+
+            //long[] successfulR = DAO.insertReminders(all_reminders);
+            //Log.d("insertR", "Successful");
+        });
+
+        loadData.setOnClickListener(view -> {
+
+            extraTextTV.setText("");
+            String name = nameToLoadET.getText().toString().trim();
+            //long name = Long.parseLong(nameToLoadET.getText().toString().trim());
+
+            if (name.equals("")) return;
+
+            long tempid;
+
+
+
+            PlantsWithEverything plant = DAO.getAllPlantAttributes(name);
+            if (plant == null) {
+                Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            List<PlantsWithBlogsANDImages> plantbi = DAO.getPlantsWithBlogsANDImages(plant.plant.plantID);
+            if (plantbi == null) {
+                Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+
+            List<Blog> all_blogsplantID = DAO.getAllBlogsPlantID(plant.plant.plantID);
+            for (Blog b : all_blogsplantID) {
+                tempid = b.plantID;
+                extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description + "\n");
+            }
+
+            extraTextTV.append("" + plantbi.get(0).plant.plantID);
+            ////retrieve singular blog only via ID
+            //List<Blog> all_blogs = DAO.getAllBlogs(Long.parseLong(name));
+
+            //for (Blog b : all_blogs) {
+            //    extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description);
+            //}
+
+
+
+            //PlantsWithEverything plant = DAO.getAllPlantAttributes(name);
+            //if (plant == null) {
+            //    Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
+            //    return;
+            //}
+
+            //plantNameET.setText(name);
+            //descriptionET.setText(plant.plant.description);
+            //typeATV.setText(plant.type.type);
+            //locationATV.setText(plant.location.location);
+            //plantImage.setImageBitmap(AttributeConverters.StringToBitMap(plant.profileImage.imageData));
+            //imageNameTV.setText(plant.profileImage.imageName);
+
+            //List<Reminder> all_reminders = plant.Reminders;
+            //for (Reminder r : all_reminders) {
+            //    extraTextTV.append("Reminder : " + r.reminderID + "\n");
+            //    extraTextTV.append(r.name + " plant today " + r.time + " repeat after " + r.repeatInterval + "\n\n");
+            //}
+
+
+
+        });
     }
 }

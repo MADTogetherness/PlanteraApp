@@ -49,6 +49,6 @@ public class Blog {
 
     @NonNull
     public String toString() {
-        return plantID + " " + description;
+        return plantID + " " + description + " " + dateCreated +" ";
     }
 }
