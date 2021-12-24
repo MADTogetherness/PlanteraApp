@@ -16,14 +16,7 @@ import java.util.Date;
                         childColumns = "plantID",
                         onDelete = ForeignKey.CASCADE,
                         onUpdate = ForeignKey.CASCADE
-                ),
-                //@ForeignKey(
-                //        entity = Images.class,
-                //        parentColumns = "imageID",
-                //        childColumns = "profile_image_id",
-                //        onDelete = ForeignKey.CASCADE,
-                //        onUpdate = ForeignKey.CASCADE
-                //)
+                )
         }
 )
 public class Blog {
@@ -35,9 +28,6 @@ public class Blog {
     @ColumnInfo(index = true)
     public long plantID;
 
-    //@ColumnInfo(index = true)
-    //public long profile_image_id;
-
     public long dateCreated;
     public String description;
 
@@ -46,6 +36,7 @@ public class Blog {
         this.plantID = plantID;
         this.dateCreated = dateCreated;
         this.description = description;
+
     }
 
     @NonNull
