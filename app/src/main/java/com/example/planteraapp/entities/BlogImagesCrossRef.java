@@ -1,4 +1,4 @@
-package com.example.planteraapp.entities.Relations;
+package com.example.planteraapp.entities;
 
 import androidx.room.Entity;
 
@@ -9,5 +9,8 @@ public class BlogImagesCrossRef {
     public long blogID;
     public long imageID;
 
-
+    public BlogImagesCrossRef(long blogID, long imageID){
+        this.blogID = blogID;
+        this.imageID = imageID;
+    }
 }

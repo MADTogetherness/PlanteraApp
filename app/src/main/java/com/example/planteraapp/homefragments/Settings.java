@@ -25,11 +25,12 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.Relations.BlogImagesCrossRef;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -48,6 +49,7 @@ public class Settings extends Fragment {
     private Button loadData, saveData, pickImages;
     private List<Images> blogImagesForUpload;
     private List<String> imageSource, imageName;
+    private ShapeableImageView blogimg;
 
 
     private ArrayList<Uri> imageUris;
@@ -124,6 +126,7 @@ public class Settings extends Fragment {
         imageUris = new ArrayList<>();
         imageName = new ArrayList<>();
         imageSource = new ArrayList<>();
+        blogimg = view.findViewById(R.id.profile_image);
 
 
         pickImages.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +169,10 @@ public class Settings extends Fragment {
                         Log.d("insertI", String.valueOf(s));
                         Toast.makeText(requireContext(), "NEW Image Inserted : " + blogImage.toString(), Toast.LENGTH_SHORT).show();
 
-                        DAO.InsertNewBlogImageCrossRef(new BlogImagesCrossRef());
+                        BlogImagesCrossRef biref= new BlogImagesCrossRef(bid, iid);
+                        s = DAO.InsertNewBlogImageCrossRef(biref);
+                        Log.d("insertBI", String.valueOf(s));
+                        Toast.makeText(requireContext(), "NEW BlogImageCrossRef Inserted : " + biref.toString(), Toast.LENGTH_SHORT).show();
 
                     }catch(SQLiteConstraintException e){
                         e.printStackTrace();
@@ -212,6 +218,8 @@ public class Settings extends Fragment {
                 tempid = b.plantID;
                 extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description + "\n");
             }
+
+            blogimg.setImageBitmap(AttributeConverters.StringToBitMap(plantbi.get(0).blogs.get(0).images.get(0).imageData));
 
             extraTextTV.append("" + plantbi.get(0).plant.plantID);
             ////retrieve singular blog only via ID

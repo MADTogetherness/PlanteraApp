@@ -7,7 +7,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.Relations.BlogImagesCrossRef;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;

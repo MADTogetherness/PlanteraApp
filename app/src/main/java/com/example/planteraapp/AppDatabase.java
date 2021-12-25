@@ -9,7 +9,7 @@ import androidx.room.TypeConverters;
 
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.Relations.BlogImagesCrossRef;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
