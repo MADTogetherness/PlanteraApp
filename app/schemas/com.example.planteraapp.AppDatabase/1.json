@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4abe5b097000f7832275c5d019dacc69",
+    "identityHash": "82cb807392b88052542259d7a83f2b3b",
     "entities": [
       {
         "tableName": "Reminder",
@@ -346,25 +346,25 @@
       },
       {
         "tableName": "BlogImagesCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bID` INTEGER NOT NULL, `iID` INTEGER NOT NULL, PRIMARY KEY(`bID`, `iID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blogID` INTEGER NOT NULL, `imageID` INTEGER NOT NULL, PRIMARY KEY(`blogID`, `imageID`))",
         "fields": [
           {
-            "fieldPath": "bID",
-            "columnName": "bID",
+            "fieldPath": "blogID",
+            "columnName": "blogID",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "iID",
-            "columnName": "iID",
+            "fieldPath": "imageID",
+            "columnName": "imageID",
             "affinity": "INTEGER",
             "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "bID",
-            "iID"
+            "blogID",
+            "imageID"
           ],
           "autoGenerate": false
         },
@@ -375,7 +375,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4abe5b097000f7832275c5d019dacc69')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82cb807392b88052542259d7a83f2b3b')"
     ]
   }
 }

@@ -5,7 +5,6 @@ import androidx.room.Junction;
 import androidx.room.Relation;
 
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class BlogWithImages {
             entityColumn = "imageID",
             associateBy = @Junction(
                     value = BlogImagesCrossRef.class,
-                    parentColumn = "bID",
-                    entityColumn = "iID")
+                    parentColumn = "blogID",
+                    entityColumn = "imageID")
     )
     public List<Images> images;
 }

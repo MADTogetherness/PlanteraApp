@@ -1,6 +1,11 @@
 package com.example.planteraapp.homefragments;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,15 +25,15 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.Relations.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +45,15 @@ public class Settings extends Fragment {
 
     private TextView extraTextTV;
     private EditText blogDescET, plantIDET, nameToLoadET;
-    private Button loadData, saveData;
+    private Button loadData, saveData, pickImages;
+    private List<Images> blogImagesForUpload;
+    private List<String> imageSource, imageName;
+
+    private ArrayList<Uri> imageUris;
+
+    private static final int PICK_IMAGES_CODE = 0;
+
+    int pos = 0;
 
     private View view;
     private PlantDAO DAO;
@@ -106,6 +119,15 @@ public class Settings extends Fragment {
         extraTextTV = view.findViewById(R.id.extra_text);
         nameToLoadET = view.findViewById(R.id.name_to_load);
         plantIDET = view.findViewById(R.id.plant_id);
+        pickImages = view.findViewById(R.id.btn_pick_img);
+        imageUris = new ArrayList<>();
+
+        pickImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         saveData.setOnClickListener(view -> {
             extraTextTV.setText("");
@@ -114,17 +136,40 @@ public class Settings extends Fragment {
             if (desc.equals(""))
                 return;
 
+            long iid, bid=0;
+
             Blog newBlog = new Blog(pid, desc);
             //PlantType newType = new PlantType(type);
             //Images image = new Images(imageName, imageSource);
 
             try {
                 long s = DAO.InsertNewBlog(newBlog)[0];
+                bid = s;
                 Log.d("insertB", String.valueOf(s));
                 Toast.makeText(requireContext(), "NEW BLOG Inserted : " + newBlog.toString(), Toast.LENGTH_SHORT).show();
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
+
+            int i=0;
+            for(String bi : imageName){
+                blogImagesForUpload.add(new Images(imageName.get(i).toString(),imageSource.get(i).toString()));
+                Images blogImage = new Images(imageName.get(i).toString(),imageSource.get(i).toString());
+                try{
+                    long s = DAO.insertPlantProfileImages(blogImage)[0];
+                    iid = s;
+                    Log.d("insertI", String.valueOf(s));
+                    Toast.makeText(requireContext(), "NEW Image Inserted : " + blogImage.toString(), Toast.LENGTH_SHORT).show();
+
+                    DAO.InsertNewBlogImageCrossRef(new BlogImagesCrossRef());
+
+                }catch(SQLiteConstraintException e){
+                    e.printStackTrace();
+                }
+                i++;
+            }
+
+
 
 
         });
@@ -172,5 +217,43 @@ public class Settings extends Fragment {
 
 
         });
+
+
+    }
+    private void pickImagesIntent(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Image(s)"), PICK_IMAGES_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGES_CODE){
+            if(resultCode == Activity.RESULT_OK){
+                if(data.getClipData() != null){
+                    int cout = data.getClipData().getItemCount();
+                    for(int i=0; i<cout; i++){
+                        Uri uri = data.getClipData().getItemAt(i).getUri();
+                        if (uri != null) {
+                            InputStream is = null;
+                            try {
+                                imageName.add(uri.getPath().split(":")[1]);
+                                is = requireContext().getContentResolver().openInputStream(uri);
+                                Bitmap bitmap = BitmapFactory.decodeStream(is);
+                                imageSource.add(AttributeConverters.BitMapToString(bitmap));
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        }
     }
 }

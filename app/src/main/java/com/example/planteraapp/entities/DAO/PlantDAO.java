@@ -7,12 +7,12 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.Relations.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.BlogWithImages;
-import com.example.planteraapp.entities.Relations.PlantAndImages;
 import com.example.planteraapp.entities.Relations.PlantAndReminders;
 import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
@@ -39,6 +39,9 @@ public interface PlantDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] InsertNewBlog(Blog... blog);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long InsertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
 
     @Transaction
     @Query("SELECT * FROM PlantType")

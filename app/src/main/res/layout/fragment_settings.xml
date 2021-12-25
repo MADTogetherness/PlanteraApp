@@ -76,6 +76,14 @@
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
+        <Button
+            android:id="@+id/btn_pick_img"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/opensans_bold"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Pick images" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="16dp" />
