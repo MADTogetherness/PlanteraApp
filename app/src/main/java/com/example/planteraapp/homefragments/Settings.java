@@ -49,6 +49,7 @@ public class Settings extends Fragment {
     private List<Images> blogImagesForUpload;
     private List<String> imageSource, imageName;
 
+
     private ArrayList<Uri> imageUris;
 
     private static final int PICK_IMAGES_CODE = 0;
@@ -121,11 +122,14 @@ public class Settings extends Fragment {
         plantIDET = view.findViewById(R.id.plant_id);
         pickImages = view.findViewById(R.id.btn_pick_img);
         imageUris = new ArrayList<>();
+        imageName = new ArrayList<>();
+        imageSource = new ArrayList<>();
+
 
         pickImages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                pickImagesIntent();
             }
         });
 
@@ -152,22 +156,25 @@ public class Settings extends Fragment {
             }
 
             int i=0;
-            for(String bi : imageName){
-                blogImagesForUpload.add(new Images(imageName.get(i).toString(),imageSource.get(i).toString()));
-                Images blogImage = new Images(imageName.get(i).toString(),imageSource.get(i).toString());
-                try{
-                    long s = DAO.insertPlantProfileImages(blogImage)[0];
-                    iid = s;
-                    Log.d("insertI", String.valueOf(s));
-                    Toast.makeText(requireContext(), "NEW Image Inserted : " + blogImage.toString(), Toast.LENGTH_SHORT).show();
 
-                    DAO.InsertNewBlogImageCrossRef(new BlogImagesCrossRef());
+            if(true){
+                for(String bi : imageName){
+                    Images blogImage = new Images(imageName.get(i).toString(),imageSource.get(i).toString());
+                    try{
+                        long s = DAO.insertPlantProfileImages(blogImage)[0];
+                        iid = s;
+                        Log.d("insertI", String.valueOf(s));
+                        Toast.makeText(requireContext(), "NEW Image Inserted : " + blogImage.toString(), Toast.LENGTH_SHORT).show();
 
-                }catch(SQLiteConstraintException e){
-                    e.printStackTrace();
+                        DAO.InsertNewBlogImageCrossRef(new BlogImagesCrossRef());
+
+                    }catch(SQLiteConstraintException e){
+                        e.printStackTrace();
+                    }
+                    i++;
                 }
-                i++;
             }
+
 
 
 
@@ -250,8 +257,18 @@ public class Settings extends Fragment {
                             }
                         }
                     }
-
-
+                }
+                else{
+                    Uri uri = data.getData();
+                    try {
+                        InputStream is = null;
+                        imageName.add(uri.getPath().split(":")[1]);
+                        is = requireContext().getContentResolver().openInputStream(uri);
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        imageSource.add(AttributeConverters.BitMapToString(bitmap));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
