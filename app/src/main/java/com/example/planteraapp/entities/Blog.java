@@ -12,43 +12,31 @@ import java.util.Date;
         foreignKeys = {
                 @ForeignKey(
                         entity = Plant.class,
-                        parentColumns = "plantID",
-                        childColumns = "plantID",
+                        parentColumns = "plantName",
+                        childColumns = "plantName",
                         onDelete = ForeignKey.CASCADE,
                         onUpdate = ForeignKey.CASCADE
-                ),
-                //@ForeignKey(
-                //        entity = Images.class,
-                //        parentColumns = "imageID",
-                //        childColumns = "profile_image_id",
-                //        onDelete = ForeignKey.CASCADE,
-                //        onUpdate = ForeignKey.CASCADE
-                //)
+                )
         }
 )
 public class Blog {
     @PrimaryKey(autoGenerate = true)
     //Primary Key
     public long blogID;
-
     //Foreign Key
     @ColumnInfo(index = true)
-    public long plantID;
-
-    //@ColumnInfo(index = true)
-    //public long profile_image_id;
-
+    public String plantName;
     public long dateCreated;
     public String description;
 
-    public Blog(long plantID, String description) {
-        this.plantID = plantID;
+    public Blog(String plantName, String description) {
+        this.plantName = plantName;
         this.dateCreated = System.currentTimeMillis();
         this.description = description;
     }
 
     @NonNull
     public String toString() {
-        return plantID + " " + description + " " + dateCreated +" ";
+        return plantName + " " + description + " " + dateCreated + " ";
     }
 }

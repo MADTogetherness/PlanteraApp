@@ -48,7 +48,7 @@
             android:focusableInTouchMode="true"
             android:fontFamily="@font/cursive_font"
             android:gravity="center|start"
-            android:hint="Plant ID"
+            android:hint="Plant Name"
             android:inputType="textNoSuggestions"
             android:maxLines="4"
             android:padding="14dp"

@@ -13,8 +13,8 @@ public class PlantsWithBlogsANDImages {
     public Plant plant;
     @Relation(
             entity = Blog.class,
-            parentColumn = "plantID",
-            entityColumn = "plantID"
+            parentColumn = "plantName",
+            entityColumn = "plantName"
     )
     public List<BlogWithImages> blogs;
 }

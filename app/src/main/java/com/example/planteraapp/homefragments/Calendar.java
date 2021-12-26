@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.Utilities.PickAndReleaseImages;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
@@ -49,28 +50,9 @@ public class Calendar extends Fragment {
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
     private ShapeableImageView plantImage;
-    private Button loadData, saveData;
     private View view;
     private PlantDAO DAO;
-    private final int imageChanged = 0;
-    //VARIABLES TO SAVE
-    private String imageSource, imageName;
-    private final ActivityResultLauncher<String> mSetContent = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
-        if (uri != null) {
-            InputStream is = null;
-            try {
-                imageName = uri.getPath().split(":")[1];
-                is = requireContext().getContentResolver().openInputStream(uri);
-                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                imageSource = AttributeConverters.BitMapToString(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            imageNameTV.setText(imageName);
-            plantImage.setImageURI(uri);
-        }
-    });
+    private PickAndReleaseImages pickAndReleaseImages;
 
     public Calendar() {/*Required empty public constructor*/}
 
@@ -102,13 +84,15 @@ public class Calendar extends Fragment {
         locationATV = view.findViewById(R.id.location_spinner);
         descriptionET = view.findViewById(R.id.plant_description);
         plantImage = view.findViewById(R.id.profile_image);
-        loadData = view.findViewById(R.id.btn_load_data);
-        saveData = view.findViewById(R.id.btn_save_data);
+        Button loadData = view.findViewById(R.id.btn_load_data);
+        Button saveData = view.findViewById(R.id.btn_save_data);
         List<?> plantTypesInDatabase = DAO.getAllPlantTypes();
         List<?> plantLocationInDatabase = DAO.getAllPlantLocations();
         getType(plantTypesInDatabase);
         getLocation(plantLocationInDatabase);
-        plantImage.setOnClickListener(view -> mSetContent.launch("image/*"));
+        pickAndReleaseImages = new PickAndReleaseImages(requireContext(), null, requireActivity().getActivityResultRegistry());
+        getLifecycle().addObserver(pickAndReleaseImages);
+        plantImage.setOnClickListener(view -> pickAndReleaseImages.pickSingleImage());
 
         saveData.setOnClickListener(view -> {
             extraTextTV.setText("");
@@ -118,7 +102,6 @@ public class Calendar extends Fragment {
                 return;
             PlantType newType = new PlantType(type);
             PlantLocation newLocation = new PlantLocation(location);
-            Images image = new Images(imageName, imageSource);
             try {
                 long s = DAO.insertPlantTypes(newType)[0];
                 Log.d("insertT", String.valueOf(s));
@@ -134,22 +117,23 @@ public class Calendar extends Fragment {
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
+            if (pickAndReleaseImages.SingleImageAvailable()) {
+                Plant plant = new Plant(name, pickAndReleaseImages.getGetSingleImage().get(1), newType.type, newLocation.location, 23455, description);
+                long successful = DAO.insertNewPlant(plant)[0];
+                Log.d("insertP", String.valueOf(successful));
+                Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
 
-            long s = DAO.insertPlantProfileImages(image)[0];
-            Plant plant = new Plant(newType.type, newLocation.location, s, 23455, name, description);
+                Reminder[] all_reminders = {
+                        new Reminder(name, "Water", System.currentTimeMillis(), 203044456),
+                        new Reminder(name, "Fertile", System.currentTimeMillis(), 203044456),
+                        new Reminder(name, "Be With Them", System.currentTimeMillis(), 203044456)
+                };
 
-            long successful = DAO.InsertNewPlant(plant)[0];
-            Log.d("insertP", String.valueOf(successful));
-            Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
-
-            Reminder[] all_reminders = {
-                    new Reminder(successful, "Water", System.currentTimeMillis(), 203044456),
-                    new Reminder(successful, "Fertile", System.currentTimeMillis(), 203044456),
-                    new Reminder(successful, "Be With Them", System.currentTimeMillis(), 203044456)
-            };
-
-            long[] successfulR = DAO.insertReminders(all_reminders);
-            Log.d("insertR", "Successful");
+                long[] successfulR = DAO.insertReminders(all_reminders);
+                Log.d("insertR", "Successful");
+            } else {
+                Toast.makeText(requireContext(), "Profile Image not set", Toast.LENGTH_SHORT).show();
+            }
         });
 
         loadData.setOnClickListener(view -> {
@@ -161,12 +145,12 @@ public class Calendar extends Fragment {
                 Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
                 return;
             }
-            plantNameET.setText(name);
+            plantNameET.setText(plant.plant.plantName);
             descriptionET.setText(plant.plant.description);
             typeATV.setText(plant.type.type);
             locationATV.setText(plant.location.location);
-            plantImage.setImageBitmap(AttributeConverters.StringToBitMap(plant.profileImage.imageData));
-            imageNameTV.setText(plant.profileImage.imageName);
+            plantImage.setImageBitmap(AttributeConverters.StringToBitMap(plant.plant.profile_image));
+            imageNameTV.setText(plant.plant.plantName + ".png");
             List<Reminder> all_reminders = plant.Reminders;
             for (Reminder r : all_reminders) {
                 extraTextTV.append("Reminder : " + r.reminderID + "\n");

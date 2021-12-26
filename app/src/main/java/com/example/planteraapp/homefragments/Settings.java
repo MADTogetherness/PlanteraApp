@@ -1,10 +1,6 @@
 package com.example.planteraapp.homefragments;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -23,17 +19,16 @@ import android.widget.Toast;
 
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.PickAndReleaseImages;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
+import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.google.android.material.imageview.ShapeableImageView;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +45,7 @@ public class Settings extends Fragment {
     private List<Images> blogImagesForUpload;
     private List<String> imageSource, imageName;
     private ShapeableImageView blogimg;
+    private final long blogID = -1;
 
 
     private ArrayList<Uri> imageUris;
@@ -59,6 +55,7 @@ public class Settings extends Fragment {
     int pos = 0;
 
     private View view;
+    private PickAndReleaseImages pickAndReleaseImages;
     private PlantDAO DAO;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -127,158 +124,53 @@ public class Settings extends Fragment {
         imageName = new ArrayList<>();
         imageSource = new ArrayList<>();
         blogimg = view.findViewById(R.id.profile_image);
-
-
-        pickImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pickImagesIntent();
-            }
+        pickAndReleaseImages = new PickAndReleaseImages(requireContext(), DAO, requireActivity().getActivityResultRegistry());
+        getLifecycle().addObserver(pickAndReleaseImages);
+        pickImages.setOnClickListener(view -> {
+            pickAndReleaseImages.pickImages();
         });
 
         saveData.setOnClickListener(view -> {
             extraTextTV.setText("");
-            String desc = blogDescET.getText().toString().trim();
-            long pid = Long.parseLong(plantIDET.getText().toString().trim());
-            if (desc.equals(""))
+            String desc = blogDescET.getText().toString().trim(),
+                    plantName = plantIDET.getText().toString().trim();
+            if (plantName.equals(""))
                 return;
-
-            long iid, bid=0;
-
-            Blog newBlog = new Blog(pid, desc);
-            //PlantType newType = new PlantType(type);
-            //Images image = new Images(imageName, imageSource);
-
+            Blog newBlog = new Blog(plantName, desc);
             try {
-                long s = DAO.InsertNewBlog(newBlog)[0];
-                bid = s;
+                long s = DAO.insertNewBlog(new Blog(plantName, desc));
                 Log.d("insertB", String.valueOf(s));
                 Toast.makeText(requireContext(), "NEW BLOG Inserted : " + newBlog.toString(), Toast.LENGTH_SHORT).show();
+                if (pickAndReleaseImages.ImagePathsAvailable()) {
+                    List<Long> success = pickAndReleaseImages.addBlogsAndImages(s);
+                    for (long ss : success) Log.d("insertI", String.valueOf(ss));
+
+                }
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
-
-            int i=0;
-
-            if(true){
-                for(String bi : imageName){
-                    Images blogImage = new Images(imageName.get(i).toString(),imageSource.get(i).toString());
-                    try{
-                        long s = DAO.insertPlantProfileImages(blogImage)[0];
-                        iid = s;
-                        Log.d("insertI", String.valueOf(s));
-                        Toast.makeText(requireContext(), "NEW Image Inserted : " + blogImage.toString(), Toast.LENGTH_SHORT).show();
-
-                        BlogImagesCrossRef biref= new BlogImagesCrossRef(bid, iid);
-                        s = DAO.InsertNewBlogImageCrossRef(biref);
-                        Log.d("insertBI", String.valueOf(s));
-                        Toast.makeText(requireContext(), "NEW BlogImageCrossRef Inserted : " + biref.toString(), Toast.LENGTH_SHORT).show();
-
-                    }catch(SQLiteConstraintException e){
-                        e.printStackTrace();
-                    }
-                    i++;
-                }
-            }
-
-
-
-
-
         });
 
         loadData.setOnClickListener(view -> {
-
             extraTextTV.setText("");
             String name = nameToLoadET.getText().toString().trim();
-            //long name = Long.parseLong(nameToLoadET.getText().toString().trim());
-
             if (name.equals("")) return;
-
-            long tempid;
-
-
-
-            PlantsWithEverything plant = DAO.getAllPlantAttributes(name);
+            Plant plant = DAO.getSinglePlantInstance(name);
             if (plant == null) {
                 Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            List<PlantsWithBlogsANDImages> plantbi = DAO.getPlantsWithBlogsANDImages(plant.plant.plantID);
-            if (plantbi == null) {
+            PlantsWithBlogsANDImages plantBlogsWithImages = DAO.getPlantWithBlogsANDImages(plant.plantName);
+            if (plantBlogsWithImages == null) {
                 Toast.makeText(requireContext(), "INVALID NAME", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-
-
-            List<Blog> all_blogsplantID = DAO.getAllBlogsPlantID(plant.plant.plantID);
-            for (Blog b : all_blogsplantID) {
-                tempid = b.plantID;
-                extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description + "\n");
-            }
-
-            blogimg.setImageBitmap(AttributeConverters.StringToBitMap(plantbi.get(0).blogs.get(0).images.get(0).imageData));
-
-            extraTextTV.append("" + plantbi.get(0).plant.plantID);
-            ////retrieve singular blog only via ID
-            //List<Blog> all_blogs = DAO.getAllBlogs(Long.parseLong(name));
-
-            //for (Blog b : all_blogs) {
-            //    extraTextTV.append("Blogs: " + b.blogID + " : " + b.plantID + " : " + b.description);
-            //}
-
-
-
+            List<BlogWithImages> all_blog = plantBlogsWithImages.blogs;
+            for (BlogWithImages b : all_blog)
+                extraTextTV.append("Blogs: " + b.blog.blogID + " : " + plant.plantName + " : " + b.blog.description + "\n");
+            blogimg.setImageBitmap(AttributeConverters.StringToBitMap(all_blog.get(0).images.get(0).imageData));
         });
 
 
-    }
-    private void pickImagesIntent(){
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Image(s)"), PICK_IMAGES_CODE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == PICK_IMAGES_CODE){
-            if(resultCode == Activity.RESULT_OK){
-                if(data.getClipData() != null){
-                    int cout = data.getClipData().getItemCount();
-                    for(int i=0; i<cout; i++){
-                        Uri uri = data.getClipData().getItemAt(i).getUri();
-                        if (uri != null) {
-                            InputStream is = null;
-                            try {
-                                imageName.add(uri.getPath().split(":")[1]);
-                                is = requireContext().getContentResolver().openInputStream(uri);
-                                Bitmap bitmap = BitmapFactory.decodeStream(is);
-                                imageSource.add(AttributeConverters.BitMapToString(bitmap));
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-                else{
-                    Uri uri = data.getData();
-                    try {
-                        InputStream is = null;
-                        imageName.add(uri.getPath().split(":")[1]);
-                        is = requireContext().getContentResolver().openInputStream(uri);
-                        Bitmap bitmap = BitmapFactory.decodeStream(is);
-                        imageSource.add(AttributeConverters.BitMapToString(bitmap));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
     }
 }

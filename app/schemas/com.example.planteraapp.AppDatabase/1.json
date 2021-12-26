@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "82cb807392b88052542259d7a83f2b3b",
+    "identityHash": "888052db5b981fc4775d456e9507658a",
     "entities": [
       {
         "tableName": "Reminder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reminderID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantID` INTEGER NOT NULL, `lastCompleted` INTEGER NOT NULL, `completedReminder` INTEGER NOT NULL, `name` TEXT, `time` INTEGER NOT NULL, `notify` INTEGER NOT NULL, `repeatInterval` INTEGER NOT NULL, FOREIGN KEY(`plantID`) REFERENCES `Plant`(`plantID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reminderID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantName` TEXT, `lastCompleted` INTEGER NOT NULL, `completedReminder` INTEGER NOT NULL, `name` TEXT, `time` INTEGER NOT NULL, `notify` INTEGER NOT NULL, `repeatInterval` INTEGER NOT NULL, FOREIGN KEY(`plantName`) REFERENCES `Plant`(`plantName`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "reminderID",
@@ -15,10 +15,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "plantID",
-            "columnName": "plantID",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "plantName",
+            "columnName": "plantName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "lastCompleted",
@@ -65,13 +65,13 @@
         },
         "indices": [
           {
-            "name": "index_Reminder_plantID",
+            "name": "index_Reminder_plantName",
             "unique": false,
             "columnNames": [
-              "plantID"
+              "plantName"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Reminder_plantID` ON `${TABLE_NAME}` (`plantID`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Reminder_plantName` ON `${TABLE_NAME}` (`plantName`)"
           }
         ],
         "foreignKeys": [
@@ -80,10 +80,10 @@
             "onDelete": "CASCADE",
             "onUpdate": "CASCADE",
             "columns": [
-              "plantID"
+              "plantName"
             ],
             "referencedColumns": [
-              "plantID"
+              "plantName"
             ]
           }
         ]
@@ -130,12 +130,12 @@
       },
       {
         "tableName": "Plant",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`plantID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantType` TEXT, `plantLocation` TEXT, `profile_image_id` INTEGER NOT NULL, `selectedTheme` INTEGER NOT NULL, `name` TEXT, `description` TEXT, FOREIGN KEY(`profile_image_id`) REFERENCES `Images`(`imageID`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`plantType`) REFERENCES `PlantType`(`type`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`plantLocation`) REFERENCES `PlantLocation`(`location`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`plantName` TEXT NOT NULL, `plantType` TEXT, `plantLocation` TEXT, `profile_image` TEXT, `selectedTheme` INTEGER NOT NULL, `description` TEXT, PRIMARY KEY(`plantName`), FOREIGN KEY(`plantType`) REFERENCES `PlantType`(`type`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`plantLocation`) REFERENCES `PlantLocation`(`location`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "plantID",
-            "columnName": "plantID",
-            "affinity": "INTEGER",
+            "fieldPath": "plantName",
+            "columnName": "plantName",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -151,22 +151,16 @@
             "notNull": false
           },
           {
-            "fieldPath": "profile_image_id",
-            "columnName": "profile_image_id",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "profile_image",
+            "columnName": "profile_image",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "selectedTheme",
             "columnName": "selectedTheme",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "description",
@@ -177,9 +171,9 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "plantID"
+            "plantName"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -199,29 +193,9 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_Plant_plantLocation` ON `${TABLE_NAME}` (`plantLocation`)"
-          },
-          {
-            "name": "index_Plant_profile_image_id",
-            "unique": false,
-            "columnNames": [
-              "profile_image_id"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Plant_profile_image_id` ON `${TABLE_NAME}` (`profile_image_id`)"
           }
         ],
         "foreignKeys": [
-          {
-            "table": "Images",
-            "onDelete": "CASCADE",
-            "onUpdate": "CASCADE",
-            "columns": [
-              "profile_image_id"
-            ],
-            "referencedColumns": [
-              "imageID"
-            ]
-          },
           {
             "table": "PlantType",
             "onDelete": "CASCADE",
@@ -286,7 +260,7 @@
       },
       {
         "tableName": "Blog",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blogID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantID` INTEGER NOT NULL, `dateCreated` INTEGER NOT NULL, `description` TEXT, FOREIGN KEY(`plantID`) REFERENCES `Plant`(`plantID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blogID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantName` TEXT, `dateCreated` INTEGER NOT NULL, `description` TEXT, FOREIGN KEY(`plantName`) REFERENCES `Plant`(`plantName`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "blogID",
@@ -295,10 +269,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "plantID",
-            "columnName": "plantID",
-            "affinity": "INTEGER",
-            "notNull": true
+            "fieldPath": "plantName",
+            "columnName": "plantName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "dateCreated",
@@ -321,13 +295,13 @@
         },
         "indices": [
           {
-            "name": "index_Blog_plantID",
+            "name": "index_Blog_plantName",
             "unique": false,
             "columnNames": [
-              "plantID"
+              "plantName"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blog_plantID` ON `${TABLE_NAME}` (`plantID`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Blog_plantName` ON `${TABLE_NAME}` (`plantName`)"
           }
         ],
         "foreignKeys": [
@@ -336,10 +310,10 @@
             "onDelete": "CASCADE",
             "onUpdate": "CASCADE",
             "columns": [
-              "plantID"
+              "plantName"
             ],
             "referencedColumns": [
-              "plantID"
+              "plantName"
             ]
           }
         ]
@@ -368,14 +342,33 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_BlogImagesCrossRef_blogID",
+            "unique": false,
+            "columnNames": [
+              "blogID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_BlogImagesCrossRef_blogID` ON `${TABLE_NAME}` (`blogID`)"
+          },
+          {
+            "name": "index_BlogImagesCrossRef_imageID",
+            "unique": false,
+            "columnNames": [
+              "imageID"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_BlogImagesCrossRef_imageID` ON `${TABLE_NAME}` (`imageID`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82cb807392b88052542259d7a83f2b3b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '888052db5b981fc4775d456e9507658a')"
     ]
   }
 }
