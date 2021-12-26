@@ -22,8 +22,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/bottom_navigation_fragments"
-            />
+            app:navGraph="@navigation/bottom_navigation_fragments" />
 
 <!--        Remember to add 96dp bottom padding in fragments after implementing layout or using scrollViews-->
         <androidx.coordinatorlayout.widget.CoordinatorLayout

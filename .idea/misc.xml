@@ -35,6 +35,10 @@
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/menu/bottom_navigation_options.xml" value="0.2578125" />
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.27395833333333336" />
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.18888888888888888" />
+        <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/activity_home.xml" value="0.14492753623188406" />
+        <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/fragment_calender.xml" value="0.2441123188405797" />
+        <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/fragment_new_plant.xml" value="0.176" />
+        <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/fragment_settings.xml" value="0.264" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_bottom_navigation_icon_color.xml" value="0.27395833333333336" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_circle_with_stroke.xml" value="0.27395833333333336" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape.xml" value="0.27395833333333336" />
@@ -53,6 +57,7 @@
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.2" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_new_plant.xml" value="0.1265625" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_search.xml" value="0.1171875" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_settings.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/intro_slide_layout.xml" value="0.264" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/menu/bottom_navigation_options.xml" value="0.2578125" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.14270833333333333" />
@@ -60,7 +65,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

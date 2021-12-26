@@ -14,6 +14,6 @@ import java.util.List;
 public class PlantAndReminders {
     @Embedded
     public Plant plant;
-    @Relation(parentColumn = "plantID", entityColumn = "plantID")
+    @Relation(parentColumn = "plantName", entityColumn = "plantName")
     public List<Reminder> Reminders;
 }

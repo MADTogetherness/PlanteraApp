@@ -10,8 +10,8 @@ import androidx.room.PrimaryKey;
         foreignKeys = {
                 @ForeignKey(
                         entity = Plant.class,
-                        parentColumns = "plantID",
-                        childColumns = "plantID",
+                        parentColumns = "plantName",
+                        childColumns = "plantName",
                         onDelete = ForeignKey.CASCADE,
                         onUpdate = ForeignKey.CASCADE
                 )
@@ -23,7 +23,7 @@ public class Reminder {
     public long reminderID;
     //Foreign Key
     @ColumnInfo(index = true)
-    public long plantID;
+    public String plantName;
     public long lastCompleted;
     public boolean completedReminder;
     public String name;
@@ -32,8 +32,8 @@ public class Reminder {
     public long repeatInterval;
 
 
-    public Reminder(long plantID, String name, long time, long repeatInterval) {
-        this.plantID = plantID;
+    public Reminder(String plantName, String name, long time, long repeatInterval) {
+        this.plantName = plantName;
         lastCompleted = System.currentTimeMillis();
         completedReminder = false;
         this.name = name;

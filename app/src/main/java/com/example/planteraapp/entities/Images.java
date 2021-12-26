@@ -27,19 +27,6 @@ public class Images {
         this.imageData = imageData;
     }
 
-//    @Ignore
-//    public byte[] setImageData(String filePath){
-//        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
-//        return byteArrayOutputStream.toByteArray();
-//    }
-
-    @Ignore
-    public Bitmap getImaBitmap(byte[] imageData) {
-        return BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
-    }
-
     @NonNull
     public String toString() {
         return imageName;

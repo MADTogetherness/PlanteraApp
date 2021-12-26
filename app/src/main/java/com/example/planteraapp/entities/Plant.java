@@ -9,13 +9,6 @@ import androidx.room.PrimaryKey;
 @Entity(
         foreignKeys = {
                 @ForeignKey(
-                        entity = Images.class,
-                        parentColumns = "imageID",
-                        childColumns = "profile_image_id",
-                        onDelete = ForeignKey.CASCADE,
-                        onUpdate = ForeignKey.CASCADE
-                ),
-                @ForeignKey(
                         entity = PlantType.class,
                         parentColumns = "type",
                         childColumns = "plantType",
@@ -32,34 +25,34 @@ import androidx.room.PrimaryKey;
         }
 )
 public class Plant {
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    @PrimaryKey
     //Primary Key
-    public long plantID;
+    public String plantName;
     //Foreign Key
     @ColumnInfo(index = true)
     public String plantType;
     //Foreign Key
     @ColumnInfo(index = true)
     public String plantLocation;
-    //Foreign Key
-    @ColumnInfo(index = true)
-    public long profile_image_id;
+
+    //NOT RELATED TO Images Table
+    public String profile_image;
 
     public int selectedTheme;
-    public String name;
     public String description;
 
-    public Plant(String plantType, String plantLocation, long profile_image_id, int selectedTheme, String name, String description) {
+    public Plant(String plantName, String profile_image, String plantType, String plantLocation, int selectedTheme, String description) {
+        this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocation = plantLocation;
-        this.profile_image_id = profile_image_id;
+        this.profile_image = profile_image;
         this.selectedTheme = selectedTheme;
-        this.name = name;
         this.description = description;
     }
 
     @NonNull
     public String toString() {
-        return name;
+        return plantName;
     }
 }
