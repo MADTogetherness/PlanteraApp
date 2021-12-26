@@ -143,6 +143,7 @@ public class PickAndReleaseImages implements DefaultLifecycleObserver {
             return null;
         }
 
+
         List<Long> successIds = new ArrayList<>();
         for (long id : ids) {
             try {
