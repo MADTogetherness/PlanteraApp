@@ -6,22 +6,22 @@
 
     <fragment
         android:id="@+id/calendar"
-        android:name="com.example.planteraapp.homefragments.Calendar"
+        android:name="com.example.planteraapp.Mainfragments.Calendar"
         android:label="@string/calender"
         tools:layout="@layout/fragment_calender" />
     <fragment
         android:id="@+id/search"
-        android:name="com.example.planteraapp.homefragments.Search"
+        android:name="com.example.planteraapp.Mainfragments.Search"
         android:label="@string/search"
         tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/all_plants"
-        android:name="com.example.planteraapp.homefragments.AllPlants"
+        android:name="com.example.planteraapp.Mainfragments.AllPlants"
         android:label="@string/all_plants"
         tools:layout="@layout/fragment_all_plants" />
     <fragment
         android:id="@+id/newPlant_fragment"
-        android:name="com.example.planteraapp.homefragments.NewPlant"
+        android:name="com.example.planteraapp.Mainfragments.NewPlant"
         android:label="fragment_new_plant"
         tools:layout="@layout/fragment_new_plant" >
         <action
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/settings"
-        android:name="com.example.planteraapp.homefragments.Settings"
+        android:name="com.example.planteraapp.Mainfragments.Settings"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
