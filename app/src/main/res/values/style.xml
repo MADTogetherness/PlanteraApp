@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    //Themes
     <style name="Image_oval_bottom">
         <item name="cornerSizeBottomRight">280dp</item>
         <item name="cornerFamilyBottomRight">rounded</item>

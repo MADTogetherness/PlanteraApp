@@ -1,6 +1,7 @@
 package com.example.planteraapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -15,6 +16,19 @@ public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /**
+         * @param: m = -1 : Follow System Theme
+         * @param: m = 1 : Follow Light Mode Theme
+         * @param m = 2 : Follow Dark Mode Theme
+         * TODO: Change the mode value in settings as well as change theme. Follow the code below
+         * SharedPreferences.Editor editor = requireActivity().getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
+         * editor.putInt("mode", 1);
+         * editor.apply();
+         */
+        int m = getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("mode", 10);
+        if (m != 10) {
+            AppCompatDelegate.setDefaultNightMode(m);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
         FrameLayout logo_image = findViewById(R.id.image_logo);

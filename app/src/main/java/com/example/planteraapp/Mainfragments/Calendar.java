@@ -1,9 +1,19 @@
 package com.example.planteraapp.Mainfragments;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 
 /**
@@ -58,5 +68,27 @@ public class Calendar extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calender, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
+        Button light = view.findViewById(R.id.light_theme), dark = view.findViewById(R.id.dark_theme), d = view.findViewById(R.id.default_theme);
+        light.setOnClickListener(v -> {
+            editor.putInt("mode", 1);
+            editor.apply();
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        });
+        dark.setOnClickListener(v -> {
+            editor.putInt("mode", 2);
+            editor.apply();
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        });
+        d.setOnClickListener(v -> {
+            editor.putInt("mode", -1);
+            editor.apply();
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        });
     }
 }

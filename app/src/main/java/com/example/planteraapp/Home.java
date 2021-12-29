@@ -11,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,5 +97,12 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
         Log.d("TESTTY", getResources().getResourceName(destination.getId()));
         setFabBackgroundTint(destination.getId() == R.id.newPlant_fragment);
+    }
+
+    @Override
+    public void recreate() {
+        finish();
+        startActivity(new Intent(Home.this, Home.class));
+        overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
     }
 }
