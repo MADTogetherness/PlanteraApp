@@ -62,6 +62,11 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         });
         bottomNavigationView.setOnItemSelectedListener(this);
         navController.addOnDestinationChangedListener(this);
+        //TODO: GOING TO DIFFERENT FRAGMENTS FROM ANOTHER ACTIVITY
+        int v = getIntent().getIntExtra("destination", -1);
+        if (v != -1) {
+            navController.navigate(v, null);
+        }
     }
 
     public void setFabBackgroundTint(boolean status) {
@@ -70,12 +75,12 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
 
     public void fabSelect() {
         bottomNavigationView.getMenu().findItem(R.id.placeholder).setChecked(true);
-        Navigation.findNavController(this, R.id.nav_controller).navigate(R.id.newPlant_fragment, null, options.build());
+        navController.navigate(R.id.newPlant_fragment, null, options.build());
     }
 
     private boolean isValidDestination(int destination) {
         //Checking if current fragment is equal to desired fragment
-        return destination != Objects.requireNonNull(Navigation.findNavController(this, R.id.nav_controller).getCurrentDestination()).getId();
+        return destination != Objects.requireNonNull(navController.getCurrentDestination()).getId();
     }
 
     /**
@@ -88,7 +93,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         if (!isValidDestination(item.getItemId())) return false;
         if ((item.getOrder() & Menu.CATEGORY_SECONDARY) == 0)
             options.setPopUpTo(R.id.calendar, false);
-        Navigation.findNavController(this, R.id.nav_controller).navigate(item.getItemId(), null, options.build());
+        navController.navigate(item.getItemId(), null, options.build());
         return true;
     }
 
@@ -99,6 +104,8 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         setFabBackgroundTint(destination.getId() == R.id.newPlant_fragment);
     }
 
+    //TODO: UNNECESSARY FOR NOW, UNLESS SETTINGS IS IMPLEMENTED
+    //AWEB NEEDS TO CALL recreate();
     @Override
     public void recreate() {
         finish();

@@ -1,20 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.PlanteraApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Theme Colors -->
+        <item name="App_Container">@color/App_Container</item>
+        <item name="Section_Container">@color/Section_Container</item>
+        <item name="Primary_Font">@color/Primary_Font</item>
+        <item name="Secondary_Font">@color/Secondary_Font</item>
+        <item name="Button_Font">@color/Button_Font</item>
+        <item name="Section_Shadow">@color/Section_Shadow</item>
+        <item name="Button_Primary">@color/Button_Primary</item>
+        <item name="Button_Secondary">@color/Button_Secondary</item>
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/Button_Primary</item>
-        <item name="colorPrimaryVariant">@color/App_Container</item>
-        <item name="colorOnPrimary">@color/Button_Font</item>
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="colorPrimaryVariant">?attr/App_Container</item>
+        <item name="colorOnPrimary">?attr/Button_Font</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/Section_Container</item>
-        <item name="colorSecondaryVariant">@color/Section_Shadow</item>
-        <item name="colorOnSecondary">@color/Primary_Font</item>
+        <item name="colorSecondary">?attr/Section_Container</item>
+        <item name="colorSecondaryVariant">?attr/Section_Shadow</item>
+        <item name="colorOnSecondary">?attr/Primary_Font</item>
         <!-- Status bar color. -->
         <item name="android:windowBackground">#fff</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
-        <!-- Customize your theme here. -->
     </style>
 </resources>

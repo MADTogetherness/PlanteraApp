@@ -1,6 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/Button_Primary" />
+    <solid android:color="?attr/Button_Primary" />
     <size
         android:width="40dp"
         android:height="40dp" />
