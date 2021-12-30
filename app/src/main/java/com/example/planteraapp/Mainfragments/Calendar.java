@@ -78,37 +78,5 @@ public class Calendar extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
-        Plant plant = DAO.getSinglePlantInstance("XYZ");
-        if (plant == null) {
-            DAO.insertPlantTypes(new PlantType("Vascular"));
-            DAO.insertPlantLocations(new PlantLocation("Roof"));
-            DAO.insertNewPlant(new Plant("XYZ", "sdfgfdfjkdfjvdjdkfj", "Vascular", "Roof", 0, "smddf"));
-            plant = DAO.getSinglePlantInstance("XYZ");
-        }
-        SharedPreferences.Editor editor = requireActivity().getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
-        Button light = view.findViewById(R.id.light_theme), dark = view.findViewById(R.id.dark_theme), d = view.findViewById(R.id.default_theme);
-        Plant finalPlant = plant;
-        light.setOnClickListener(v -> {
-            finalPlant.selectedTheme = R.style.Theme_PlanteraApp_Chiffon_Purple;
-            DAO.updateTheme(finalPlant);
-            editor.putInt("mode", 1);
-            editor.apply();
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        });
-        dark.setOnClickListener(v -> {
-            finalPlant.selectedTheme = R.style.Theme_PlanteraApp_Accent_Dark;
-            DAO.updateTheme(finalPlant);
-            editor.putInt("mode", 2);
-            editor.apply();
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        });
-        d.setOnClickListener(v -> {
-            finalPlant.selectedTheme = R.style.Theme_PlanteraApp_Monochromatic_Brown;
-            DAO.updateTheme(finalPlant);
-            editor.putInt("mode", -1);
-            editor.apply();
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        });
     }
 }

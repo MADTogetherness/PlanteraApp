@@ -21,6 +21,7 @@ public class LauncherActivity extends AppCompatActivity {
          * @param: m = 1 : Follow Light Mode Theme
          * @param m = 2 : Follow Dark Mode Theme
          * TODO: Change the mode value in settings as well as change theme. Follow the code below
+         * This is actually the app theme, we ae storing in preferences
          * SharedPreferences.Editor editor = requireActivity().getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
          * editor.putInt("mode", 1);
          * editor.apply();
