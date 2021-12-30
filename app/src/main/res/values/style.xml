@@ -9,4 +9,112 @@
     <style name="Image_circle">
         <item name="cornerSize">50%</item>
     </style>
+
+    <!-- THEME 1 - Chiffon_Purple-->
+    <style name="Theme.PlanteraApp.Chiffon_Purple" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Theme Colors -->
+        <item name="App_Container">#FFFFFF</item>
+        <item name="Section_Container">#FFEFF7</item>
+        <item name="Primary_Font">#000000</item>
+        <item name="Secondary_Font">#7C7C7C</item>
+        <item name="Button_Font">#FFFFFF</item>
+        <item name="Section_Shadow">#DBDBDB</item>
+        <item name="Button_Primary">#5E35B1</item>
+        <item name="Button_Secondary">#716AEA</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="colorPrimaryVariant">?attr/App_Container</item>
+        <item name="colorOnPrimary">?attr/Button_Font</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">?attr/Section_Container</item>
+        <item name="colorSecondaryVariant">?attr/Section_Shadow</item>
+        <item name="colorOnSecondary">?attr/Primary_Font</item>
+        <!-- Status bar color. -->
+        <item name="android:windowBackground">#fff</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- THEME 2 - Mono-Chromatic Brown-->
+    <style name="Theme.PlanteraApp.Monochromatic.Brown" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Theme Colors -->
+        <item name="App_Container">#011111</item>
+        <item name="Section_Container">#333939</item>
+        <item name="Primary_Font">#f8f8f2</item>
+        <item name="Secondary_Font">#EAEAEA</item>
+        <item name="Button_Font">#000000</item>
+        <item name="Section_Shadow">#000000</item>
+        <item name="Button_Primary">#E9B04B</item>
+        <item name="Button_Secondary">#FFFFFF</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="colorPrimaryVariant">?attr/App_Container</item>
+        <item name="colorOnPrimary">?attr/Button_Font</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">?attr/Section_Container</item>
+        <item name="colorSecondaryVariant">?attr/Section_Shadow</item>
+        <item name="colorOnSecondary">?attr/Primary_Font</item>
+        <!-- Status bar color. -->
+        <item name="android:windowBackground">#fff</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- THEME 3 - Accent Dark-->
+    <style name="Theme.PlanteraApp.Accent.Dark" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Theme Colors -->
+        <item name="App_Container">#001F38</item>
+        <item name="Section_Container">#233E55</item>
+        <item name="Primary_Font">#FFFFFF</item>
+        <item name="Secondary_Font">#EAEAEA</item>
+        <item name="Button_Font">#000000</item>
+        <item name="Section_Shadow">#000000</item>
+        <item name="Button_Primary">#00DAFF</item>
+        <item name="Button_Secondary">#B0FCFF</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="colorPrimaryVariant">?attr/App_Container</item>
+        <item name="colorOnPrimary">?attr/Button_Font</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">?attr/Section_Container</item>
+        <item name="colorSecondaryVariant">?attr/Section_Shadow</item>
+        <item name="colorOnSecondary">?attr/Primary_Font</item>
+        <!-- Status bar color. -->
+        <item name="android:windowBackground">#fff</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- THEME 4 - Dracula Dark-->
+    <style name="Theme.PlanteraApp.Dracula.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Theme Colors -->
+        <item name="App_Container">#282a36</item>
+        <item name="Section_Container">#262837</item>
+        <item name="Primary_Font">#f8f8f2</item>
+        <item name="Secondary_Font">#B1BBD9</item>
+        <item name="Button_Font">#000000</item>
+        <item name="Section_Shadow">#000000</item>
+        <item name="Button_Primary">#ffb86c</item>
+        <item name="Button_Secondary">#FFEEDC</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="colorPrimaryVariant">?attr/App_Container</item>
+        <item name="colorOnPrimary">?attr/Button_Font</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">?attr/Section_Container</item>
+        <item name="colorSecondaryVariant">?attr/Section_Shadow</item>
+        <item name="colorOnSecondary">?attr/Primary_Font</item>
+        <!-- Status bar color. -->
+        <item name="android:windowBackground">#fff</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>

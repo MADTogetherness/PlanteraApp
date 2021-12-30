@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
@@ -22,6 +23,13 @@ import java.util.List;
 
 @Dao
 public interface PlantDAO {
+    @Transaction
+    @Query("SELECT selectedTheme FROM Plant WHERE plantName = :plantName")
+    int getSelectedThemeOfUser(String plantName);
+
+    @Update
+    void updateTheme(Plant plant);
+
     @Insert
     long[] insertPlantLocations(PlantLocation... location);
 

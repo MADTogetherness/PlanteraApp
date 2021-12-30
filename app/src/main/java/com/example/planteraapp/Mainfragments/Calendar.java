@@ -1,10 +1,25 @@
 package com.example.planteraapp.Mainfragments;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.example.planteraapp.AppDatabase;
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
+import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -12,7 +27,7 @@ import com.example.planteraapp.R;
  * create an instance of this fragment.
  */
 public class Calendar extends Fragment {
-
+    private PlantDAO DAO;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -58,5 +73,10 @@ public class Calendar extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_calender, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }

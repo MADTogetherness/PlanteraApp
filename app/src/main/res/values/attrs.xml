@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="App_Container" format="reference|color" />
+    <attr name="Section_Container" format="reference|color" />
+    <attr name="Primary_Font" format="reference|color" />
+    <attr name="Secondary_Font" format="reference|color" />
+    <attr name="Button_Font" format="reference|color" />
+    <attr name="Section_Shadow" format="reference|color" />
+    <attr name="Button_Primary" format="reference|color" />
+    <attr name="Button_Secondary" format="reference|color" />
+    <attr name="PrimaryButtonTheme" format="reference" />
+    <attr name="SecondaryButtonTheme" format="reference" />
+</resources>

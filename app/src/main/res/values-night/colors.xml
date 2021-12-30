@@ -3,9 +3,9 @@
     <color name="App_Container">#151728</color>
     <color name="Section_Container">#1F2937</color>
     <color name="Primary_Font">#FFFFFF</color>
-    <color name="Secondary_Font">#C6C6C6</color>
+    <color name="Secondary_Font">#D9D9D9</color>
     <color name="Button_Font">#111111</color>
-    <color name="Section_Shadow">#AFAFAF</color>
+    <color name="Section_Shadow">#000000</color>
     <color name="Button_Primary">#FFBF00</color>
     <color name="Button_Secondary">#FFDC73</color>
 </resources>
