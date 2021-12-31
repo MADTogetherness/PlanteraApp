@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false">
+        <layer-list>
+            <item android:gravity="fill">
+                <shape>
+                    <size android:height="@dimen/com_size_28_dp" android:width="@dimen/com_size_28_dp" />
+                    <corners android:radius="@dimen/com_size_28_dp" />
+                    <solid android:color="?attr/Button_Secondary" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_checked="true">
+        <layer-list>
+            <item android:gravity="fill">
+                <shape>
+                    <size android:height="@dimen/com_size_28_dp" android:width="@dimen/com_size_28_dp" />
+                    <corners android:radius="@dimen/com_size_28_dp" />
+                    <solid android:color="?attr/Button_Primary" />
+                </shape>
+            </item>
+            <item android:top="@dimen/com_padding_2_dp" android:bottom="@dimen/com_padding_2_dp" android:start="@dimen/com_padding_2_dp" android:end="@dimen/com_padding_2_dp" android:gravity="fill" android:drawable="@drawable/ic_check_icon_24"></item>
+        </layer-list>
+    </item>
+</selector>

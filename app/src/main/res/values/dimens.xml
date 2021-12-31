@@ -1,3 +1,10 @@
 <resources>
     <dimen name="activity_heading">20dp</dimen>
+    <dimen name="com_size_24_dp">24dp</dimen>
+    <dimen name="com_size_20_dp">20dp</dimen>
+    <dimen name="radius_12_dp">12dp</dimen>
+    <dimen name="com_padding_2_dp">2dp</dimen>
+    <dimen name="com_padding_4_dp">4dp</dimen>
+    <dimen name="com_padding_inner_4_dp">-4dp</dimen>
+    <dimen name="com_size_28_dp">28dp</dimen>
 </resources>

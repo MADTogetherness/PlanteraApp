@@ -6,10 +6,11 @@
         android:enabled="true"
         android:icon="@drawable/ic_upcoming_tasks_icon_24"/>
 
-    <item android:id="@+id/search"
+    <item
+        android:id="@+id/search"
         android:title="@string/search"
         android:enabled="true"
-        android:icon="@drawable/ic_search_garden_icon_24"/>
+        android:icon="@drawable/ic_search_icon_24" />
 
     <!--    Add New Plants Option-->
     <item
