@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/Section_Shadow" />
+        </shape>
+    </item>
+    <item android:bottom="@dimen/com_padding_2_dp">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/Section_Container" />
+        </shape>
+    </item>
+</layer-list>
