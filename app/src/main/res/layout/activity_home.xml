@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:src="@drawable/ic_add_new_plant_icon_24"
+                android:src="@drawable/ic_add_new_icon_24"
                 android:contentDescription="@string/add_new_plant"
                 android:backgroundTint="@color/Section_Container"
                 app:elevation="4dp"

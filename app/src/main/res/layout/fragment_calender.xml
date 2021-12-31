@@ -14,18 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Settings"
-            android:background="@drawable/com_round_shape"
-            android:backgroundTint="@color/Section_Container"
-            android:textAlignment="viewStart"
-            android:gravity="center"
-            android:fontFamily="@font/opensans_bold"
-            android:textColor="@color/Primary_Font"
-            android:textSize="@dimen/activity_heading"
-            tools:ignore="RtlCompat" />
+
     </LinearLayout>
 
 </ScrollView>
