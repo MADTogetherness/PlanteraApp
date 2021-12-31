@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--The bottom is filled with blue.-->
+    <item>
+        <shape>
+            <solid android:color="?attr/Button_Primary" />
+            <corners
+                android:bottomRightRadius="@dimen/com_size_24_dp"
+                android:bottomLeftRadius="@dimen/com_size_24_dp" />
+        </shape>
+    </item>
+
+    <item android:bottom="@dimen/com_padding_4_dp">
+        <shape>
+            <solid android:color="?attr/Section_Container" />
+            <corners
+                android:bottomRightRadius="@dimen/com_size_24_dp"
+                android:bottomLeftRadius="@dimen/com_size_24_dp" />
+        </shape>
+    </item>
+</layer-list>
