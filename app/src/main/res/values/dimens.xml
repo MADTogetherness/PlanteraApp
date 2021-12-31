@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="activity_heading">20dp</dimen>
     <dimen name="com_size_24_dp">24dp</dimen>
     <dimen name="com_size_20_dp">20dp</dimen>
     <dimen name="radius_12_dp">12dp</dimen>
