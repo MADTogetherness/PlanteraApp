@@ -20,7 +20,7 @@
                     <solid android:color="?attr/Button_Primary" />
                 </shape>
             </item>
-            <item android:top="@dimen/com_padding_2_dp" android:bottom="@dimen/com_padding_2_dp" android:start="@dimen/com_padding_2_dp" android:end="@dimen/com_padding_2_dp" android:gravity="fill" android:drawable="@drawable/ic_check_icon_24"></item>
+            <item android:top="@dimen/com_padding_2_dp" android:bottom="@dimen/com_padding_2_dp" android:start="@dimen/com_padding_2_dp" android:end="@dimen/com_padding_2_dp" android:gravity="fill" android:drawable="@drawable/ic_check_icon_24" />
         </layer-list>
     </item>
 </selector>
