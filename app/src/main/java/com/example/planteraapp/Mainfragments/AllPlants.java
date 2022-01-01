@@ -2,13 +2,21 @@ package com.example.planteraapp.Mainfragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
+import com.example.planteraapp.entities.DAO.PlantDAO;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +24,11 @@ import com.example.planteraapp.R;
  * create an instance of this fragment.
  */
 public class AllPlants extends Fragment {
-
+    private ImageButton filter_btn;
+    private TextView filter_txt_label;
+    GridLayout gridLayout;
+    LinearLayout default_item_layout;
+    PlantDAO DAO;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +73,18 @@ public class AllPlants extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_plants, container, false);
+        View v = inflater.inflate(R.layout.fragment_all_plants, container, false);
+        filter_btn = v.findViewById(R.id.filter_btn);
+        filter_txt_label = v.findViewById(R.id.filter_text_label);
+        gridLayout = v.findViewById(R.id.gridLayout);
+        default_item_layout = v.findViewById(R.id.default_all_plants_item);
+        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
+
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
