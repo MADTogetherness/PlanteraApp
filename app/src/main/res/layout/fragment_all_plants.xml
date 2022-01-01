@@ -9,8 +9,60 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:paddingHorizontal="@dimen/margin_16_dp"
+        android:paddingTop="@dimen/margin_16_dp"
+        android:paddingBottom="100dp"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+
+            <TextView
+                android:id="@+id/fragment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/filter_btn"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/all_plants"
+                android:textColor="@color/Primary_Font"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_title"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@+id/filter_btn"
+                android:text="Filters : Inactive"
+                android:textColor="@color/Primary_Font"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/filter_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_filter_icon" />
+
+        </RelativeLayout>
+
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alignmentMode="alignBounds"
+            android:columnCount="2" />
 
 
     </LinearLayout>
