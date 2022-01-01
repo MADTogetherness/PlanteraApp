@@ -1,5 +1,6 @@
 package com.example.planteraapp.Mainfragments;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +14,16 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.google.android.material.imageview.ShapeableImageView;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +36,7 @@ public class AllPlants extends Fragment {
     GridLayout gridLayout;
     LinearLayout default_item_layout;
     PlantDAO DAO;
+    List<PlantsWithEverything> grid_items_list;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -79,12 +87,27 @@ public class AllPlants extends Fragment {
         gridLayout = v.findViewById(R.id.gridLayout);
         default_item_layout = v.findViewById(R.id.default_all_plants_item);
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
-
+        new Thread(() -> addViews(DAO.getAllPlantsWithEverything())).start();
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    public void addViews(List<PlantsWithEverything> items) {
+        gridLayout.removeAllViews();
+        if (items.size() != 0) {
+            default_item_layout.setVisibility(View.GONE);
+            for (PlantsWithEverything all_plants : items) {
+                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item, gridLayout, false);
+                TextView plantTag = item.findViewById(R.id.plant_tag);
+                ShapeableImageView imageView = item.findViewById(R.id.image);
+                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
+                plantTag.setText(all_plants.plant.plantName);
+                gridLayout.addView(item);
+            }
+        }
     }
 }
