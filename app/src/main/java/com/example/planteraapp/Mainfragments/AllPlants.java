@@ -1,18 +1,23 @@
 package com.example.planteraapp.Mainfragments;
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +25,12 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,13 +38,17 @@ import java.util.List;
  * Use the {@link AllPlants#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AllPlants extends Fragment {
+public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeListener {
     private ImageButton filter_btn;
     private TextView filter_txt_label;
     GridLayout gridLayout;
     LinearLayout default_item_layout;
+    private List<PlantType> all_plant_types;
+    private List<PlantLocation> all_plant_locations;
+    private List<PlantsWithEverything> all_plants;
+    private CheckBox type_filter, location_filter;
     PlantDAO DAO;
-    List<PlantsWithEverything> grid_items_list;
+    RadioGroup locations_radio_group, type_radio_group;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -87,13 +99,40 @@ public class AllPlants extends Fragment {
         gridLayout = v.findViewById(R.id.gridLayout);
         default_item_layout = v.findViewById(R.id.default_all_plants_item);
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
-        new Thread(() -> addViews(DAO.getAllPlantsWithEverything())).start();
+        locations_radio_group = v.findViewById(R.id.location_radio_group);
+        type_radio_group = v.findViewById(R.id.type_radio_group);
+        locations_radio_group.setOnCheckedChangeListener(this);
+        type_radio_group.setOnCheckedChangeListener(this);
+        type_filter = v.findViewById(R.id.type_filter);
+        location_filter = v.findViewById(R.id.location_filter);
+        new Thread(() -> {
+            all_plants = DAO.getAllPlantsWithEverything();
+            requireActivity().runOnUiThread(() -> {
+                addViews(all_plants);
+                Log.d("run", "hello1");
+            });
+        }).start();
+        Log.d("run", "hello2");
         return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        locations_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        type_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        type_filter.setOnCheckedChangeListener((compoundButton, b) -> {
+            new Thread(() -> {
+                all_plant_types = DAO.getAllPlantTypes();
+                requireActivity().runOnUiThread(() -> generateFilter(all_plant_types, type_radio_group, b));
+            }).start();
+        });
+        location_filter.setOnCheckedChangeListener((compoundButton, b) -> {
+            new Thread(() -> {
+                all_plant_locations = DAO.getAllPlantLocations();
+                requireActivity().runOnUiThread(() -> generateFilter(all_plant_locations, locations_radio_group, b));
+            }).start();
+        });
     }
 
     public void addViews(List<PlantsWithEverything> items) {
@@ -109,5 +148,44 @@ public class AllPlants extends Fragment {
                 gridLayout.addView(item);
             }
         }
+    }
+
+    public void generateFilter(List<?> list, RadioGroup group, boolean generate) {
+        group.check(-1);
+        group.removeAllViews();
+        if (generate) {
+            generateRadioButtons(list, group);
+            group.setVisibility(View.VISIBLE);
+            int l = group.getCheckedRadioButtonId();
+            if (l == -1)
+                group.check(0);
+            else
+                group.getChildAt(l).setActivated(true);
+
+        } else
+            group.setVisibility(View.GONE);
+    }
+
+    public void generateRadioButtons(List<?> list, RadioGroup group) {
+        List<String> ListOfRadioNames = new ArrayList<>();
+        for (Object pl : list) ListOfRadioNames.add(pl.toString());
+        ListOfRadioNames.add(0, "All");
+        for (int i = 0; i < ListOfRadioNames.size(); i++) {
+            View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_radio_button_layout, group, false);
+            item.setId(i);
+            ((AppCompatRadioButton) item).setText(ListOfRadioNames.get(i));
+            group.addView(item);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        String s = "";
+        if (radioGroup.getCheckedRadioButtonId() == 0) {
+            s = "Selected : All";
+        } else {
+            s = "Selected : " + radioGroup.getCheckedRadioButtonId();
+        }
+        Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
     }
 }

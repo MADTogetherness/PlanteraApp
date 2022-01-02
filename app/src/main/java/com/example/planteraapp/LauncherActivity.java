@@ -37,7 +37,6 @@ public class LauncherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launcher);
         FrameLayout logo_image = findViewById(R.id.image_logo);
         TextView logo_text = findViewById(R.id.text_logo);
-
         logo_image.animate().translationY(-3200).setDuration(800).setStartDelay(2500);
         logo_text.animate().translationY(1400).setDuration(800).setStartDelay(2500).setListener(new Animator.AnimatorListener() {
             @Override

@@ -20,7 +20,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="@dimen/margin_10_dp">
 
             <TextView
                 android:id="@+id/fragment_title"
@@ -61,11 +61,45 @@
 
         </RelativeLayout>
 
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:scrollbars="none">
+
+            <RadioGroup
+                android:id="@+id/location_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:animateLayoutChanges="true"
+                android:visibility="gone"
+                android:orientation="horizontal" />
+
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10_dp"
+            android:scrollbars="none">
+
+            <RadioGroup
+                android:id="@+id/type_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:scrollbars="none"
+                android:visibility="gone"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
 
         <GridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:alignmentMode="alignBounds"
             android:columnCount="2" />
 
@@ -74,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:animateLayoutChanges="true"
             android:visibility="visible"
             android:gravity="center">
 
@@ -96,8 +131,41 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:text="Have you tried creating new plant instance?"
-                android:fontFamily="@font/opensans_semibold"
                 android:textColor="@color/Secondary_Font" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/com_size_24_dp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/location_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Location Filter"
+                android:button="@null"
+                android:layout_marginEnd="@dimen/margin_10_dp"
+                android:paddingStart="@dimen/padding_10_dp"
+                android:paddingEnd="@dimen/padding_10_dp"
+                android:background="@drawable/com_radio_button_select"
+                android:textColor="@color/com_radio_button_select" />
+
+            <CheckBox
+                android:id="@+id/type_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="Type Filter"
+                android:paddingStart="@dimen/padding_10_dp"
+                android:paddingEnd="@dimen/padding_10_dp"
+                android:layout_marginEnd="@dimen/margin_10_dp"
+                android:button="@null"
+                android:background="@drawable/com_radio_button_select"
+                android:textColor="@color/com_radio_button_select" />
 
         </LinearLayout>
 
