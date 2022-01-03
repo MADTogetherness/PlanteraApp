@@ -4,7 +4,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 import com.example.planteraapp.R;
+
+/*
+TODO
+- Spinner custom text
+ */
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +65,12 @@ public class Settings extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        Spinner spinner = view.findViewById(R.id.font_size_spinner);
+        ArrayAdapter<CharSequence> fontSizes = ArrayAdapter.createFromResource(getContext(), R.array.font_sizes, R.layout.spinner_item);
+        spinner.setAdapter(fontSizes);
+
+        return view;
     }
 }
