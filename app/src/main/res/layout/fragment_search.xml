@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/margin_16_dp"
-            android:background="@drawable/com_search_border"
+            android:background="@drawable/com_search_bar"
             android:drawableEnd="@drawable/ic_search_icon_24"
             android:drawableTint="@color/Button_Primary"
             android:hint="Search..."
