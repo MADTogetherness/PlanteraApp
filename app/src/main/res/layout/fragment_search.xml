@@ -3,16 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/App_Container"
     tools:context=".Mainfragments.Search"
-    android:background="@color/App_Container">
+    android:theme="@style/Theme.PlanteraApp.Accent.Dark">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_16_dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Search your garden"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/main_variable_font"
+            android:textColor="@color/Secondary_Font"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16_dp"
+            android:background="@drawable/com_search_border"
+            android:drawableEnd="@drawable/ic_search_icon_24"
+            android:drawableTint="@color/Button_Primary"
+            android:hint="Search..."
+            android:padding="@dimen/padding_16_dp" />
     </LinearLayout>
 
 </RelativeLayout>

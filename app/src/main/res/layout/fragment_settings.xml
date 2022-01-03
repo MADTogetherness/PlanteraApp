@@ -7,7 +7,7 @@
     android:background="@color/App_Container"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Mainfragments.Settings">
+    tools:context=".Mainfragments.Settings" >
 
 
     <LinearLayout
@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_16_dp"
                 android:background="@drawable/com_top_item_shape"
+                android:backgroundTint="@color/Section_Container"
                 android:text="About"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
