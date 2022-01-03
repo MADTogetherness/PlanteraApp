@@ -50,9 +50,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16_dp"
             android:background="@drawable/com_spinner"
-            android:spinnerMode="dropdown"
-            android:dropDownVerticalOffset="50dp"
-            />
+            android:dropDownVerticalOffset="54dp"
+            android:entries="@array/font_sizes"
+            android:gravity="start"
+            android:paddingStart="48dp"
+            android:padding="@dimen/padding_16_dp"
+            android:spinnerMode="dialog" />
 
         <TextView
             android:layout_width="match_parent"

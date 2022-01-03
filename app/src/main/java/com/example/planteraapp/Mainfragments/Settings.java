@@ -67,10 +67,6 @@ public class Settings extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        Spinner spinner = view.findViewById(R.id.font_size_spinner);
-        ArrayAdapter<CharSequence> fontSizes = ArrayAdapter.createFromResource(getContext(), R.array.font_sizes, R.layout.spinner_item);
-        spinner.setAdapter(fontSizes);
-
         return view;
     }
 }
