@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "888052db5b981fc4775d456e9507658a",
+    "identityHash": "a5c831045d99783c0143627273e0b433",
     "entities": [
       {
         "tableName": "Reminder",
@@ -130,7 +130,7 @@
       },
       {
         "tableName": "Plant",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`plantName` TEXT NOT NULL, `plantType` TEXT, `plantLocation` TEXT, `profile_image` TEXT, `selectedTheme` INTEGER NOT NULL, `description` TEXT, PRIMARY KEY(`plantName`), FOREIGN KEY(`plantType`) REFERENCES `PlantType`(`type`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`plantLocation`) REFERENCES `PlantLocation`(`location`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`plantName` TEXT NOT NULL, `plantType` TEXT, `plantLocation` TEXT, `dateOfCreation` INTEGER NOT NULL, `profile_image` TEXT, `selectedTheme` INTEGER NOT NULL, `description` TEXT, PRIMARY KEY(`plantName`), FOREIGN KEY(`plantType`) REFERENCES `PlantType`(`type`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`plantLocation`) REFERENCES `PlantLocation`(`location`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "plantName",
@@ -149,6 +149,12 @@
             "columnName": "plantLocation",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "dateOfCreation",
+            "columnName": "dateOfCreation",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "profile_image",
@@ -368,7 +374,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '888052db5b981fc4775d456e9507658a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a5c831045d99783c0143627273e0b433')"
     ]
   }
 }

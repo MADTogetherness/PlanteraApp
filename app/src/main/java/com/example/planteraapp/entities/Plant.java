@@ -36,6 +36,8 @@ public class Plant {
     @ColumnInfo(index = true)
     public String plantLocation;
 
+    public long dateOfCreation;
+
     //NOT RELATED TO Images Table
     public String profile_image;
 
@@ -49,6 +51,7 @@ public class Plant {
         this.profile_image = profile_image;
         this.selectedTheme = selectedTheme;
         this.description = description;
+        this.dateOfCreation = System.currentTimeMillis();
     }
 
     @NonNull
