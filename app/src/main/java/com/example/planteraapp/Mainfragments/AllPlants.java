@@ -237,11 +237,12 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                 break;
         }
         if (changeOccured) {
-
+            Log.d("CalledMe", "Location : " + locationFilterCurrentlyAppliedOnHost + "|| Type : " + typeFilterCurrentlyAppliedOnHost + " Sort : " + getSortNameFromID());
+            putAllPlantDataInGrid();
         }
     }
 
-    public void putAllPlantDataInGrid(String sort_by) {
+    public void putAllPlantDataInGrid() {
         new Thread(() -> {
             if (getFilterThread != null && getFilterThread.isAlive()) {
                 try {
@@ -252,11 +253,11 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
             }
             List<PlantsWithEverything> newlist;
             if (typeFilterCurrentlyAppliedOnHost > 0 && locationFilterCurrentlyAppliedOnHost > 0) {
-                newlist = DAO.getAllPlantsWithTANDL(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, sort_by);
+                newlist = DAO.getAllPlantsWithTANDL(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, getSortNameFromID());
             } else if (typeFilterCurrentlyAppliedOnHost > 0) {
-                newlist = DAO.getAllPlantsWithType(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, sort_by);
+                newlist = DAO.getAllPlantsWithType(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, getSortNameFromID());
             } else if (locationFilterCurrentlyAppliedOnHost > 0) {
-                newlist = DAO.getAllPlantsWithLocation(all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, sort_by);
+                newlist = DAO.getAllPlantsWithLocation(all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, getSortNameFromID());
             } else {
                 newlist = DAO.getAllPlantsWithEverything();
             }
@@ -264,8 +265,8 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         }).start();
     }
 
-    public String getNameFromID(int id) {
-        switch (id) {
+    public String getSortNameFromID() {
+        switch (SortAllPlantsBy) {
             case R.id.sort_by_name:
                 return "plantName";
             case R.id.sort_by_type:
@@ -273,7 +274,9 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
             case R.id.sort_by_location:
                 return "plantLocation";
             case R.id.sort_by_date:
-                return
+                return "dateOfCreation";
+            default:
+                return null;
         }
     }
 

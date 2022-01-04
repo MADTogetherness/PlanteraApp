@@ -29,7 +29,7 @@ public interface PlantDAO {
     List<PlantsWithEverything> getAllPlantsWithLocation(String location, String order);
 
     @Transaction
-    @Query("SELECT * FROM Plant WHERE plantType=:type AND plantLocation=:location ORDER BY ")
+    @Query("SELECT * FROM Plant WHERE plantType=:type AND plantLocation=:location ORDER BY dateOfCreation")
     List<PlantsWithEverything> getAllPlantsWithTANDL(String type, String location, String order);
 
 //    @Update
