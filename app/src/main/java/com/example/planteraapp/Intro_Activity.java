@@ -8,11 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.planteraapp.Utilities.SlideAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
@@ -37,17 +39,19 @@ public class Intro_Activity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(viewListener);
         dotsIndicator.setViewPager(viewPager);
         PlantDAO DAO = AppDatabase.getInstance(this).plantDAO();
-        DAO.insertPlantLocations(
+        long[] success1 = DAO.insertPlantLocations(
                 new PlantLocation("Hallway"),
                 new PlantLocation("Bedroom"),
                 new PlantLocation("Living room"),
                 new PlantLocation("Kitchen")
         );
-        DAO.insertPlantTypes(
+        long[] success2 = DAO.insertPlantTypes(
                 new PlantType("Cactus"),
                 new PlantType("Fern"),
                 new PlantType("Foliage")
         );
+        Log.d("runtime", "Default PlantLocations Insertions : " + success1.length);
+        Log.d("runtime", "Default PlantTypes Insertions : " + success2.length);
         Next.setOnClickListener(view -> {
             if (viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
             viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);

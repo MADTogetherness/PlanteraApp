@@ -5,19 +5,12 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
-
-import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Relations.BlogWithImages;
-import com.example.planteraapp.entities.Relations.PlantAndReminders;
-import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
@@ -27,8 +20,20 @@ public interface PlantDAO {
     @Query("SELECT selectedTheme FROM Plant WHERE plantName = :plantName")
     int getSelectedThemeOfUser(String plantName);
 
-    @Update
-    void updateTheme(Plant plant);
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantType=:type ORDER BY :order")
+    List<PlantsWithEverything> getAllPlantsWithType(String type, String order);
+
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantLocation=:location ORDER BY :order")
+    List<PlantsWithEverything> getAllPlantsWithLocation(String location, String order);
+
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantType=:type AND plantLocation=:location ORDER BY ")
+    List<PlantsWithEverything> getAllPlantsWithTANDL(String type, String location, String order);
+
+//    @Update
+//    void updateTheme(Plant plant);
 
     @Insert
     long[] insertPlantLocations(PlantLocation... location);
@@ -36,17 +41,17 @@ public interface PlantDAO {
     @Insert
     long[] insertPlantTypes(PlantType... type);
 
-    @Insert
-    long[] insertReminders(Reminder... reminders);
-
+    //    @Insert
+//    long[] insertReminders(Reminder... reminders);
+//
     @Insert
     long[] insertNewPlant(Plant... plant);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImage(Images image);
 
-    @Insert
-    long insertNewBlog(Blog blog);
+//    @Insert
+//    long insertNewBlog(Blog blog);
 
     @Insert
     long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
@@ -59,21 +64,21 @@ public interface PlantDAO {
     @Query("SELECT * FROM PlantLocation")
     List<PlantLocation> getAllPlantLocations();
 
-    @Transaction
-    @Query("SELECT * FROM Plant")
-    List<Plant> getAllPlants();
-
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-    Plant getSinglePlantInstance(String plantName);
+//    @Transaction
+//    @Query("SELECT * FROM Plant")
+//    List<Plant> getAllPlants();
+//
+//    @Transaction
+//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+//    Plant getSinglePlantInstance(String plantName);
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
 //    PlantAndReminders getAllRemindersOfPlantFromID(String plantName);
 
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-    PlantsWithEverything getAllPlantAttributes(String plantName);
+//    @Transaction
+//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+//    PlantsWithEverything getAllPlantAttributes(String plantName);
 
     //    @Transaction
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
@@ -83,9 +88,9 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE plantID = :ID")
 //    List<Blog> getAllBlogsPlantID(long ID);
 //
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
+//    @Transaction
+//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+//    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
 //
 //    @Transaction
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")

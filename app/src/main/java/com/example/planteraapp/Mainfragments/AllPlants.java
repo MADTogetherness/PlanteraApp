@@ -1,14 +1,11 @@
 package com.example.planteraapp.Mainfragments;
 
-import android.animation.LayoutTransition;
 import android.content.Context;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatRadioButton;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
@@ -28,54 +24,39 @@ import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AllPlants#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeListener {
-    private ImageButton filter_btn;
-    private TextView filter_txt_label;
+    private ImageButton filterImageBtnOnHost;
+    private TextView filtersAppliedLabelOnHost;
     GridLayout gridLayout;
     LinearLayout default_item_layout;
     private List<PlantType> all_plant_types;
     private List<PlantLocation> all_plant_locations;
     private List<PlantsWithEverything> all_plants;
-    private CheckBox type_filter, location_filter;
+    // To see if the particular filters are active
+    private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive;
+    private boolean isBottomSheetOpen;
+    // What sorting method is selected, default by name
+    private int SortAllPlantsBy;
+    // Active type of each filters on host
+    private int locationFilterCurrentlyAppliedOnHost, typeFilterCurrentlyAppliedOnHost;
     PlantDAO DAO;
     RadioGroup locations_radio_group, type_radio_group;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Thread getFilterThread;
 
     public AllPlants() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AllPlants.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static AllPlants newInstance(String param1, String param2) {
         AllPlants fragment = new AllPlants();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -83,19 +64,46 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_plants, container, false);
-        filter_btn = v.findViewById(R.id.filter_btn);
-        filter_txt_label = v.findViewById(R.id.filter_text_label);
+        init(v, savedInstanceState);
+        Log.d("runtime", "Waiting for all plants to load");
+        return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+//        locations_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+//        type_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+        filterImageBtnOnHost.setOnClickListener(v -> OpenBottomSheet());
+        //Helping with restore bundle instance
+        if (isBottomSheetOpen) OpenBottomSheet();
+        else {
+            getAllFiltersFromDatabase();
+        }
+    }
+
+    public void init(View v, Bundle savedInstanceState) {
+        // Restore the saved variables
+        if (savedInstanceState != null) {
+            isTypeFilterOnBottomSheetActive = savedInstanceState.getBoolean("isTypeFilterOnBottomSheetActive", false);
+            isLocationFilterOnBottomSheetActive = savedInstanceState.getBoolean("isLocationFilterOnBottomSheetActive", false);
+            SortAllPlantsBy = savedInstanceState.getInt("SortAllPlantsBy", R.id.sort_by_name);
+            locationFilterCurrentlyAppliedOnHost = savedInstanceState.getInt("locationFilterCurrentlyAppliedOnHost", -1);
+            typeFilterCurrentlyAppliedOnHost = savedInstanceState.getInt("typeFilterCurrentlyAppliedOnHost", -1);
+            isBottomSheetOpen = savedInstanceState.getBoolean("isBottomSheetOpen", false);
+        } else {
+            isTypeFilterOnBottomSheetActive = isLocationFilterOnBottomSheetActive = false;
+            SortAllPlantsBy = R.id.sort_by_name;
+            locationFilterCurrentlyAppliedOnHost = typeFilterCurrentlyAppliedOnHost = -1;
+            isBottomSheetOpen = false;
+        }
+        filtersAppliedLabelOnHost = v.findViewById(R.id.filter_text_label);
+        filterImageBtnOnHost = v.findViewById(R.id.filter_btn);
         gridLayout = v.findViewById(R.id.gridLayout);
         default_item_layout = v.findViewById(R.id.default_all_plants_item);
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
@@ -103,36 +111,30 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         type_radio_group = v.findViewById(R.id.type_radio_group);
         locations_radio_group.setOnCheckedChangeListener(this);
         type_radio_group.setOnCheckedChangeListener(this);
-        type_filter = v.findViewById(R.id.type_filter);
-        location_filter = v.findViewById(R.id.location_filter);
-        new Thread(() -> {
-            all_plants = DAO.getAllPlantsWithEverything();
-            requireActivity().runOnUiThread(() -> {
-                addViews(all_plants);
-                Log.d("run", "hello1");
-            });
-        }).start();
-        Log.d("run", "hello2");
-        return v;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        locations_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        type_radio_group.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        type_filter.setOnCheckedChangeListener((compoundButton, b) -> {
-            new Thread(() -> {
-                all_plant_types = DAO.getAllPlantTypes();
-                requireActivity().runOnUiThread(() -> generateFilter(all_plant_types, type_radio_group, b));
-            }).start();
+
+    private void OpenBottomSheet() {
+        isBottomSheetOpen = true;
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialog);
+        bottomSheetDialog.setContentView(R.layout.com_bottom_sheet_layout);
+        RadioGroup grp = bottomSheetDialog.findViewById(R.id.sort_radio_group);
+        CheckBox location_check_box = bottomSheetDialog.findViewById(R.id.group_by_location),
+                type_check_box = bottomSheetDialog.findViewById(R.id.group_by_type);
+        assert grp != null;
+        grp.check(SortAllPlantsBy);
+        assert location_check_box != null;
+        location_check_box.setChecked(isLocationFilterOnBottomSheetActive);
+        assert type_check_box != null;
+        type_check_box.setChecked(isTypeFilterOnBottomSheetActive);
+        grp.setOnCheckedChangeListener(this);
+        location_check_box.setOnClickListener(v -> isLocationFilterOnBottomSheetActive = !isLocationFilterOnBottomSheetActive);
+        type_check_box.setOnClickListener(v -> isTypeFilterOnBottomSheetActive = !isTypeFilterOnBottomSheetActive);
+        bottomSheetDialog.setOnDismissListener(dialog -> {
+            isBottomSheetOpen = false;
+            getAllFiltersFromDatabase();
         });
-        location_filter.setOnCheckedChangeListener((compoundButton, b) -> {
-            new Thread(() -> {
-                all_plant_locations = DAO.getAllPlantLocations();
-                requireActivity().runOnUiThread(() -> generateFilter(all_plant_locations, locations_radio_group, b));
-            }).start();
-        });
+        bottomSheetDialog.show();
     }
 
     public void addViews(List<PlantsWithEverything> items) {
@@ -150,20 +152,50 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         }
     }
 
+    public void getAllFiltersFromDatabase() {
+        getFilterThread = new Thread(() -> {
+            if (isTypeFilterOnBottomSheetActive)
+                all_plant_types = DAO.getAllPlantTypes();
+            if (isLocationFilterOnBottomSheetActive)
+                all_plant_locations = DAO.getAllPlantLocations();
+            requireActivity().runOnUiThread(() -> {
+                generateFilter(all_plant_types, type_radio_group, isTypeFilterOnBottomSheetActive);
+                generateFilter(all_plant_locations, locations_radio_group, isLocationFilterOnBottomSheetActive);
+            });
+        });
+        getFilterThread.start();
+    }
+
     public void generateFilter(List<?> list, RadioGroup group, boolean generate) {
+        if (!generate) {
+            group.setVisibility(View.GONE);
+            return;
+        }
+        if (list == null || list.size() == 0)
+            return;
+        setFiltersAppliedLabelOnHost();
         group.check(-1);
         group.removeAllViews();
-        if (generate) {
-            generateRadioButtons(list, group);
-            group.setVisibility(View.VISIBLE);
-            int l = group.getCheckedRadioButtonId();
-            if (l == -1)
-                group.check(0);
-            else
-                group.getChildAt(l).setActivated(true);
+        generateRadioButtons(list, group);
+        group.setVisibility(View.VISIBLE);
+        if (group.getId() == R.id.location_radio_group)
+            ((AppCompatRadioButton) group.getChildAt(locationFilterCurrentlyAppliedOnHost == -1 ? 0 : locationFilterCurrentlyAppliedOnHost)).setChecked(true);
+        if (group.getId() == R.id.type_radio_group)
+            ((AppCompatRadioButton) group.getChildAt(typeFilterCurrentlyAppliedOnHost == -1 ? 0 : typeFilterCurrentlyAppliedOnHost)).setChecked(true);
+    }
 
-        } else
-            group.setVisibility(View.GONE);
+    public void setFiltersAppliedLabelOnHost() {
+        filtersAppliedLabelOnHost.setText(R.string.filter_label);
+        if (isLocationFilterOnBottomSheetActive) {
+            filtersAppliedLabelOnHost.append(" Location");
+        }
+        if (isTypeFilterOnBottomSheetActive) {
+            if (isLocationFilterOnBottomSheetActive)
+                filtersAppliedLabelOnHost.append(" & ");
+            filtersAppliedLabelOnHost.append(" Type");
+        }
+        if (!isTypeFilterOnBottomSheetActive && !isLocationFilterOnBottomSheetActive)
+            filtersAppliedLabelOnHost.append(" Inactive");
     }
 
     public void generateRadioButtons(List<?> list, RadioGroup group) {
@@ -178,14 +210,82 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         }
     }
 
+    //    TODO:ADD putAllPlantsDataInGrid() inside this function
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        String s = "";
-        if (radioGroup.getCheckedRadioButtonId() == 0) {
-            s = "Selected : All";
-        } else {
-            s = "Selected : " + radioGroup.getCheckedRadioButtonId();
+        if (i == -1)
+            return;
+        boolean changeOccured = false;
+        switch (radioGroup.getId()) {
+            case R.id.sort_radio_group:
+                if (i != SortAllPlantsBy) {
+                    SortAllPlantsBy = i;
+                    changeOccured = true;
+                }
+                break;
+            case R.id.location_radio_group:
+                if (i != locationFilterCurrentlyAppliedOnHost) {
+                    locationFilterCurrentlyAppliedOnHost = i;
+                    changeOccured = true;
+                }
+                break;
+            case R.id.type_radio_group:
+                if (i != typeFilterCurrentlyAppliedOnHost) {
+                    typeFilterCurrentlyAppliedOnHost = i;
+                    changeOccured = true;
+                }
+                break;
         }
-        Toast.makeText(requireContext(), s, Toast.LENGTH_SHORT).show();
+        if (changeOccured) {
+
+        }
     }
+
+    public void putAllPlantDataInGrid(String sort_by) {
+        new Thread(() -> {
+            if (getFilterThread != null && getFilterThread.isAlive()) {
+                try {
+                    getFilterThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            List<PlantsWithEverything> newlist;
+            if (typeFilterCurrentlyAppliedOnHost > 0 && locationFilterCurrentlyAppliedOnHost > 0) {
+                newlist = DAO.getAllPlantsWithTANDL(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, sort_by);
+            } else if (typeFilterCurrentlyAppliedOnHost > 0) {
+                newlist = DAO.getAllPlantsWithType(all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type, sort_by);
+            } else if (locationFilterCurrentlyAppliedOnHost > 0) {
+                newlist = DAO.getAllPlantsWithLocation(all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location, sort_by);
+            } else {
+                newlist = DAO.getAllPlantsWithEverything();
+            }
+            requireActivity().runOnUiThread(() -> addViews(newlist));
+        }).start();
+    }
+
+    public String getNameFromID(int id) {
+        switch (id) {
+            case R.id.sort_by_name:
+                return "plantName";
+            case R.id.sort_by_type:
+                return "plantType";
+            case R.id.sort_by_location:
+                return "plantLocation";
+            case R.id.sort_by_date:
+                return
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isTypeFilterOnBottomSheetActive", isTypeFilterOnBottomSheetActive);
+        outState.putBoolean("isLocationFilterOnBottomSheetActive", isLocationFilterOnBottomSheetActive);
+        outState.putInt("SortAllPlantsBy", SortAllPlantsBy);
+        outState.putInt("locationFilterCurrentlyAppliedOnHost", locationFilterCurrentlyAppliedOnHost);
+        outState.putInt("typeFilterCurrentlyAppliedOnHost", typeFilterCurrentlyAppliedOnHost);
+        outState.putBoolean("isBottomSheetOpen", isBottomSheetOpen);
+    }
+
 }
