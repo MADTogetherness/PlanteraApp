@@ -44,7 +44,7 @@ public class Plant {
     public int selectedTheme;
     public String description;
 
-    public Plant(String plantName, String profile_image, String plantType, String plantLocation, int selectedTheme, String description) {
+    public Plant(@NonNull String plantName, String profile_image, String plantType, String plantLocation, int selectedTheme, String description) {
         this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocation = plantLocation;

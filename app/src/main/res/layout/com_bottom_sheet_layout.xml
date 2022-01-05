@@ -5,10 +5,17 @@
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/padding_16_dp"
     android:paddingEnd="@dimen/padding_16_dp"
-    android:paddingTop="32dp"
+    android:paddingTop="@dimen/margin_16_dp"
     android:paddingBottom="32dp"
     android:background="@drawable/com_bottom_sheet_background"
     android:orientation="vertical">
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_16_dp"
+        android:background="@drawable/ic_bottom_sheet_top_notch" />
 
     <TextView
         android:layout_width="wrap_content"

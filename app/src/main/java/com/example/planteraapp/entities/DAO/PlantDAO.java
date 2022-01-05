@@ -4,7 +4,10 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.RawQuery;
 import androidx.room.Transaction;
+import androidx.sqlite.db.SupportSQLiteQuery;
+
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
@@ -20,20 +23,8 @@ public interface PlantDAO {
     @Query("SELECT selectedTheme FROM Plant WHERE plantName = :plantName")
     int getSelectedThemeOfUser(String plantName);
 
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantType=:type ORDER BY :order")
-    List<PlantsWithEverything> getAllPlantsWithType(String type, String order);
-
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantLocation=:location ORDER BY :order")
-    List<PlantsWithEverything> getAllPlantsWithLocation(String location, String order);
-
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantType=:type AND plantLocation=:location ORDER BY dateOfCreation")
-    List<PlantsWithEverything> getAllPlantsWithTANDL(String type, String location, String order);
-
-//    @Update
-//    void updateTheme(Plant plant);
+    @RawQuery
+    List<PlantsWithEverything> customFilterPlantsRawQuery(SupportSQLiteQuery query);
 
     @Insert
     long[] insertPlantLocations(PlantLocation... location);
@@ -41,17 +32,11 @@ public interface PlantDAO {
     @Insert
     long[] insertPlantTypes(PlantType... type);
 
-    //    @Insert
-//    long[] insertReminders(Reminder... reminders);
-//
     @Insert
     long[] insertNewPlant(Plant... plant);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImage(Images image);
-
-//    @Insert
-//    long insertNewBlog(Blog blog);
 
     @Insert
     long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
@@ -96,8 +81,7 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    public List<BlogWithImages> getBlogwWithImages(long ID);
 
-    @Transaction
-    @Query("SELECT * FROM Plant")
-    List<PlantsWithEverything> getAllPlantsWithEverything();
-
+//    @Transaction
+//    @Query("SELECT * FROM Plant")
+//    List<PlantsWithEverything> getAllPlantsWithEverything();
 }
