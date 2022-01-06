@@ -1,11 +1,18 @@
 package com.example.planteraapp.Mainfragments;
+
+import static com.example.planteraapp.LauncherActivity.SharedFile;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
 
 import com.example.planteraapp.R;
 
@@ -64,8 +71,27 @@ public class Settings extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
+        SwitchCompat darkModeSwitch = view.findViewById(R.id.dark_mode_switch);
+        AppCompatSpinner fontSizeSpinner = view.findViewById(R.id.font_size_spinner);
+
+        // Initial dark mode switch value
+        int initialMode = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("mode", 10);
+        if (initialMode != 10) {
+            darkModeSwitch.setChecked(initialMode == 2);
+        }
+
+        darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SharedPreferences.Editor editor = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).edit();
+            editor.putInt("mode", isChecked ? 2 : 1);
+            editor.apply();
+
+            int newMode = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("mode", 10);
+            if (newMode != 10) {
+                AppCompatDelegate.setDefaultNightMode(newMode);
+            }
+        });
 
         return view;
     }
