@@ -1,6 +1,7 @@
 package com.example.planteraapp.Mainfragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 
@@ -15,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.planteraapp.AppDatabase;
+import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -43,7 +44,6 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     LinearLayout default_item_layout;
     private List<PlantType> all_plant_types;
     private List<PlantLocation> all_plant_locations;
-    private List<PlantsWithEverything> all_plants;
     // To see if the particular filters are active
     private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive;
     private boolean isBottomSheetOpen;
@@ -56,7 +56,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     private Thread getFilterThread;
     private static final String query = "SELECT * FROM Plant";
     private String filterQuery = query;
-
+    // Prevent Multiple Queries when creating & inserting filters Initially
     private boolean preventMultipleCheckedChange = false;
 
     public AllPlants() {/*REQUIRE EMPTY CONSTRUCTOR*/}
@@ -142,7 +142,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         bottomSheetDialog.show();
     }
 
-    public void addViewsToGrid(List<PlantsWithEverything> items) {
+    public void addPlantViewsToGrid(List<PlantsWithEverything> items) {
         gridLayout.removeAllViews();
         if (items.size() != 0) {
             default_item_layout.setVisibility(View.GONE);
@@ -150,10 +150,15 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);
                 TextView plantTag = item.findViewById(R.id.plant_tag);
                 ShapeableImageView imageView = item.findViewById(R.id.image);
-                imageView.setImageResource(R.drawable.img_default_profile_image);
-//                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
+                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
                 plantTag.setText(all_plants.plant.plantName);
                 gridLayout.addView(item);
+                item.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
+                    intent.putExtra("plantName", all_plants.plant.plantName);
+                    startActivity(intent);
+                    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+                });
             }
         } else default_item_layout.setVisibility(View.VISIBLE);
     }
@@ -257,11 +262,11 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                if (typeFilterCurrentlyAppliedOnHost > 0 && locationFilterCurrentlyAppliedOnHost > 0)
+                if (isLocationFilterOnBottomSheetActive && isTypeFilterOnBottomSheetActive && typeFilterCurrentlyAppliedOnHost > 0 && locationFilterCurrentlyAppliedOnHost > 0)
                     filterQuery += " WHERE plantType='" + all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type + "' AND plantLocation='" + all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location + "'";
-                else if (typeFilterCurrentlyAppliedOnHost > 0)
+                else if (isTypeFilterOnBottomSheetActive && typeFilterCurrentlyAppliedOnHost > 0)
                     filterQuery += " WHERE plantType='" + all_plant_types.get(typeFilterCurrentlyAppliedOnHost - 1).type + "'";
-                else if (locationFilterCurrentlyAppliedOnHost > 0)
+                else if (isLocationFilterOnBottomSheetActive && locationFilterCurrentlyAppliedOnHost > 0)
                     filterQuery += " WHERE plantLocation='" + all_plant_locations.get(locationFilterCurrentlyAppliedOnHost - 1).location + "'";
             }
             try {
@@ -271,13 +276,10 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                 newlist = new ArrayList<>();
                 ex.printStackTrace();
             }
+            Log.d("Query", filterQuery);
             filterQuery = query;
             List<PlantsWithEverything> finalNewlist = newlist;
-            requireActivity().runOnUiThread(() -> {
-                Log.d("Query", filterQuery);
-                Toast.makeText(requireContext(), filterQuery, Toast.LENGTH_SHORT).show();
-                addViewsToGrid(finalNewlist);
-            });
+            requireActivity().runOnUiThread(() -> addPlantViewsToGrid(finalNewlist));
         }).start();
     }
 
