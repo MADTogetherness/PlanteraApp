@@ -70,6 +70,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/about_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_16_dp"
@@ -81,6 +82,7 @@
                 android:textColor="@color/Primary_Font" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/help_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/Section_Container"
