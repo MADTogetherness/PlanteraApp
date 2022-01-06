@@ -11,4 +11,6 @@
     <string name="NextButton">Next</string>
     <string name="add_new_plant">Add new plant</string>
 
+    //All plants fragment
+    <string name="filter_label">Filters :</string>
 </resources>

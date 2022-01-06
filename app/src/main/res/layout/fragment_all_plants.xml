@@ -1,17 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Mainfragments.AllPlants"
+    android:scrollbars="none"
     android:background="@color/App_Container">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:paddingHorizontal="@dimen/margin_16_dp"
+        android:paddingTop="@dimen/margin_16_dp"
+        android:paddingBottom="100dp"
+        android:orientation="vertical">
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10_dp">
+
+            <TextView
+                android:id="@+id/fragment_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/filter_btn"
+                android:fontFamily="@font/opensans_bold"
+                android:text="@string/all_plants"
+                android:textColor="@color/Primary_Font"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/filter_text_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_title"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_toStartOf="@+id/filter_btn"
+                android:fontFamily="@font/main_variable_font"
+                android:text="Filters : Inactive"
+                android:textColor="@color/Primary_Font"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/filter_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_filter_icon"
+                app:tint="@color/Button_Primary"
+                android:contentDescription="Choose filters" />
+
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:scrollbars="none">
+
+            <RadioGroup
+                android:id="@+id/location_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal" />
+
+        </HorizontalScrollView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10_dp"
+            android:scrollbars="none">
+
+            <RadioGroup
+                android:id="@+id/type_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+
+        <GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:alignmentMode="alignBounds"
+            android:columnCount="2" />
+
+        <LinearLayout
+            android:id="@+id/default_all_plants_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:animateLayoutChanges="true"
+            android:visibility="visible"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="310dp"
+                android:src="@drawable/default_no_grid_item" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Nothing here yet"
+                android:fontFamily="@font/opensans_semibold"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/Primary_Font" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:text="Have you tried creating new plant instance?"
+                android:textColor="@color/Secondary_Font" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

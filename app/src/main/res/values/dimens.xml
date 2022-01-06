@@ -10,6 +10,6 @@
     <!--    MARGIN & PADDING -->
     <dimen name="padding_10_dp">10dp</dimen>
     <dimen name="padding_16_dp">16dp</dimen>
-    <dimen name="margin_10_dp">16dp</dimen>
+    <dimen name="margin_10_dp">10dp</dimen>
     <dimen name="margin_16_dp">16dp</dimen>
 </resources>
