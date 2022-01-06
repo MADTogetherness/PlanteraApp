@@ -4,10 +4,14 @@ import static com.example.planteraapp.LauncherActivity.SharedFile;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatSpinner;
@@ -90,6 +94,26 @@ public class Settings extends Fragment {
             int newMode = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("mode", 10);
             if (newMode != 10) {
                 AppCompatDelegate.setDefaultNightMode(newMode);
+            }
+        });
+
+        fontSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                float scale = 0.75f + 0.25f * position;
+
+                // i have no idea wtf is happening here...
+                Configuration configuration = getResources().getConfiguration();
+                configuration.fontScale = scale;
+                DisplayMetrics metrics = getResources().getDisplayMetrics();
+                WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+                wm.getDefaultDisplay().getMetrics(metrics);
+                metrics.scaledDensity = configuration.fontScale * metrics.density;
+                getContext().getResources().updateConfiguration(configuration, metrics);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
             }
         });
 
