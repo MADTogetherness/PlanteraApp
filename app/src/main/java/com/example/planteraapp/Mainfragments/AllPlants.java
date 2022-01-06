@@ -37,6 +37,18 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * --------------------- Boolean Flags -------------------------
+ *
+ * @Variable: isBottomSheetOpen - To see if bottom sheet is open
+ * @Variable: isTypeFilterOnBottomSheetActive - To see if the type filter is active
+ * @Variable: isLocationFilterOnBottomSheetActive - To see if location filter is active
+ * @Variable: preventMultipleCheckedChange - Prevent Multiple Queries when creating & inserting filters Initially
+ * --------------------- INT TYPE ID ---------------------------
+ * @Variable: SortAllPlantsBy - To get the current sorting by type
+ * @Variable: locationFilterCurrentlyAppliedOnHost - To get the current applied location filter, example hallway
+ * @Variable: typeFilterCurrentlyAppliedOnHost - To get the current applied type filter, example fern
+ */
 public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeListener {
     private ImageButton filterImageBtnOnHost;
     private TextView filtersAppliedLabelOnHost;
@@ -44,23 +56,15 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     LinearLayout default_item_layout;
     private List<PlantType> all_plant_types;
     private List<PlantLocation> all_plant_locations;
-    // To see if the particular filters are active
-    private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive;
-    private boolean isBottomSheetOpen;
-    // What sorting method is selected, default by name
-    private int SortAllPlantsBy;
-    // Active type of each filters on host
-    private int locationFilterCurrentlyAppliedOnHost, typeFilterCurrentlyAppliedOnHost;
+    private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive, isBottomSheetOpen, preventMultipleCheckedChange = false;
+    private int SortAllPlantsBy, locationFilterCurrentlyAppliedOnHost, typeFilterCurrentlyAppliedOnHost;
     PlantDAO DAO;
     RadioGroup locations_radio_group, type_radio_group;
     private Thread getFilterThread;
     private static final String query = "SELECT * FROM Plant";
     private String filterQuery = query;
-    // Prevent Multiple Queries when creating & inserting filters Initially
-    private boolean preventMultipleCheckedChange = false;
 
     public AllPlants() {/*REQUIRE EMPTY CONSTRUCTOR*/}
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_plants, container, false);
         init(v, savedInstanceState);
         Log.d("runtime", "Waiting for all plants to load");
@@ -110,57 +114,36 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         type_radio_group.setOnCheckedChangeListener(this);
     }
 
+    /**
+     * ----------- Let the fragment know Bottom sheet is open ----------
+     * Create Bottom sheet & setContentView
+     * Initialise the radioButtons & checkbox buttons & setDefault Values
+     * Add Listeners to the content
+     * set PreventMultipleQueries flag = True, Since after bottom sheet filters will either be created or destroyed
+     * Then onBottomSheetDismiss call getAllFiltersFromDatabase()
+     */
     private void SlideUpBottomSheet() {
-        // Let the fragment know bottom sheet is open
         isBottomSheetOpen = true;
-        // Create a bottom sheet & set content
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.BottomSheetDialog);
         bottomSheetDialog.setContentView(R.layout.com_bottom_sheet_layout);
-        // Initialise view inside content view
         RadioGroup grp = bottomSheetDialog.findViewById(R.id.sort_radio_group);
         CheckBox location_check_box = bottomSheetDialog.findViewById(R.id.group_by_location),
                 type_check_box = bottomSheetDialog.findViewById(R.id.group_by_type);
-        // Set default selections of views
         assert grp != null;
         grp.check(SortAllPlantsBy);
         assert location_check_box != null;
         location_check_box.setChecked(isLocationFilterOnBottomSheetActive);
         assert type_check_box != null;
-        // Add Listeners to the view
         type_check_box.setChecked(isTypeFilterOnBottomSheetActive);
         grp.setOnCheckedChangeListener((radioGroup, i) -> SortAllPlantsBy = i);
         location_check_box.setOnClickListener(v -> isLocationFilterOnBottomSheetActive = !isLocationFilterOnBottomSheetActive);
         type_check_box.setOnClickListener(v -> isTypeFilterOnBottomSheetActive = !isTypeFilterOnBottomSheetActive);
-        // Add listener to when user closes the bottom sheet
         bottomSheetDialog.setOnDismissListener(dialog -> {
             isBottomSheetOpen = false;
-            // Prevent multiple checkedchange
             preventMultipleCheckedChange = true;
-            // Call appropriate validator
             getAllFiltersFromDatabase();
         });
         bottomSheetDialog.show();
-    }
-
-    public void addPlantViewsToGrid(List<PlantsWithEverything> items) {
-        gridLayout.removeAllViews();
-        if (items.size() != 0) {
-            default_item_layout.setVisibility(View.GONE);
-            for (PlantsWithEverything all_plants : items) {
-                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);
-                TextView plantTag = item.findViewById(R.id.plant_tag);
-                ShapeableImageView imageView = item.findViewById(R.id.image);
-                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
-                plantTag.setText(all_plants.plant.plantName);
-                gridLayout.addView(item);
-                item.setOnClickListener(v -> {
-                    Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
-                    intent.putExtra("plantName", all_plants.plant.plantName);
-                    startActivity(intent);
-                    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
-                });
-            }
-        } else default_item_layout.setVisibility(View.VISIBLE);
     }
 
     public void getAllFiltersFromDatabase() {
@@ -191,7 +174,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
         }
     }
 
-    public void generateFilter(List<?> list, RadioGroup group, boolean generate) {
+    public void generateFilter(List<?> list, @NonNull RadioGroup group, boolean generate) {
         group.removeAllViews();
         if (!generate) {
             group.setVisibility(View.GONE);
@@ -208,21 +191,40 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
             ((AppCompatRadioButton) group.getChildAt(typeFilterCurrentlyAppliedOnHost == -1 ? 0 : typeFilterCurrentlyAppliedOnHost)).setChecked(true);
     }
 
+    public void addPlantViewsToGrid(@NonNull List<PlantsWithEverything> items) {
+        gridLayout.removeAllViews();
+        if (items.size() != 0) {
+            default_item_layout.setVisibility(View.GONE);
+            for (PlantsWithEverything all_plants : items) {
+                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);
+                TextView plantTag = item.findViewById(R.id.plant_tag);
+                ShapeableImageView imageView = item.findViewById(R.id.image);
+                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
+                plantTag.setText(all_plants.plant.plantName);
+                gridLayout.addView(item);
+                item.setOnClickListener(v -> {
+                    Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
+                    intent.putExtra("plantName", all_plants.plant.plantName);
+                    startActivity(intent);
+                    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+                });
+            }
+        } else default_item_layout.setVisibility(View.VISIBLE);
+    }
+
     public void setFiltersAppliedLabelOnHost() {
         filtersAppliedLabelOnHost.setText(R.string.filter_label);
-        if (isLocationFilterOnBottomSheetActive) {
+        if (isTypeFilterOnBottomSheetActive && isLocationFilterOnBottomSheetActive)
+            filtersAppliedLabelOnHost.append(" Location & Type");
+        else if (isLocationFilterOnBottomSheetActive)
             filtersAppliedLabelOnHost.append(" Location");
-        }
-        if (isTypeFilterOnBottomSheetActive) {
-            if (isLocationFilterOnBottomSheetActive)
-                filtersAppliedLabelOnHost.append(" & ");
+        else if (isTypeFilterOnBottomSheetActive)
             filtersAppliedLabelOnHost.append(" Type");
-        }
-        if (!isTypeFilterOnBottomSheetActive && !isLocationFilterOnBottomSheetActive)
+        else
             filtersAppliedLabelOnHost.append(" Inactive");
     }
 
-    public void addRadioButtons(List<?> list, RadioGroup group) {
+    public void addRadioButtons(@NonNull List<?> list, RadioGroup group) {
         List<String> ListOfRadioNames = new ArrayList<>();
         for (Object pl : list) ListOfRadioNames.add(pl.toString());
         ListOfRadioNames.add(0, "All");
@@ -238,15 +240,10 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     public void onCheckedChanged(RadioGroup radioGroup, int i) {
         if (i == -1)
             return;
-        switch (radioGroup.getId()) {
-            case R.id.location_radio_group:
-                locationFilterCurrentlyAppliedOnHost = i;
-                break;
-            case R.id.type_radio_group:
-                typeFilterCurrentlyAppliedOnHost = i;
-                break;
-        }
-        Log.d("CalledMe", "Location : " + locationFilterCurrentlyAppliedOnHost + "|| Type : " + typeFilterCurrentlyAppliedOnHost + " Sort : " + getSortNameFromID());
+        if (radioGroup.getId() == R.id.location_radio_group)
+            locationFilterCurrentlyAppliedOnHost = i;
+        else if (radioGroup.getId() == R.id.type_radio_group)
+            typeFilterCurrentlyAppliedOnHost = i;
         if (!preventMultipleCheckedChange)
             putAllPlantDataInGrid(false);
 
