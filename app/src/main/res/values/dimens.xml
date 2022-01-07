@@ -7,6 +7,8 @@
     <dimen name="com_padding_4_dp">4dp</dimen>
     <dimen name="com_padding_inner_4_dp">-4dp</dimen>
     <dimen name="com_size_28_dp">28dp</dimen>
+    <!--    Common bottom padding in scrollView-->
+    <dimen name="padding_100_dp">100dp</dimen>
     <!--    MARGIN & PADDING -->
     <dimen name="padding_10_dp">10dp</dimen>
     <dimen name="padding_16_dp">16dp</dimen>
@@ -17,4 +19,5 @@
     <dimen name="font_size_18sp">18sp</dimen>
     <dimen name="font_size_17sp">17sp</dimen>
     <dimen name="font_size_16sp">16sp</dimen>
+    <dimen name="font_size_14sp">14sp</dimen>
 </resources>

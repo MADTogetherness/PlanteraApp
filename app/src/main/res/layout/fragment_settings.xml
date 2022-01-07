@@ -7,7 +7,7 @@
     android:background="@color/App_Container"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="100dp"
+    android:paddingBottom="@dimen/padding_100_dp"
     tools:context=".Mainfragments.Settings" >
 
 
