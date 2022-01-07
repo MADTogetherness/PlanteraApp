@@ -7,6 +7,7 @@
     android:background="@color/App_Container"
     android:gravity="center"
     android:orientation="vertical"
+    android:paddingBottom="100dp"
     tools:context=".Mainfragments.Settings" >
 
 
@@ -142,7 +143,8 @@
             android:layout_height="wrap_content"
             android:text="Plantera v1.0"
             android:textAlignment="center"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_16sp" />
 
