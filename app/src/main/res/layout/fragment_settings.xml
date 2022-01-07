@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:textSize="@dimen/font_size_22sp"
+            android:textStyle="bold"
             android:textColor="@color/Primary_Font"/>
 
         <TextView
@@ -69,9 +70,9 @@
                 android:padding="@dimen/padding_16_dp"
                 android:textColor="@color/Primary_Font"
                 android:labelFor="@+id/font_size_spinner"
-                app:drawableStartCompat="@drawable/ic_text_font_icon"
                 android:fontFamily="@font/main_variable_font"
                 android:textSize="@dimen/font_size_16sp"
+                app:drawableStartCompat="@drawable/ic_text_font_icon"
                 app:drawableTint="@color/Button_Primary" />
 
             <androidx.appcompat.widget.AppCompatSpinner
