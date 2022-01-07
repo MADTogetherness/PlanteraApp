@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings"
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:textColor="@color/Primary_Font"/>
 
         <TextView
@@ -38,47 +38,44 @@
             android:background="@drawable/com_round_shape"
             android:backgroundTint="@color/Section_Container"
             android:drawableStart="@drawable/ic_moon_icon"
+            android:drawableTint="@color/Button_Primary"
             android:drawablePadding="@dimen/padding_16_dp"
             android:padding="@dimen/padding_16_dp"
             android:text="Dark mode"
             android:thumb="@drawable/com_thumb_selector"
             app:track="@drawable/com_track_selector" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="@color/Section_Container"
+            android:layout_marginTop="@dimen/margin_16_dp"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/com_round_shape"
-                android:backgroundTint="@color/Section_Container"
                 android:drawablePadding="@dimen/padding_16_dp"
                 android:gravity="center_vertical"
+                android:text="Font Size "
+                android:layout_weight="1"
                 android:padding="@dimen/padding_16_dp"
-                android:text="Font Size: "
                 android:textColor="@color/Primary_Font"
-                app:drawableLeftCompat="@drawable/ic_text_font_icon"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:labelFor="@+id/font_size_spinner"
+                app:drawableStartCompat="@drawable/ic_text_font_icon"
+                app:drawableTint="@color/Button_Primary" />
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/font_size_spinner"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:entries="@array/font_sizes"
-                android:padding="@dimen/padding_16_dp"
-                android:paddingStart="115dp"
-                android:spinnerMode="dialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textAlignment="center"
+                android:spinnerMode="dialog" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -115,6 +112,7 @@
                 android:textColor="@color/Primary_Font" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/clear_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="#D6003C"
