@@ -89,10 +89,8 @@ public class Settings extends Fragment {
         helpButton.setOnClickListener(v -> redirectToGithub());
 
         // Initial dark mode switch value
-        int initialMode = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("mode", 10);
-        if (initialMode != 10) {
-            darkModeSwitch.setChecked(initialMode == 2);
-        }
+        int nightModeFlags = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        darkModeSwitch.setChecked(nightModeFlags == Configuration.UI_MODE_NIGHT_YES);
 
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).edit();
