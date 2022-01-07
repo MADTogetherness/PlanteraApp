@@ -85,6 +85,11 @@
                 android:textSize="12sp"
                 android:text="NEW PICTURE\n Sample.jpg"/>
 
+            <TextView
+                android:id="@+id/imageTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profile_image"
                 android:layout_width="150dp"
@@ -250,6 +255,16 @@
             android:layout_width="match_parent"
             android:layout_height="16dp" />
 
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RVReminder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="16dp" />
 
         <Button
             android:id="@+id/save_btn"

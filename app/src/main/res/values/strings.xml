@@ -10,5 +10,21 @@
     <string name="SkipButton">Skip</string>
     <string name="NextButton">Next</string>
     <string name="add_new_plant">Add new plant</string>
+    <string-array name="name">
+        <item>Water</item>
+        <item>Fertilize</item>
+    </string-array>
+    <string-array name="time">
+        <item>10AM</item>
+        <item>2PM</item>
+    </string-array>
+    <string-array name="interval">
+        <item>3</item>
+        <item>7</item>
+    </string-array>
+    <string-array name="last">
+        <item>Today</item>
+        <item>Today</item>
+    </string-array>
 
 </resources>
