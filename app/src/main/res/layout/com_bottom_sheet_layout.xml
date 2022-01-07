@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/padding_16_dp"
+    android:paddingEnd="@dimen/padding_16_dp"
+    android:paddingTop="@dimen/margin_16_dp"
+    android:paddingBottom="32dp"
+    android:background="@drawable/com_bottom_sheet_background"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="50dp"
+        android:layout_height="5dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/margin_16_dp"
+        android:background="@drawable/ic_bottom_sheet_top_notch" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort By"
+        android:textColor="@color/Primary_Font"
+        android:fontFamily="@font/opensans_bold"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose from one of the options"
+        android:textColor="@color/Primary_Font"
+        android:fontFamily="@font/main_variable_font"
+        android:layout_marginBottom="@dimen/margin_10_dp"
+        android:textSize="14sp" />
+
+    <RadioGroup
+        android:id="@+id/sort_radio_group"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/sort_by_name"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:layout_weight="1"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:checked="true"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Name"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/sort_by_date"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:layout_weight="1"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Date"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/sort_by_location"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:layout_weight="1"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Location"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/sort_by_type"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:layout_weight="1"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Type"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </RadioGroup>
+
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="wrap_content"
+        android:layout_height="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group By"
+        android:textColor="@color/Primary_Font"
+        android:fontFamily="@font/opensans_bold"
+        android:textSize="17sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select/Unselect options below to group"
+        android:textColor="@color/Primary_Font"
+        android:fontFamily="@font/main_variable_font"
+        android:layout_marginBottom="@dimen/margin_10_dp"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/group_by_location"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Location"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <CheckBox
+            android:id="@+id/group_by_type"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:background="@drawable/com_radio_button_select"
+            android:button="@null"
+            android:gravity="center"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp"
+            android:text="Type"
+            android:textColor="@color/com_radio_button_select"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="TouchTargetSizeCheck" />
+    </LinearLayout>
+
+
+</LinearLayout>
