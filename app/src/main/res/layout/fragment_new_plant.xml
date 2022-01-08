@@ -264,10 +264,13 @@
             android:layout_height="16dp" />
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RVReminder"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:id="@+id/reminderlinearlayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:alignmentMode="alignBounds"
+            android:columnCount="2" />
 
         <View
             android:id="@+id/view"
