@@ -51,7 +51,7 @@ import java.util.List;
  */
 public class NewPlant<TextView> extends Fragment {
 
-    private TextView imageNameTV, extraTextTV, addNewReminderTV;
+    private android.widget.TextView imageNameTV, extraTextTV, addNewReminderTV;
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
     private ShapeableImageView plantImage;
@@ -151,8 +151,8 @@ public class NewPlant<TextView> extends Fragment {
 
     public void init() {
         reminderlinear = view.findViewById(R.id.reminderlinearlayout);
-        addNewReminderTV = (TextView) view.findViewById(R.id.new_reminder);
-        imageNameTV = (TextView) view.findViewById(R.id.imageTV);
+        addNewReminderTV =  view.findViewById(R.id.new_reminder);
+        imageNameTV =  view.findViewById(R.id.imagenameTV);
         plantNameET = view.findViewById(R.id.plant_name);
         typeATV = view.findViewById(R.id.type_spinner);
         locationATV = view.findViewById(R.id.location_spinner);
@@ -192,8 +192,6 @@ public class NewPlant<TextView> extends Fragment {
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
-
-            Log.d("iamge", String.valueOf(pickAndReleaseImages.SingleImageAvailable()));
 
             if (singleBitMap.getWidth()>=0) {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, 23455, description);

@@ -75,14 +75,13 @@
             android:orientation="horizontal">
 
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_camera"
 
-                tools:ignore="SpeakableTextPresentCheck" />
-            <TextView
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <Button
                 android:id="@+id/new_picture"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
@@ -90,8 +89,24 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                android:text="NEW PICTURE\n Sample.jpg"
-                android:textColor="@color/Primary_Font"/>
+                android:text="NEW PICTURE"
+                android:textColor="@color/Primary_Font"
+                android:background="@android:color/transparent"/>
+
+
+                <TextView
+                    android:id="@+id/imagenameTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:textColor="@color/Primary_Font"
+                    android:textAlignment="center"
+                    />
+
+            </LinearLayout>
+
+
+
 
             <TextView
                 android:id="@+id/imageTV"
