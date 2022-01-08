@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/IBBell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginVertical="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_bell" />
+
+    <TextView
+        android:id="@+id/TVTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/IBBell"
+        android:fontFamily="@font/main_variable_font"
+        android:text="Water"
+        android:textColor="@color/Primary_Font"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="@dimen/margin_10_dp"/>
+
+    <TextView
+        android:id="@+id/TVDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/IBBell"
+        android:layout_below="@id/TVTitle"
+
+        android:fontFamily="@font/main_variable_font"
+        android:text="Repeat: 3 days, Time: 10am"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="14sp"
+        android:layout_marginLeft="@dimen/margin_10_dp"/>
+
+
+
+
+</RelativeLayout>

@@ -74,16 +74,24 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_camera"
+                android:background="@android:color/transparent"
+
+                />
             <TextView
                 android:id="@+id/new_picture"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_camera"
-                android:drawableTint="@color/Secondary_Font"
                 android:fontFamily="@font/opensans_semibold"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                android:text="NEW PICTURE\n Sample.jpg"/>
+                android:text="NEW PICTURE\n Sample.jpg"
+                android:textColor="@color/Primary_Font"/>
 
             <TextView
                 android:id="@+id/imageTV"
@@ -104,11 +112,11 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/ic_paint"
-                android:drawableTint="@color/Secondary_Font"
                 android:fontFamily="@font/opensans_semibold"
                 android:textAlignment="center"
                 android:textSize="12sp"
-                android:text="CHANGE THEME\n Theme: Sample"/> />
+                android:text="CHANGE THEME\n Theme: Sample"
+                android:textColor="@color/Primary_Font"/> />
 
         </LinearLayout>
 
