@@ -3,8 +3,12 @@ package com.example.planteraapp.Mainfragments;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -31,10 +35,12 @@ import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantAndReminders;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,7 +63,32 @@ public class NewPlant<TextView> extends Fragment {
 
     String name[], time[], interval[], lastComp[];
 
-
+    // Get the bitmap of image user has just selected from gallery
+    private Bitmap singleBitMap;
+    // The thread to load the image
+    private Thread thread;
+    // The image path is in this variable - get imagePath & store in the profile image field
+    // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
+    private String imagePath;
+    // The mGetSingleContent Vairable
+    // Call mGetSingleContent.launch("image/*")
+    private ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    Toast.makeText(requireContext(), "Uploading Image", Toast.LENGTH_SHORT).show();
+                    Toast success = Toast.makeText(requireContext(), "Image Uploaded Successfully", Toast.LENGTH_SHORT);
+                    try {
+                        singleBitMap = BitmapFactory.decodeStream(requireContext().getContentResolver().openInputStream(uri));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    thread = new Thread(() -> {
+                        imagePath =  AttributeConverters.BitMapToString(singleBitMap);
+                        success.show();
+                    });
+                    thread.start();
+                }
+            });
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -108,7 +139,6 @@ public class NewPlant<TextView> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        rv = view.findViewById(R.id.RVReminder);
         name = getResources().getStringArray(R.array.name);
         time = getResources().getStringArray(R.array.time);
         interval = getResources().getStringArray(R.array.interval);
@@ -136,7 +166,8 @@ public class NewPlant<TextView> extends Fragment {
         pickAndReleaseImages = new PickAndReleaseImages(requireContext(), null, requireActivity().getActivityResultRegistry());
         getLifecycle().addObserver(pickAndReleaseImages);
         plantImage.setOnClickListener(view -> {
-            pickAndReleaseImages.pickSingleImage();
+            mGetSingleContent.launch("image/*");
+            plantImage.setImageBitmap(singleBitMap);
         });
 
         saveData.setOnClickListener(view -> {
@@ -164,8 +195,8 @@ public class NewPlant<TextView> extends Fragment {
 
             Log.d("iamge", String.valueOf(pickAndReleaseImages.SingleImageAvailable()));
 
-            if (pickAndReleaseImages.SingleImageAvailable()) {
-                Plant plant = new Plant(name, pickAndReleaseImages.getGetSingleImage().get(1), newType.type, newLocation.location, 23455, description);
+            if (singleBitMap.getWidth()>=0) {
+                Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, 23455, description);
                 long successful = DAO.insertNewPlant(plant)[0];
                 Log.d("insertP", String.valueOf(successful));
                 Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
@@ -201,24 +232,27 @@ public class NewPlant<TextView> extends Fragment {
         typeATV.setAdapter(adapter);
     }
 
-    public void addRemindersToList(@NonNull List<PlantsWithEverything> items) {
+
+    public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinear.removeAllViews();
         if (items.size() != 0) {
             default_item_layout.setVisibility(View.GONE);
-            for (PlantsWithEverything all_plants : items) {
-                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);
-                android.widget.TextView plantTag = item.findViewById(R.id.plant_tag);
-                ShapeableImageView imageView = item.findViewById(R.id.image);
-                imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
-                plantTag.setText(all_plants.plant.plantName);
-                gridLayout.addView(item);
+            for (Reminder all_reminders : items) {
+                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
+                android.widget.TextView remindername = item.findViewById(R.id.TVTitle);
+                android.widget.TextView reminderdesc = item.findViewById(R.id.TVDesc);
+
+                remindername.setText(all_reminders.name);
+                reminderdesc.setText("Repeat: + "+ all_reminders.repeatInterval +" + days" + ", Time: " + all_reminders.time);
+                reminderlinear.addView(item);
                 item.setOnClickListener(v -> {
-                    Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
-                    intent.putExtra("plantName", all_plants.plant.plantName);
+                    Intent intent = new Intent(requireContext().getApplicationContext(), );
+                    intent.putExtra("reminder name", all_reminders.plant.plantName);
                     startActivity(intent);
                     requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
                 });
             }
         } else default_item_layout.setVisibility(View.VISIBLE);
     }
+
 }
