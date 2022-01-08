@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Theme.PlanteraApp.Dracula.Light"
     android:id="@+id/outer_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +13,64 @@
     <!--@TODO USE ?attr/color for set any type of color-->
     <!--TODO: EXAMPLE -> android:backgroundTint="?attr/Primary_Font"-->
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/com_top_app_bar_background"
+
+
+        />
+
+    <Button
+        android:layout_width="74dp"
+        android:layout_height="33dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:text="Delete"
+        android:textSize="9dp"
+        android:backgroundTint="#D6003C"
+        />
+
+    <Button
+        android:layout_width="74dp"
+        android:layout_height="33dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="120dp"
+        android:text="Edit"
+        android:textColor="?attr/Button_Font"
+        android:textSize="9dp"
+        android:backgroundTint="?attr/Button_Primary"
+        />
+
+
+    <Button
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/ic_cross"
+        android:backgroundTint="@color/Primary_Font"
+
+        />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="83dp"
+        android:layout_marginTop="20dp"
+        android:text="My plant"
+        android:textColor="?attr/Primary_Font"
+        android:textSize="@dimen/com_size_20_dp" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,17 +78,22 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="-69dp"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:layout_margin="16dp"
             android:background="@drawable/com_round_shape"
             android:backgroundTint="?attr/Section_Container"
-            android:layout_margin="16dp"
+            android:gravity="center"
+            android:orientation="vertical"
             android:padding="16dp">
+
 
         </LinearLayout>
 
