@@ -51,7 +51,7 @@ import java.util.List;
  */
 public class NewPlant<TextView> extends Fragment {
 
-    private TextView imageNameTV, extraTextTV;
+    private TextView imageNameTV, extraTextTV, addNewReminderTV;
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
     private ShapeableImageView plantImage;
@@ -151,7 +151,7 @@ public class NewPlant<TextView> extends Fragment {
 
     public void init() {
         reminderlinear = view.findViewById(R.id.reminderlinearlayout);
-
+        addNewReminderTV = (TextView) view.findViewById(R.id.new_reminder);
         imageNameTV = (TextView) view.findViewById(R.id.imageTV);
         plantNameET = view.findViewById(R.id.plant_name);
         typeATV = view.findViewById(R.id.type_spinner);
@@ -236,7 +236,6 @@ public class NewPlant<TextView> extends Fragment {
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinear.removeAllViews();
         if (items.size() != 0) {
-            default_item_layout.setVisibility(View.GONE);
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
                 android.widget.TextView remindername = item.findViewById(R.id.TVTitle);
@@ -245,14 +244,14 @@ public class NewPlant<TextView> extends Fragment {
                 remindername.setText(all_reminders.name);
                 reminderdesc.setText("Repeat: + "+ all_reminders.repeatInterval +" + days" + ", Time: " + all_reminders.time);
                 reminderlinear.addView(item);
-                item.setOnClickListener(v -> {
-                    Intent intent = new Intent(requireContext().getApplicationContext(), );
-                    intent.putExtra("reminder name", all_reminders.plant.plantName);
-                    startActivity(intent);
-                    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
-                });
+                //item.setOnClickListener(v -> {
+                //    Intent intent = new Intent(requireContext().getApplicationContext());
+                //    intent.putExtra("reminder name", all_reminders.name);
+                //    startActivity(intent);
+                //    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+                //});
             }
-        } else default_item_layout.setVisibility(View.VISIBLE);
+        } else ;
     }
 
 }
