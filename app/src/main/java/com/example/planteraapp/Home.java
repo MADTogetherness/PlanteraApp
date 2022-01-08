@@ -94,7 +94,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (!isValidDestination(item.getItemId())) return false;
         if ((item.getOrder() & Menu.CATEGORY_SECONDARY) == 0)
-            options.setPopUpTo(R.id.calendar, false);
+            options.setPopUpTo(R.id.calendar, true);
         navController.navigate(item.getItemId(), null, options.build());
         return true;
     }
