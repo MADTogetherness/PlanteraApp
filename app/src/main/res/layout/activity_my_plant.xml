@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:theme="@style/Theme.PlanteraApp.Dracula.Light"
     android:id="@+id/outer_layout"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,33 +24,31 @@
 
     <Button
         android:layout_width="74dp"
-        android:layout_height="33dp"
+        android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
-        android:text="Delete"
-        android:textSize="9dp"
         android:backgroundTint="#D6003C"
-        />
+        android:text="Delete"
+        android:textSize="9dp" />
 
     <Button
         android:layout_width="74dp"
-        android:layout_height="33dp"
+        android:layout_height="48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="120dp"
+        android:backgroundTint="?attr/Button_Primary"
         android:text="Edit"
         android:textColor="?attr/Button_Font"
-        android:textSize="9dp"
-        android:backgroundTint="?attr/Button_Primary"
-        />
+        android:textSize="9dp" />
 
 
     <Button
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_alignParentStart="true"
 
         android:layout_alignParentTop="true"
@@ -90,9 +89,74 @@
             android:layout_margin="16dp"
             android:background="@drawable/com_round_shape"
             android:backgroundTint="?attr/Section_Container"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
+
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_16_dp"
+                android:gravity="left"
+                android:text="Theme: Dracula Light"
+                android:textColor="?attr/Button_Primary"
+
+
+                />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="235dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="@dimen/margin_10_dp">
+
+                <TextView
+
+                    android:layout_width="327dp"
+                    android:layout_height="192dp"
+                    android:layout_alignParentStart="true"
+
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="35dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="17dp"
+
+                    android:layout_marginBottom="0dp"
+                    android:background="@drawable/com_middle_items_shape"
+                    android:backgroundTint="?attr/Section_Container"
+                    android:gravity="center"
+
+
+                    />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentEnd="true"
+
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/margin_16_dp"
+                    android:layout_marginTop="-8dp"
+                    android:layout_marginEnd="157dp"
+                    android:layout_marginBottom="142dp"
+                    android:foregroundGravity="center_horizontal"
+                    android:src="@drawable/img_default_profile_image"
+                    app:shapeAppearance="@style/Image_circle" />
+
+
+
+
+            </RelativeLayout>
+
+
+
+
+
+
 
 
         </LinearLayout>

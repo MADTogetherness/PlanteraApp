@@ -52,23 +52,34 @@
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/com_top_app_bar_background.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/com_top_item_shape.xml" value="0.22" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/com_track_selector.xml" value="0.15555555555555556" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_add_new_icon_24.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_add_new_plant_icon_24.xml" value="0.16018518518518518" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_bell.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_bottom_sheet_top_notch.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_camera.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_check_icon_24.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_cross.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_dropdown.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_filter.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_filter_icon.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.16018518518518518" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_moon_icon.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_my_plants_view_icon_v24.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_paint.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_pencil.xml" value="0.16944444444444445" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_right_icon.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_search_garden_icon_24.xml" value="0.1648148148148148" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_search_icon_24.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_settings_icon_v24.xml" value="0.1648148148148148" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_text_font_icon.xml" value="0.21614583333333334" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/drawable/ic_upcoming_tasks_icon_24.xml" value="0.18981481481481483" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/activity_intro.xml" value="0.2" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/activity_launcher.xml" value="0.2" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/activity_my_plant.xml" value="0.22" />
-        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/com_calender_item.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/com_calender_item.xml" value="0.22" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_all_plants.xml" value="0.2" />
-        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.38333333333333336" />
+        <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.22" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_color_theme.xml" value="0.2" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_new_plant.xml" value="0.2" />
         <entry key="..\:/Users/User PC/Desktop/PlanteraApp/app/src/main/res/layout/fragment_search.xml" value="0.2" />
