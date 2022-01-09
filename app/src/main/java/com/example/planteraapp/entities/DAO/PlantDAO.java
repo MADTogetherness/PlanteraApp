@@ -91,4 +91,8 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    public List<BlogWithImages> getBlogwWithImages(long ID);
 
+
+    @Transaction
+    @Query("SELECT * FROM Reminder WHERE plantName = :ID")
+    public List<BlogWithImages> getBlogwWithImages(long ID);
 }

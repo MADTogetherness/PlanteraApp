@@ -2,6 +2,7 @@ package com.example.planteraapp.Mainfragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,10 +25,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.planteraapp.AppDatabase;
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
@@ -43,6 +46,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,6 +65,7 @@ public class NewPlant<TextView> extends Fragment {
     private PickAndReleaseImages pickAndReleaseImages;
     private LinearLayout reminderlinear;
     RecyclerView rv;
+    private List<Reminder> reminders;
 
     String name[], time[], interval[], lastComp[];
 
@@ -213,6 +218,8 @@ public class NewPlant<TextView> extends Fragment {
             }
         });
 
+        addRemindersToList(DAO.getA);
+
     }
 
     public void getLocation(List<?> plantLocationInDatabase) {
@@ -235,24 +242,33 @@ public class NewPlant<TextView> extends Fragment {
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinear.removeAllViews();
 
-        View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
-        ImageView imgbell = item.findViewById(R.id.bell);
-        android.widget.TextView tvTitle = item.findViewById(R.id.textView);
-        android.widget.TextView tvDesc = item.findViewById(R.id.textView2);
-        ImageView arrow = item.findViewById(R.id.arrow);
-        View bubble = item.findViewById(R.id.bubble);
-
-        //imgbell.setBackgroundResource(R.id.);
+        int i =0;
 
         if (items.size() != 0) {
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
-                android.widget.TextView remindername = item.findViewById(R.id.TVTitle);
-                android.widget.TextView reminderdesc = item.findViewById(R.id.TVDesc);
+                ImageView imgbell = item.findViewById(R.id.bell);
+                android.widget.TextView tvTitle = item.findViewById(R.id.textView);
+                android.widget.TextView tvDesc = item.findViewById(R.id.textView2);
+                ImageView arrow = item.findViewById(R.id.arrow);
+                View bubble = item.findViewById(R.id.bubble);
 
-                remindername.setText(all_reminders.name);
-                reminderdesc.setText("Repeat: + "+ all_reminders.repeatInterval +" + days" + ", Time: " + all_reminders.time);
+                tvTitle.setText(all_reminders.name);
+                tvDesc.setText("Repeat: + "+ all_reminders.repeatInterval +" + days" + ", Time: " + all_reminders.time);
+                bubble.setBackgroundTintList(ColorStateList.valueOf(getColour(all_reminders.name)));
+
+                if(i == 0){
+                    ((RelativeLayout) imgbell.getParent()).setBackgroundResource(R.drawable.com_top_item_shape);
+                } else if(i == 1){
+                    ((RelativeLayout) imgbell.getParent()).setBackgroundResource(R.drawable.com_middle_items_shape);
+                } else if(i ==2){
+                    ((RelativeLayout) imgbell.getParent()).setBackgroundResource(R.drawable.com_bottom_item_shape);
+                }
+
+
+
                 reminderlinear.addView(item);
+                i++;
                 //item.setOnClickListener(v -> {
                 //    Intent intent = new Intent(requireContext().getApplicationContext());
                 //    intent.putExtra("reminder name", all_reminders.name);
@@ -260,13 +276,68 @@ public class NewPlant<TextView> extends Fragment {
                 //    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
                 //});
             }
-        } else {
 
+            if(items.size()>0 && items.size() < 3){
+                addNewReminderLayout(R.drawable.com_bottom_item_shape);
+            }
+
+
+        } else {
+            addNewReminderLayout(R.drawable.com_round_shape);
         }
+
+
 
 
     }
 
+    public void addNewReminderLayout(int BackgroundResource){
+        View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
+        ImageView imgbell = item.findViewById(R.id.bell);
+        android.widget.TextView tvTitle = item.findViewById(R.id.textView);
+        android.widget.TextView tvDesc = item.findViewById(R.id.textView2);
+        ImageView arrow = item.findViewById(R.id.arrow);
+        View bubble = item.findViewById(R.id.bubble);
 
+        imgbell.setImageResource(R.drawable.ic_add_new_icon_24);
+        tvTitle.setText("Add New Reminder");
+        ((RelativeLayout) imgbell.getParent()).setBackgroundResource(BackgroundResource);
+
+
+        tvDesc.setVisibility(View.GONE);
+        arrow.setVisibility(View.GONE);
+        bubble.setVisibility(View.GONE);
+
+        reminderlinear.addView(item);
+    }
+
+
+    public int getColour(String name){
+        switch (name){
+            case "Water":
+            case "water":
+            case "Aqua":
+            case "aqua":
+                return R.color.Reminder_Water;
+            case "Soil":
+            case "Fertile":
+            case "soil":
+            case "fertile":
+                return R.color.Reminder_Soil;
+            default: return R.color.Reminder_Other;
+        }
+    }
+
+    public Reminder getReminder(){
+        getParentFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            int result = bundle.getInt("bundleKey");
+            Toast.makeText(requireContext(), LauncherActivity.getThemeName(result), Toast.LENGTH_SHORT).show();
+        });
+        Bundle b = new Bundle();
+        b.putInt("theme", R.style.Theme_PlanteraApp_Accent_Dark);
+        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
+        Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_colorTheme, b,
+                LauncherActivity.slide_in_out_fragment_options.build());
+    }
 
 }
