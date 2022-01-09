@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,8 @@ import com.example.planteraapp.SubFragments.ColorTheme;
  * create an instance of this fragment.
  */
 public class NewPlant extends Fragment {
-    // TODO: Change PlantTheme by calling EditTheme() Function
-    private int plantTheme = R.style.Theme_PlanteraApp;
+
+    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
