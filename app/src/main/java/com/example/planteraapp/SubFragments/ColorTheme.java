@@ -113,18 +113,16 @@ public class ColorTheme extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        group.setOnCheckedChangeListener((radioGroup, i) -> {
-            getLayout(i).performClick();
-        });
+        group.setOnCheckedChangeListener((radioGroup, i) -> getLayout(i).performClick());
         group.check(selectedTheme);
         view.findViewById(R.id.done).setOnClickListener(v -> saveTheme(new Bundle(), group.getCheckedRadioButtonId()));
         view.findViewById(R.id.close).setOnClickListener(v -> saveTheme(new Bundle(), selectedTheme));
     }
 
     public void saveTheme(Bundle result, int theme) {
-        result.putInt("bundleKey", convertTheme(theme));
+        result.putInt("plantTheme", convertTheme(theme));
         Log.d("set", LauncherActivity.getThemeName(convertTheme(theme)));
-        getParentFragmentManager().setFragmentResult("requestKey", result);
+        requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);
         requireActivity().onBackPressed();
     }
 

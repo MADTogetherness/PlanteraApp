@@ -23,33 +23,10 @@
         android:id="@+id/newPlant_fragment"
         android:name="com.example.planteraapp.Mainfragments.NewPlant"
         android:label="fragment_new_plant"
-        tools:layout="@layout/fragment_new_plant" >
-        <action
-            android:id="@+id/action_newPlant_fragment_to_colorTheme"
-            app:destination="@id/colorTheme"
-            app:popUpTo="@id/newPlant_fragment"
-            app:popUpToInclusive="true"
-            />
-        <action
-            android:id="@+id/action_newPlant_fragment_to_setReminder"
-            app:destination="@id/setReminder"
-            app:popUpTo="@id/newPlant_fragment"
-            app:popUpToInclusive="true"
-            />
-    </fragment>
+        tools:layout="@layout/fragment_new_plant" />
     <fragment
         android:id="@+id/settings"
         android:name="com.example.planteraapp.Mainfragments.Settings"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
-    <fragment
-        android:id="@+id/colorTheme"
-        android:name="com.example.planteraapp.SubFragments.ColorTheme"
-        android:label="fragment_color_theme"
-        tools:layout="@layout/fragment_color_theme" />
-    <fragment
-        android:id="@+id/setReminder"
-        android:name="com.example.planteraapp.SubFragments.SetReminder"
-        android:label="fragment_set_reminder"
-        tools:layout="@layout/fragment_set_reminder" />
 </navigation>

@@ -2,12 +2,9 @@ package com.example.planteraapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.navigation.NavOptions;
-
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -15,12 +12,6 @@ import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
-    public static NavOptions.Builder slide_in_out_fragment_options = new NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(android.R.anim.slide_in_left)
-            .setExitAnim(android.R.anim.slide_out_right)
-            .setPopEnterAnim(android.R.anim.slide_in_left)
-            .setPopExitAnim(android.R.anim.slide_out_right);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

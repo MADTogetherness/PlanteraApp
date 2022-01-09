@@ -2,38 +2,23 @@ package com.example.planteraapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
-
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class Home extends AppCompatActivity implements NavigationBarView.OnItemSelectedListener, NavController.OnDestinationChangedListener {
@@ -129,8 +114,12 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     @Override
     public void onBackPressed() {
         View v = findViewById(R.id.coordinator_layout);
-        if (v.getVisibility() != View.VISIBLE)
+        if (v.getVisibility() != View.VISIBLE) {
             v.setVisibility(View.VISIBLE);
-        super.onBackPressed();
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");
+            if (frag != null)
+                getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
+        } else
+            super.onBackPressed();
     }
 }
