@@ -49,14 +49,32 @@ public class LauncherActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) {}
+            public void onAnimationCancel(Animator animator) {
+            }
+
             @Override
-            public void onAnimationRepeat(Animator animator) {}
+            public void onAnimationRepeat(Animator animator) {
+            }
         });
     }
 
-    public Class<? extends AppCompatActivity> checkNewUser(){
+    public Class<? extends AppCompatActivity> checkNewUser() {
         Log.d("IsOld", String.valueOf(getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0)));
-        return getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class: Home.class;
+        return getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class : Home.class;
+    }
+
+    public static String getThemeName(int id) {
+        switch (id) {
+            case R.style.Theme_PlanteraApp_Chiffon_Purple:
+                return "Chiffon Purple";
+            case R.style.Theme_PlanteraApp_Monochromatic_Brown:
+                return "Monochromatic Brown";
+            case R.style.Theme_PlanteraApp_Accent_Dark:
+                return "Accent Dark";
+            case R.style.Theme_PlanteraApp_Dracula_Light:
+                return "Dracula Light";
+            default:
+                return "Default Theme";
+        }
     }
 }
