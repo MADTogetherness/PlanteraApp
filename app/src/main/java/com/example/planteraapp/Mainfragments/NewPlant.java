@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -45,6 +46,7 @@ import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -145,17 +147,13 @@ public class NewPlant<TextView> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.view = view;
-        name = getResources().getStringArray(R.array.name);
-        time = getResources().getStringArray(R.array.time);
-        interval = getResources().getStringArray(R.array.interval);
-        lastComp = getResources().getStringArray(R.array.last);
-
-
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
+
         init();
     }
 
     public void init() {
+        reminders = new ArrayList<>();
         reminderlinear = view.findViewById(R.id.reminderlinearlayout);
         addNewReminderTV =  view.findViewById(R.id.new_reminder);
         imageNameTV =  view.findViewById(R.id.imagenameTV);
@@ -211,14 +209,16 @@ public class NewPlant<TextView> extends Fragment {
                         new Reminder(name, "Be With Them", System.currentTimeMillis(), 203044456)
                 };
 
-                long[] successfulR = DAO.insertReminders(all_reminders);
+                //long[] successfulR = DAO.insertReminders(all_reminders);
                 Log.d("insertR", "Successful");
             } else {
                 Toast.makeText(requireContext(), "Profile Image not set", Toast.LENGTH_SHORT).show();
             }
         });
 
-        addRemindersToList(DAO.getA);
+        addRemindersToList(reminders);
+
+        //addRemindersToList(DAO.getA);
 
     }
 
@@ -270,16 +270,14 @@ public class NewPlant<TextView> extends Fragment {
                 reminderlinear.addView(item);
                 i++;
                 //item.setOnClickListener(v -> {
-                //    Intent intent = new Intent(requireContext().getApplicationContext());
-                //    intent.putExtra("reminder name", all_reminders.name);
-                //    startActivity(intent);
-                //    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+                //    getReminder();
                 //});
             }
-
-            if(items.size()>0 && items.size() < 3){
-                addNewReminderLayout(R.drawable.com_bottom_item_shape);
-            }
+            Toast.makeText(requireContext(), "asa", Toast.LENGTH_SHORT).show();
+            addNewReminderLayout(R.drawable.com_bottom_item_shape);
+            //if(items.size()>0 && items.size() < 3){
+            //    addNewReminderLayout(R.drawable.com_bottom_item_shape);
+            //}
 
 
         } else {
@@ -308,6 +306,8 @@ public class NewPlant<TextView> extends Fragment {
         arrow.setVisibility(View.GONE);
         bubble.setVisibility(View.GONE);
 
+        item.setOnClickListener(v -> getReminder());
+
         reminderlinear.addView(item);
     }
 
@@ -328,15 +328,18 @@ public class NewPlant<TextView> extends Fragment {
         }
     }
 
-    public Reminder getReminder(){
+    public void getReminder(){
         getParentFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            int result = bundle.getInt("bundleKey");
-            Toast.makeText(requireContext(), LauncherActivity.getThemeName(result), Toast.LENGTH_SHORT).show();
+            long time = bundle.getLong("time");
+            long interval = bundle.getLong("interval");
+            boolean togglenoti = bundle.getBoolean("notification");
+            String name = bundle.getString("name");
+
+            reminders.add(new Reminder(plantNameET.getText().toString(), name, time, interval));
+            addRemindersToList(reminders);
         });
-        Bundle b = new Bundle();
-        b.putInt("theme", R.style.Theme_PlanteraApp_Accent_Dark);
         requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_colorTheme, b,
+        Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_setReminder, null,
                 LauncherActivity.slide_in_out_fragment_options.build());
     }
 

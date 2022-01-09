@@ -61,6 +61,24 @@ public class SetReminder extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set_reminder, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_set_reminder, container, false);
+        v.findViewById(R.id.button).setOnClickListener(view->{
+            setReminder();
+        });
+        return v;
     }
+
+
+
+    public void setReminder(){
+        Bundle b = new Bundle();
+        b.putLong("time", 11111);
+        b.putLong("interval", 11111);
+        b.putString("name", "Water");
+        b.putBoolean("notification", true);
+        getParentFragmentManager().setFragmentResult("requestKey", b);
+        requireActivity().onBackPressed();
+    }
+
 }
