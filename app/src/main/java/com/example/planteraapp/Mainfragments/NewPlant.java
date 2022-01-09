@@ -1,19 +1,15 @@
 package com.example.planteraapp.Mainfragments;
+
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
-import com.example.planteraapp.SubFragments.ColorTheme;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NewPlant#newInstance} factory method to
@@ -64,34 +60,7 @@ public class NewPlant extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_plant, container, false);
     }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view.findViewById(R.id.click).setOnClickListener(v -> {
-            EditPlantTheme();
-        });
-    }
-
-    // Plant Theme is stored inside variable plantTheme
-    // Call EditPlantTheme() to open & edit theme
-    public void EditPlantTheme() {
-        FragmentManager fm = requireActivity().getSupportFragmentManager();
-        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            plantTheme = bundle.getInt("plantTheme");
-            Log.d("receive", String.valueOf(plantTheme));
-            Toast.makeText(requireContext(), "Plant theme \n" + LauncherActivity.getThemeName(plantTheme), Toast.LENGTH_SHORT).show();
-        });
-        Bundle b = new Bundle();
-        b.putInt("theme", plantTheme);
-        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        ColorTheme colorTheme = new ColorTheme();
-        colorTheme.setArguments(b);
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.nav_controller, colorTheme, "SubFrag").addToBackStack(colorTheme.getTag())
-                .commit();
-    }
-
 }
