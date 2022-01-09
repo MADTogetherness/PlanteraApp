@@ -20,7 +20,7 @@ import com.example.planteraapp.SubFragments.ColorTheme;
  * create an instance of this fragment.
  */
 public class NewPlant extends Fragment {
-
+    private int plantTheme;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -69,9 +69,6 @@ public class NewPlant extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        view.findViewById(R.id.click).setOnClickListener(v -> {
-            EditPlantTheme();
-        });
     }
 
     // Plant Theme is stored inside variable plantTheme
