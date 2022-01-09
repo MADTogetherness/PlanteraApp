@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -233,6 +234,16 @@ public class NewPlant<TextView> extends Fragment {
 
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinear.removeAllViews();
+
+        View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
+        ImageView imgbell = item.findViewById(R.id.bell);
+        android.widget.TextView tvTitle = item.findViewById(R.id.textView);
+        android.widget.TextView tvDesc = item.findViewById(R.id.textView2);
+        ImageView arrow = item.findViewById(R.id.arrow);
+        View bubble = item.findViewById(R.id.bubble);
+
+        //imgbell.setBackgroundResource(R.id.);
+
         if (items.size() != 0) {
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
@@ -249,7 +260,13 @@ public class NewPlant<TextView> extends Fragment {
                 //    requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
                 //});
             }
-        } else ;
+        } else {
+
+        }
+
+
     }
+
+
 
 }

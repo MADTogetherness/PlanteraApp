@@ -1,47 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/remidneritemlayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <ImageButton
-
-        android:id="@+id/IBBell"
+    <ImageView
+        android:id="@+id/bell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginVertical="10dp"
-        android:background="@android:color/transparent"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/ic_bell" />
 
     <TextView
-        android:id="@+id/TVTitle"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="@dimen/margin_10_dp"
-        android:layout_toRightOf="@id/IBBell"
-        android:fontFamily="@font/main_variable_font"
+        android:layout_marginLeft="15dp"
+        android:layout_toLeftOf="@id/bubble"
+        android:layout_toEndOf="@id/bell"
         android:text="Water"
-        android:textColor="@color/Primary_Font"
-        android:textSize="17sp"
-        android:textStyle="bold" />
+        android:textColor="@color/Primary_Font"/>
 
     <TextView
-        android:id="@+id/TVDesc"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/TVTitle"
-        android:layout_marginLeft="@dimen/margin_10_dp"
+        android:layout_below="@id/textView"
+        android:layout_toEndOf="@id/bell"
+        android:layout_toLeftOf="@id/bubble"
+        android:text="Reminder"
+        android:layout_marginLeft="15dp"
+        android:textColor="@color/Secondary_Font"/>
 
-        android:layout_toEndOf="@id/IBBell"
-        android:fontFamily="@font/main_variable_font"
-        android:text="Repeat: 3 days, Time: 10am"
-        android:textColor="@color/Secondary_Font"
-        android:textSize="14sp" />
-
-    <View
+    <ImageView
+        android:id="@+id/arrow"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/margin_16_dp"
+        android:src="@drawable/ic_right_icon"
+
+        />
+
+    <View
+        android:id="@+id/bubble"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toStartOf="@+id/arrow"
+        android:background="@drawable/com_small_circle" />
+
+
 
 
 
