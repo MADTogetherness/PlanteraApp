@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="false">
         <layer-list>
-            <item android:gravity="fill">
+            <item android:gravity="fill" android:start="@dimen/margin_16_dp">
                 <shape>
                     <size android:height="@dimen/com_size_28_dp" android:width="@dimen/com_size_28_dp" />
                     <corners android:radius="@dimen/com_size_28_dp" />
@@ -13,14 +13,14 @@
     </item>
     <item android:state_checked="true">
         <layer-list>
-            <item android:gravity="fill">
+            <item android:gravity="fill" android:start="@dimen/margin_16_dp">
                 <shape>
                     <size android:height="@dimen/com_size_28_dp" android:width="@dimen/com_size_28_dp" />
                     <corners android:radius="@dimen/com_size_28_dp" />
                     <solid android:color="?attr/Button_Primary" />
                 </shape>
             </item>
-            <item android:top="@dimen/com_padding_2_dp" android:bottom="@dimen/com_padding_2_dp" android:start="@dimen/com_padding_2_dp" android:end="@dimen/com_padding_2_dp" android:gravity="fill" android:drawable="@drawable/ic_check_icon_24" />
+            <item android:top="@dimen/com_padding_2_dp" android:bottom="@dimen/com_padding_2_dp" android:start="18dp" android:end="@dimen/com_padding_2_dp" android:gravity="fill" android:drawable="@drawable/ic_check_icon_24" />
         </layer-list>
     </item>
 </selector>
