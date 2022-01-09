@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -123,5 +125,18 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         newConfig.fontScale = newBase.getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).getFloat("font", 1f);
         applyOverrideConfiguration(newConfig);
         super.attachBaseContext(newBase);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        View v = findViewById(R.id.coordinator_layout);
+        if (v.getVisibility() != View.VISIBLE) {
+            v.setVisibility(View.VISIBLE);
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");
+            if (frag != null)
+                getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
+        } else
+            super.onBackPressed();
     }
 }
