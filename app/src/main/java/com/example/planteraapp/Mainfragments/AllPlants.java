@@ -21,8 +21,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
@@ -39,15 +37,15 @@ import java.util.List;
 
 /**
  * --------------------- Boolean Flags -------------------------
- *
- * @Variable: isBottomSheetOpen - To see if bottom sheet is open
- * @Variable: isTypeFilterOnBottomSheetActive - To see if the type filter is active
- * @Variable: isLocationFilterOnBottomSheetActive - To see if location filter is active
- * @Variable: preventMultipleCheckedChange - Prevent Multiple Queries when creating & inserting filters Initially
+ * <p>
+ * Variable: isBottomSheetOpen - To see if bottom sheet is open
+ * Variable: isTypeFilterOnBottomSheetActive - To see if the type filter is active
+ * Variable: isLocationFilterOnBottomSheetActive - To see if location filter is active
+ * Variable: preventMultipleCheckedChange - Prevent Multiple Queries when creating & inserting filters Initially
  * --------------------- INT TYPE ID ---------------------------
- * @Variable: SortAllPlantsBy - To get the current sorting by type
- * @Variable: locationFilterCurrentlyAppliedOnHost - To get the current applied location filter, example hallway
- * @Variable: typeFilterCurrentlyAppliedOnHost - To get the current applied type filter, example fern
+ * Variable: SortAllPlantsBy - To get the current sorting by type
+ * Variable: locationFilterCurrentlyAppliedOnHost - To get the current applied location filter, example hallway
+ * Variable: typeFilterCurrentlyAppliedOnHost - To get the current applied type filter, example fern
  */
 public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeListener {
     private ImageButton filterImageBtnOnHost;
