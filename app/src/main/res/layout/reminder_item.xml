@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageButton
+
         android:id="@+id/IBBell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,26 +18,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/margin_10_dp"
         android:layout_toRightOf="@id/IBBell"
         android:fontFamily="@font/main_variable_font"
         android:text="Water"
         android:textColor="@color/Primary_Font"
         android:textSize="17sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="@dimen/margin_10_dp"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/TVDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/IBBell"
         android:layout_below="@id/TVTitle"
+        android:layout_marginLeft="@dimen/margin_10_dp"
 
+        android:layout_toEndOf="@id/IBBell"
         android:fontFamily="@font/main_variable_font"
         android:text="Repeat: 3 days, Time: 10am"
         android:textColor="@color/Secondary_Font"
-        android:textSize="14sp"
-        android:layout_marginLeft="@dimen/margin_10_dp"/>
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="25dp"
+        android:layout_height="25dp"
 
 
 
