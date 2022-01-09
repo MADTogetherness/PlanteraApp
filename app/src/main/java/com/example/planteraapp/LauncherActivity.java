@@ -2,7 +2,6 @@ package com.example.planteraapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.navigation.NavOptions;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -15,13 +14,6 @@ import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
-    public static NavOptions.Builder slide_in_out_fragment_options = new NavOptions.Builder()
-            .setLaunchSingleTop(true)
-            .setEnterAnim(android.R.anim.slide_in_left)
-            .setExitAnim(android.R.anim.slide_out_right)
-            .setPopEnterAnim(android.R.anim.slide_in_left)
-            .setPopExitAnim(android.R.anim.slide_out_right);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**
@@ -59,32 +51,14 @@ public class LauncherActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) {
-            }
-
+            public void onAnimationCancel(Animator animator) {}
             @Override
-            public void onAnimationRepeat(Animator animator) {
-            }
+            public void onAnimationRepeat(Animator animator) {}
         });
     }
 
-    public Class<? extends AppCompatActivity> checkNewUser() {
+    public Class<? extends AppCompatActivity> checkNewUser(){
         Log.d("IsOld", String.valueOf(getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0)));
-        return getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class : Home.class;
-    }
-
-    public static String getThemeName(int id) {
-        switch (id) {
-            case R.style.Theme_PlanteraApp_Chiffon_Purple:
-                return "Chiffon Purple";
-            case R.style.Theme_PlanteraApp_Monochromatic_Brown:
-                return "Monochromatic Brown";
-            case R.style.Theme_PlanteraApp_Accent_Dark:
-                return "Accent Dark";
-            case R.style.Theme_PlanteraApp_Dracula_Light:
-                return "Dracula Light";
-            default:
-                return "Default Theme";
-        }
+        return getSharedPreferences(SharedFile, Context.MODE_PRIVATE).getInt("IsOld", 0) == 0 ? Intro_Activity.class: Home.class;
     }
 }
