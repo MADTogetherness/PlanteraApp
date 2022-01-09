@@ -6,7 +6,6 @@
     tools:context=".SubFragments.ColorTheme"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_100_dp"
     android:background="@color/App_Container">
 
     <RadioGroup

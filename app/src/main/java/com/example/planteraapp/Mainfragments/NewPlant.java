@@ -4,6 +4,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -85,6 +87,7 @@ public class NewPlant extends Fragment {
             });
             Bundle b = new Bundle();
             b.putInt("theme", R.style.Theme_PlanteraApp_Accent_Dark);
+            requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
             Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_colorTheme, b,
                     LauncherActivity.slide_in_out_fragment_options.build());
         });

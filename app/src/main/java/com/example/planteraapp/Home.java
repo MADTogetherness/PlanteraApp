@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -123,5 +124,13 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         newConfig.fontScale = newBase.getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).getFloat("font", 1f);
         applyOverrideConfiguration(newConfig);
         super.attachBaseContext(newBase);
+    }
+
+    @Override
+    public void onBackPressed() {
+        View v = findViewById(R.id.coordinator_layout);
+        if (v.getVisibility() != View.VISIBLE)
+            v.setVisibility(View.VISIBLE);
+        super.onBackPressed();
     }
 }

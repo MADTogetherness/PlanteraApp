@@ -70,11 +70,11 @@ public class ColorTheme extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            selectedTheme = getArguments().getInt("theme");
+            selectedTheme = convertTheme(getArguments().getInt("theme"));
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         } else {
-            selectedTheme = R.style.Theme_PlanteraApp;
+            selectedTheme = convertTheme(R.style.Theme_PlanteraApp);
         }
     }
 
@@ -113,8 +113,10 @@ public class ColorTheme extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        group.setOnCheckedChangeListener((radioGroup, i) -> getLayout(i).performClick());
-        group.check(convertTheme(selectedTheme));
+        group.setOnCheckedChangeListener((radioGroup, i) -> {
+            getLayout(i).performClick();
+        });
+        group.check(selectedTheme);
         view.findViewById(R.id.done).setOnClickListener(v -> saveTheme(new Bundle(), group.getCheckedRadioButtonId()));
         view.findViewById(R.id.close).setOnClickListener(v -> saveTheme(new Bundle(), selectedTheme));
     }
