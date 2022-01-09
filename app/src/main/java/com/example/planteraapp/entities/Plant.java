@@ -36,19 +36,22 @@ public class Plant {
     @ColumnInfo(index = true)
     public String plantLocation;
 
+    public long dateOfCreation;
+
     //NOT RELATED TO Images Table
     public String profile_image;
 
     public int selectedTheme;
     public String description;
 
-    public Plant(String plantName, String profile_image, String plantType, String plantLocation, int selectedTheme, String description) {
+    public Plant(@NonNull String plantName, String profile_image, String plantType, String plantLocation, int selectedTheme, String description) {
         this.plantName = plantName;
         this.plantType = plantType;
         this.plantLocation = plantLocation;
         this.profile_image = profile_image;
         this.selectedTheme = selectedTheme;
         this.description = description;
+        this.dateOfCreation = System.currentTimeMillis();
     }
 
     @NonNull

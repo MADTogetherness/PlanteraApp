@@ -11,12 +11,15 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -65,7 +68,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         //TODO: GOING TO DIFFERENT FRAGMENTS FROM ANOTHER ACTIVITY
         int v = getIntent().getIntExtra("destination", -1);
         if (v != -1) {
-            navController.navigate(v, null);
+            navController.navigate(v, null, options.build());
         }
     }
 
@@ -92,7 +95,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (!isValidDestination(item.getItemId())) return false;
         if ((item.getOrder() & Menu.CATEGORY_SECONDARY) == 0)
-            options.setPopUpTo(R.id.calendar, false);
+            options.setPopUpTo(R.id.calendar, true);
         navController.navigate(item.getItemId(), null, options.build());
         return true;
     }
@@ -100,16 +103,34 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     //TODO: Control on destination changed listener
     @Override
     public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-        Log.d("TESTTY", getResources().getResourceName(destination.getId()));
         setFabBackgroundTint(destination.getId() == R.id.newPlant_fragment);
     }
 
-    //TODO: UNNECESSARY FOR NOW, UNLESS SETTINGS IS IMPLEMENTED
-    //AWEB NEEDS TO CALL recreate();
     @Override
     public void recreate() {
-        finish();
-        startActivity(new Intent(Home.this, Home.class));
-        overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+        Bundle bundle = new Bundle();
+        onSaveInstanceState(bundle);
+        Intent intent = new Intent(this, getClass());
+        intent.putExtra("saved_state", bundle);
+        intent.putExtra("destination", R.id.settings);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Configuration newConfig = new Configuration(newBase.getResources().getConfiguration());
+        newConfig.fontScale = newBase.getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).getFloat("font", 1f);
+        applyOverrideConfiguration(newConfig);
+        super.attachBaseContext(newBase);
+    }
+
+    @Override
+    public void onBackPressed() {
+        View v = findViewById(R.id.coordinator_layout);
+        if (v.getVisibility() != View.VISIBLE)
+            v.setVisibility(View.VISIBLE);
+        super.onBackPressed();
     }
 }
