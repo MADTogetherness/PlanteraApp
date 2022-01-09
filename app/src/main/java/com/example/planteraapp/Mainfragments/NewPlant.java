@@ -1,22 +1,15 @@
 package com.example.planteraapp.Mainfragments;
-
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentResultListener;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavOptions;
-import androidx.navigation.Navigation;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 import com.example.planteraapp.SubFragments.ColorTheme;
-import com.example.planteraapp.SubFragments.SetReminder;
-import com.example.planteraapp.entities.Reminder;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link NewPlant#newInstance} factory method to
@@ -67,7 +60,6 @@ public class NewPlant extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_plant, container, false);
     }
 
@@ -90,4 +82,5 @@ public class NewPlant extends Fragment {
                 .add(R.id.nav_controller, colorTheme, "SubFrag").addToBackStack(colorTheme.getTag())
                 .commit();
     }
+
 }

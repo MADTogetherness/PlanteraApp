@@ -1,13 +1,22 @@
 package com.example.planteraapp.SubFragments;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 
 /**
@@ -16,9 +25,10 @@ import com.example.planteraapp.R;
  * create an instance of this fragment.
  */
 public class ColorTheme extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private LinearLayout[] theme_layouts;
+    private int[] colors;
+    private RadioGroup group;
+    private int selectedTheme;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -26,9 +36,7 @@ public class ColorTheme extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ColorTheme() {
-        // Required empty public constructor
-    }
+    public ColorTheme() {/* Required empty public constructor */}
 
     /**
      * Use this factory method to create a new instance of
@@ -52,8 +60,11 @@ public class ColorTheme extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            selectedTheme = convertTheme(getArguments().getInt("theme"));
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+        } else {
+            selectedTheme = convertTheme(R.style.Theme_PlanteraApp);
         }
     }
 
