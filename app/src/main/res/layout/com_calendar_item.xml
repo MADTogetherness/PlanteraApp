@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_16_dp"
+    android:layout_margin="@dimen/margin_16_dp"
+    android:layout_rowWeight="1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/com_round_shape"
+    android:backgroundTint="@color/Section_Container">
+
+    <CheckBox
+        android:id="@+id/task_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:button="@null"
+        android:foreground="@drawable/com_custom_checkbox"
+        android:layout_centerVertical="true"
+        android:checked="true"
+        android:layout_alignParentStart="true"
+        android:foregroundGravity="center"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/item_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/margin_16_dp"
+        android:layout_toEndOf="@+id/task_done"
+        android:src="@drawable/img_default_profile_image"
+        app:shapeAppearance="@style/Image_circle" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/item_image"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_semibold"
+            android:text="Birds Of Paradise"
+            android:textColor="@color/Primary_Font"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/reminder_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_variable_font"
+            android:text="Fertilize"
+            android:textColor="@color/Primary_Font"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:fontFamily="@font/main_variable_font"
+            android:text="6 hours 22 mins"
+            android:textColor="@color/Primary_Font"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/type_of_reminder"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/color_round"
+        android:backgroundTint="@color/Primary_Font"
+        />
+
+
+
+
+</RelativeLayout>
+
