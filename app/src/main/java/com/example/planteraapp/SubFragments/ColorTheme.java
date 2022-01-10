@@ -1,17 +1,11 @@
 package com.example.planteraapp.SubFragments;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -19,15 +13,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.example.planteraapp.LauncherActivity;
-import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
-
-import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -94,7 +84,7 @@ public class ColorTheme extends Fragment {
                 TypedValue typedValue = new TypedValue();
                 theme_layout.getContext().getTheme().resolveAttribute(value, typedValue, true);
                 @ColorInt int color = typedValue.data;
-                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_samll_view_color_display, theme_layout, false);
+                View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_small_view_color_display, theme_layout, false);
                 View viewColor = item.findViewById(R.id.view_color_item);
                 viewColor.setBackgroundTintList(ColorStateList.valueOf(color));
                 theme_layout.addView(item);
@@ -113,18 +103,16 @@ public class ColorTheme extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        group.setOnCheckedChangeListener((radioGroup, i) -> {
-            getLayout(i).performClick();
-        });
+        group.setOnCheckedChangeListener((radioGroup, i) -> getLayout(i).performClick());
         group.check(selectedTheme);
         view.findViewById(R.id.done).setOnClickListener(v -> saveTheme(new Bundle(), group.getCheckedRadioButtonId()));
         view.findViewById(R.id.close).setOnClickListener(v -> saveTheme(new Bundle(), selectedTheme));
     }
 
     public void saveTheme(Bundle result, int theme) {
-        result.putInt("bundleKey", convertTheme(theme));
+        result.putInt("plantTheme", convertTheme(theme));
         Log.d("set", LauncherActivity.getThemeName(convertTheme(theme)));
-        getParentFragmentManager().setFragmentResult("requestKey", result);
+        requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);
         requireActivity().onBackPressed();
     }
 

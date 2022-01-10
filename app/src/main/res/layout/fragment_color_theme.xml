@@ -51,7 +51,6 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Default App Theme"
-            android:checked="true"
             android:textColor="@color/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"

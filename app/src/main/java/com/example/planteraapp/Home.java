@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavOptions;
@@ -95,7 +96,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (!isValidDestination(item.getItemId())) return false;
         if ((item.getOrder() & Menu.CATEGORY_SECONDARY) == 0)
-            options.setPopUpTo(R.id.calendar, true);
+            options.setPopUpTo(R.id.calendar, false);
         navController.navigate(item.getItemId(), null, options.build());
         return true;
     }
@@ -126,11 +127,16 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         super.attachBaseContext(newBase);
     }
 
+
     @Override
     public void onBackPressed() {
         View v = findViewById(R.id.coordinator_layout);
-        if (v.getVisibility() != View.VISIBLE)
+        if (v.getVisibility() != View.VISIBLE) {
             v.setVisibility(View.VISIBLE);
-        super.onBackPressed();
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");
+            if (frag != null)
+                getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
+        } else
+            super.onBackPressed();
     }
 }
