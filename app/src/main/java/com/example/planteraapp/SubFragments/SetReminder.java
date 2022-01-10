@@ -75,8 +75,8 @@ public class SetReminder extends Fragment {
         Bundle b = new Bundle();
         b.putLong("time", 11111);
         b.putLong("interval", 11111);
-        b.putString("name", "Water");
-        b.putBoolean("notification", true);
+        b.putString("reminderName", "Water");
+        b.putBoolean("notificationEnabled", true);
         getParentFragmentManager().setFragmentResult("requestKey", b);
         requireActivity().onBackPressed();
     }

@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,6 +35,7 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
+import com.example.planteraapp.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.Utilities.PickAndReleaseImages;
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -269,12 +271,15 @@ public class NewPlant<TextView> extends Fragment {
 
                 reminderlinear.addView(item);
                 i++;
-                //item.setOnClickListener(v -> {
-                //    getReminder();
-                //});
+                int finalI = i;
+                item.setOnClickListener(v -> {
+                    getReminder(Integer.parseInt((String) item.getTag()), reminders.get((Integer) item.getTag()));
+                });
             }
             Toast.makeText(requireContext(), "asa", Toast.LENGTH_SHORT).show();
+            //addNewReminderLayout(R.drawable.com_bottom_item_shape);
             addNewReminderLayout(R.drawable.com_bottom_item_shape);
+
             //if(items.size()>0 && items.size() < 3){
             //    addNewReminderLayout(R.drawable.com_bottom_item_shape);
             //}
@@ -306,7 +311,7 @@ public class NewPlant<TextView> extends Fragment {
         arrow.setVisibility(View.GONE);
         bubble.setVisibility(View.GONE);
 
-        item.setOnClickListener(v -> getReminder());
+        item.setOnClickListener(v -> getReminder(-1));
 
         reminderlinear.addView(item);
     }
@@ -328,6 +333,7 @@ public class NewPlant<TextView> extends Fragment {
         }
     }
 
+    /*
     public void getReminder(){
         getParentFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             long time = bundle.getLong("time");
@@ -341,6 +347,42 @@ public class NewPlant<TextView> extends Fragment {
         requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
         Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_setReminder, null,
                 LauncherActivity.slide_in_out_fragment_options.build());
+    }
+     */
+
+    public void getReminder(int position, Reminder... reminder){
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            boolean notificationEnabled = bundle.getBoolean("notificationEnabled");
+            String reminderName = bundle.getString("reminderName");
+            long time = bundle.getLong("time");
+            long interval = bundle.getLong("interval");
+            Reminder newReminder = new Reminder(plantNameET.getText().toString(), reminderName, time, interval);
+            newReminder.notify = notificationEnabled;
+            if(position >= 0) reminders.set(position, newReminder);
+            else reminders.add(newReminder);
+            Toast.makeText(requireContext(), "Reminder"+ (position>=0?" set to ":" edited for ") + reminderName, Toast.LENGTH_SHORT).show();
+        });
+        Bundle b = null;
+        if(position>=0 && reminder!=null){
+            b = new Bundle();
+            b.putBoolean("notificationEnabled", reminder[0].notify);
+            b.putString("reminderName", reminder[0].name);
+            b.putLong("time", reminder[0].time);
+            b.putLong("interval", reminder[0].repeatInterval);
+        }
+        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
+        SetReminder setReminder = new SetReminder();
+        setReminder.setArguments(b);
+
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+                .add(R.id.nav_controller, setReminder, "SubFrag")
+                .addToBackStack(setReminder.getTag())
+                .commit();
+
+
+
     }
 
 }
