@@ -361,6 +361,9 @@ public class NewPlant<TextView> extends Fragment {
             newReminder.notify = notificationEnabled;
             if(position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
+
+            addRemindersToList(reminders);
+
             Toast.makeText(requireContext(), "Reminder"+ (position>=0?" set to ":" edited for ") + reminderName, Toast.LENGTH_SHORT).show();
         });
         Bundle b = null;
