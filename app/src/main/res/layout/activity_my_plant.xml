@@ -55,7 +55,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/ic_cross"
-        android:backgroundTint="@color/Primary_Font"
+
 
         />
 
@@ -151,6 +151,8 @@
 
 
             </RelativeLayout>
+
+
 
 
 
