@@ -23,8 +23,8 @@ public class MyPlant extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO: GET THE PLANT NAME FROM PREVIOUS ACTIVITY NOT DATABASE
-        plantName = "XYZ";
+        plantName = getIntent().getStringExtra("plantName");
+        
         DAO = AppDatabase.getInstance(this).plantDAO();
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);

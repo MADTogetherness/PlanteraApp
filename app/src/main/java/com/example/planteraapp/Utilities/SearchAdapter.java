@@ -38,6 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         holder.plantName.setText(plant.plant.plantName);
 
+        // Build up reminder string eg. "Water & Fertilize"
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
             if (i == 0) {

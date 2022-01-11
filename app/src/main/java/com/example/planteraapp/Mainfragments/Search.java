@@ -1,20 +1,19 @@
 package com.example.planteraapp.Mainfragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planteraapp.AppDatabase;
+import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.SearchAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
@@ -22,11 +21,9 @@ import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /*
 TODO:
-- Color
 - Navigate to plant
  */
 
@@ -34,6 +31,7 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
     PlantDAO plantDAO;
     List<PlantsWithEverything> allPlants;
+    List<PlantsWithEverything> filteredPlants;
 
     public Search() {
     }
@@ -76,12 +74,12 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
             @Override
             public void afterTextChanged(Editable s) {
                 // Filter by name
-                Stream<PlantsWithEverything> filteredPlants = allPlants.stream().filter(
+                filteredPlants = allPlants.stream().filter(
                         p -> p.plant.plantName.toLowerCase()
-                                .contains(searchBar.getText().toString().toLowerCase()));
+                                .contains(searchBar.getText().toString().toLowerCase())).collect(Collectors.toList());
 
                 // Set recycle view adapter
-                SearchAdapter adapter = new SearchAdapter(filteredPlants.collect(Collectors.toList()), Search.this);
+                SearchAdapter adapter = new SearchAdapter(filteredPlants, Search.this);
                 recyclerView.setAdapter(adapter);
             }
         });
@@ -91,6 +89,8 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
     @Override
     public void onClick(int position) {
-        Log.d("F", Integer.toString(position));
+        Intent intent = new Intent(getContext(), MyPlant.class);
+        intent.putExtra("plantName", filteredPlants.get(position).plant.plantName);
+        startActivity(intent);
     }
 }
