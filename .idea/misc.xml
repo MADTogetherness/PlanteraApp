@@ -35,7 +35,19 @@
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/menu/bottom_navigation_options.xml" value="0.2578125" />
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.27395833333333336" />
         <entry key="..\:/Downloads/LoginTemplate-master/PlanteraApp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.18888888888888888" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_bottom_item_shape.xml" value="0.15260416666666668" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_middle_items_shape.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_only_item_reminder_shape.xml" value="0.4" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_round_shape.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_round_shape_addrem.xml" value="0.20260416666666667" />
         <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_round_shape_save.xml" value="0.23333333333333334" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_top_app_bar_background.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/com_top_item_shape.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/ic_add_new_icon_18.xml" value="0.21458333333333332" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/ic_add_new_icon_24.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/drawable/ic_bell.xml" value="0.20260416666666667" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/layout/fragment_new_plant.xml" value="0.24169184290030213" />
+        <entry key="..\:/UniShiz/PlanteraApp/app/src/main/res/layout/reminder_item.xml" value="0.536" />
         <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/activity_home.xml" value="0.14492753623188406" />
         <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/fragment_calender.xml" value="0.2441123188405797" />
         <entry key="..\:/UniShiz/Planterra/app/src/main/res/layout/fragment_new_plant.xml" value="0.176" />

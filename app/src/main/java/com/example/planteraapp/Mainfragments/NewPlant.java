@@ -63,6 +63,7 @@ public class NewPlant<TextView> extends Fragment {
     private android.widget.TextView imageNameTV, extraTextTV, addNewReminderTV;
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
+    Button  saveData, resetButton;
     private ShapeableImageView plantImage;
     private View view;
     private PlantDAO DAO;
@@ -157,20 +158,31 @@ public class NewPlant<TextView> extends Fragment {
     public void init() {
         reminders = new ArrayList<>();
         reminderlinear = view.findViewById(R.id.reminderlinearlayout);
-        addNewReminderTV =  view.findViewById(R.id.new_reminder);
         imageNameTV =  view.findViewById(R.id.imagenameTV);
         plantNameET = view.findViewById(R.id.plant_name);
         typeATV = view.findViewById(R.id.type_spinner);
         locationATV = view.findViewById(R.id.location_spinner);
         descriptionET = view.findViewById(R.id.plant_description);
         plantImage = view.findViewById(R.id.profile_image);
-        Button saveData = view.findViewById(R.id.save_btn);
+        saveData = view.findViewById(R.id.save_btn);
+        resetButton = view.findViewById(R.id.reset_btn);
         List<?> plantTypesInDatabase = DAO.getAllPlantTypes();
         List<?> plantLocationInDatabase = DAO.getAllPlantLocations();
         getType(plantTypesInDatabase);
         getLocation(plantLocationInDatabase);
         pickAndReleaseImages = new PickAndReleaseImages(requireContext(), null, requireActivity().getActivityResultRegistry());
         getLifecycle().addObserver(pickAndReleaseImages);
+
+        resetButton.setOnClickListener(view -> {
+            reminders = new ArrayList<>();
+            plantNameET.setText("");
+            typeATV.setText("");
+            locationATV.setText("");
+            descriptionET.setText("");
+            addRemindersToList(reminders);
+
+        });
+
         plantImage.setOnClickListener(view -> {
             mGetSingleContent.launch("image/*");
             plantImage.setImageBitmap(singleBitMap);
@@ -245,6 +257,7 @@ public class NewPlant<TextView> extends Fragment {
         reminderlinear.removeAllViews();
 
         int i =0;
+        boolean maxRemFlag = false;
 
         if (items.size() != 0) {
             for (Reminder all_reminders : items) {
@@ -254,6 +267,7 @@ public class NewPlant<TextView> extends Fragment {
                 android.widget.TextView tvDesc = item.findViewById(R.id.textView2);
                 ImageView arrow = item.findViewById(R.id.arrow);
                 View bubble = item.findViewById(R.id.bubble);
+                item.setTag(String.valueOf(i));
 
                 tvTitle.setText(all_reminders.name);
                 tvDesc.setText("Repeat: + "+ all_reminders.repeatInterval +" + days" + ", Time: " + all_reminders.time);
@@ -265,20 +279,25 @@ public class NewPlant<TextView> extends Fragment {
                     ((RelativeLayout) imgbell.getParent()).setBackgroundResource(R.drawable.com_middle_items_shape);
                 } else if(i ==2){
                     ((RelativeLayout) imgbell.getParent()).setBackgroundResource(R.drawable.com_bottom_item_shape);
+                    maxRemFlag=true;
                 }
 
-
+                int finalI = i;
+                item.setOnClickListener(v -> {
+                    getReminder(finalI, reminders.get(finalI));
+                });
 
                 reminderlinear.addView(item);
                 i++;
-                int finalI = i;
-                item.setOnClickListener(v -> {
-                    getReminder(Integer.parseInt((String) item.getTag()), reminders.get((Integer) item.getTag()));
-                });
+
             }
             Toast.makeText(requireContext(), "asa", Toast.LENGTH_SHORT).show();
             //addNewReminderLayout(R.drawable.com_bottom_item_shape);
-            addNewReminderLayout(R.drawable.com_bottom_item_shape);
+
+            if(!maxRemFlag){
+                addNewReminderLayout(R.drawable.com_bottom_item_shape);
+            }
+
 
             //if(items.size()>0 && items.size() < 3){
             //    addNewReminderLayout(R.drawable.com_bottom_item_shape);
@@ -286,7 +305,7 @@ public class NewPlant<TextView> extends Fragment {
 
 
         } else {
-            addNewReminderLayout(R.drawable.com_round_shape);
+            addNewReminderLayout(R.drawable.com_round_shape_addrem);
         }
 
 
@@ -302,7 +321,8 @@ public class NewPlant<TextView> extends Fragment {
         ImageView arrow = item.findViewById(R.id.arrow);
         View bubble = item.findViewById(R.id.bubble);
 
-        imgbell.setImageResource(R.drawable.ic_add_new_icon_24);
+
+        imgbell.setImageResource(R.drawable.ic_add_new_icon_48);
         tvTitle.setText("Add New Reminder");
         ((RelativeLayout) imgbell.getParent()).setBackgroundResource(BackgroundResource);
 

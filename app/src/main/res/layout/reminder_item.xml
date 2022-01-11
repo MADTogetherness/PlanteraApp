@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/remidneritemlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingVertical="15dp"
+    android:paddingHorizontal="5dp">
 
     <ImageView
         android:id="@+id/bell"
@@ -29,11 +31,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView"
-        android:layout_toEndOf="@id/bell"
-        android:layout_toLeftOf="@id/bubble"
-        android:text="Reminder"
         android:layout_marginLeft="15dp"
-        android:textColor="@color/Secondary_Font"/>
+        android:layout_toLeftOf="@id/bubble"
+        android:layout_toEndOf="@id/bell"
+        android:text="Reminder"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/arrow"
