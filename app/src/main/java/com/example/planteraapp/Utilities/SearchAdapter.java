@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planteraapp.R;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     List<PlantsWithEverything> plants;
+    SearchItemClickListener listener;
 
-    public SearchAdapter(List<PlantsWithEverything> plants) {
+    public SearchAdapter(List<PlantsWithEverything> plants, SearchItemClickListener listener) {
         this.plants = plants;
+        this.listener = listener;
     }
 
     @NonNull
@@ -28,7 +29,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.com_search_item, viewGroup, false);
 
-        return new SearchViewHolder(view);
+        return new SearchViewHolder(view, listener);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
 
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
-            if(i == 0) {
+            if (i == 0) {
                 reminderStr.append(plant.Reminders.get(i).name);
                 continue;
             }
@@ -56,20 +57,35 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     public int getItemCount() {
         return plants.size();
     }
-}
 
-class SearchViewHolder extends RecyclerView.ViewHolder {
-
-    TextView plantName;
-    TextView plantReminders;
-    TextView plantDescription;
-
-    public SearchViewHolder(@NonNull View itemView) {
-        super(itemView);
-
-        plantName = itemView.findViewById(R.id.plant_name);
-        plantReminders = itemView.findViewById(R.id.plant_reminders);
-        plantDescription = itemView.findViewById(R.id.plant_description);
+    public interface SearchItemClickListener {
+        void onClick(int position);
     }
 
+    class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        TextView plantName;
+        TextView plantReminders;
+        TextView plantDescription;
+
+        private SearchItemClickListener listener;
+
+        public SearchViewHolder(@NonNull View itemView, SearchItemClickListener listener) {
+            super(itemView);
+
+            this.listener = listener;
+
+            plantName = itemView.findViewById(R.id.plant_name);
+            plantReminders = itemView.findViewById(R.id.plant_reminders);
+            plantDescription = itemView.findViewById(R.id.plant_description);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.onClick(getAdapterPosition());
+        }
+
+    }
 }

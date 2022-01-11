@@ -5,11 +5,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,14 +18,9 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.SearchAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -34,7 +30,7 @@ TODO:
 - Navigate to plant
  */
 
-public class Search extends Fragment {
+public class Search extends Fragment implements SearchAdapter.SearchItemClickListener {
 
     PlantDAO plantDAO;
     List<PlantsWithEverything> allPlants;
@@ -62,18 +58,14 @@ public class Search extends Fragment {
         plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
 
-//        plantDAO.insertPlantLocations(new PlantLocation("Living Room"));
-//        plantDAO.insertPlantTypes(new PlantType("Cactus"));
-//        plantDAO.insertNewPlant(new Plant("Bird of paradise", "", "Cactus", "Living Room", 0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"));
-//        plantDAO.insertNewPlant(new Plant("Thistle", "", "Cactus", "Living Room", 0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"));
-
         EditText searchBar = view.findViewById(R.id.search_bar);
         RecyclerView recyclerView = view.findViewById(R.id.search_list);
 
+        // Filter plants every keystroke instead of pressing enter
+        // This way is much smoother and responsive
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -83,16 +75,22 @@ public class Search extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Filter by name
                 Stream<PlantsWithEverything> filteredPlants = allPlants.stream().filter(
                         p -> p.plant.plantName.toLowerCase()
                                 .contains(searchBar.getText().toString().toLowerCase()));
 
-                SearchAdapter adapter = new SearchAdapter(filteredPlants.collect(Collectors.toList()));
-
+                // Set recycle view adapter
+                SearchAdapter adapter = new SearchAdapter(filteredPlants.collect(Collectors.toList()), Search.this);
                 recyclerView.setAdapter(adapter);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onClick(int position) {
+        Log.d("F", Integer.toString(position));
     }
 }
