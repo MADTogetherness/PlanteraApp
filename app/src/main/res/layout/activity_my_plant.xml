@@ -107,8 +107,9 @@
 
             <include
                 layout="@layout/com_my_palnt_1"
+
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="310dp"
 
                 />
 
