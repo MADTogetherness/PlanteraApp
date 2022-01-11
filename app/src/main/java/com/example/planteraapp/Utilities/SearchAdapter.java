@@ -36,8 +36,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         PlantsWithEverything plant = plants.get(position);
 
-        holder.plantName.setText(plant.plant.plantName);
-
         // Build up reminder string eg. "Water & Fertilize"
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
@@ -50,6 +48,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         }
 
 
+        // Set text values
+        holder.plantName.setText(plant.plant.plantName);
         holder.plantReminders.setText(reminderStr.toString());
         holder.plantDescription.setText(plant.plant.description);
     }
@@ -63,13 +63,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         void onClick(int position);
     }
 
-    class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView plantName;
-        TextView plantReminders;
-        TextView plantDescription;
+        public TextView plantName;
+        public TextView plantReminders;
+        public TextView plantDescription;
 
-        private SearchItemClickListener listener;
+        private final SearchItemClickListener listener;
 
         public SearchViewHolder(@NonNull View itemView, SearchItemClickListener listener) {
             super(itemView);

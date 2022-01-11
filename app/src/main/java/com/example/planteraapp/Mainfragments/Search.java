@@ -22,24 +22,17 @@ import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/*
-TODO:
-- Navigate to plant
- */
-
 public class Search extends Fragment implements SearchAdapter.SearchItemClickListener {
 
-    PlantDAO plantDAO;
-    List<PlantsWithEverything> allPlants;
-    List<PlantsWithEverything> filteredPlants;
+    private PlantDAO plantDAO;
+
+    // Plants fetched from DB when view created
+    private List<PlantsWithEverything> allPlants;
+
+    // Filtered by name when user types in search bar
+    private List<PlantsWithEverything> filteredPlants;
 
     public Search() {
-    }
-
-    public static Search newInstance() {
-        Search fragment = new Search();
-
-        return fragment;
     }
 
     @Override
@@ -48,9 +41,7 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
@@ -63,13 +54,10 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
         // This way is much smoother and responsive
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) {
