@@ -105,60 +105,18 @@
                 />
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="235dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="@dimen/margin_10_dp">
+            <include
+                layout="@layout/com_my_palnt_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                <TextView
+                />
 
-                    android:layout_width="327dp"
-                    android:layout_height="192dp"
-                    android:layout_alignParentStart="true"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="35dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="17dp"
-
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/com_middle_items_shape"
-                    android:backgroundTint="?attr/Section_Container"
-                    android:gravity="center"
-
-
-                    />
-
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:id="@+id/item_image"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignParentEnd="true"
-
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginStart="@dimen/margin_16_dp"
-                    android:layout_marginTop="-8dp"
-                    android:layout_marginEnd="157dp"
-                    android:layout_marginBottom="142dp"
-                    android:foregroundGravity="center_horizontal"
-                    android:src="@drawable/img_default_profile_image"
-                    app:shapeAppearance="@style/Image_circle" />
-
-
-
-
-            </RelativeLayout>
-
-
-
-
-
-
-
-
+                />
 
 
         </LinearLayout>
