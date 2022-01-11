@@ -46,7 +46,7 @@
         android:textSize="9dp" />
 
 
-    <Button
+    <ImageButton
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentStart="true"
@@ -116,8 +116,44 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Reminders"
+                android:textColor="?attr/Primary_Font"
+                android:textSize="@dimen/com_size_24_dp"
+
 
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next reminder in 3 hours"
+                android:textColor="?attr/Button_Primary"
+                android:textSize="16dp"
+
+                />
+
+            <include
+                layout="@layout/com_my_plant_item_2"
+                android:layout_height="73dp"
+                android:layout_width="match_parent"
+                />
+
+
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="?attr/Button_Primary"
+                android:drawableLeft="@drawable/ic_paint"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="36dp"
+                android:paddingTop="10dp"
+                android:text="Edit Plant color theme"
+                android:textAlignment="center"
+                android:textColor="?attr/Button_Font" />
+
 
 
         </LinearLayout>
