@@ -3,15 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/App_Container"
-    tools:context=".Mainfragments.Search"
-    android:theme="@style/Theme.PlanteraApp.Accent.Dark">
+    android:theme="@style/Theme.PlanteraApp.Accent.Dark"
+    tools:context=".Mainfragments.Search">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/padding_16_dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_variable_font"
+            android:text="Search your garden"
+            android:textColor="@color/Secondary_Font"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/margin_16_dp"
+            android:background="@drawable/com_search_bar"
+            android:drawableEnd="@drawable/ic_search_icon_24"
+            android:drawableTint="@color/Button_Primary"
+            android:hint="Search..."
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="@dimen/padding_16_dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/padding_16_dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/plant_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plant name" />
+
+    <TextView
+        android:id="@+id/plant_reminders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Reminder 1 and Reminder 2" />
+
+    <TextView
+        android:id="@+id/plant_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Plant description" />
+</LinearLayout>
