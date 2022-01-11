@@ -18,6 +18,8 @@ import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.SearchAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 
 import java.util.List;
@@ -27,8 +29,8 @@ import java.util.stream.Stream;
 
 /*
 TODO:
-- Create layout
 - Color
+- Navigate to plant
  */
 
 public class Search extends Fragment {
@@ -59,11 +61,10 @@ public class Search extends Fragment {
         plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
 
-        // TESTING
 //        plantDAO.insertPlantLocations(new PlantLocation("Living Room"));
 //        plantDAO.insertPlantTypes(new PlantType("Cactus"));
-//        plantDAO.insertNewPlant(new Plant("Plant 1", "", "Cactus", "Living Room", 0, "testing testing"));
-//        plantDAO.insertNewPlant(new Plant("Plant 2", "", "Cactus", "Living Room", 0, "testing testing testing"));
+//        plantDAO.insertNewPlant(new Plant("Bird of paradise", "", "Cactus", "Living Room", 0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"));
+//        plantDAO.insertNewPlant(new Plant("Thistle", "", "Cactus", "Living Room", 0, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam"));
 
         EditText searchBar = view.findViewById(R.id.search_bar);
         RecyclerView recyclerView = view.findViewById(R.id.search_list);
