@@ -28,7 +28,6 @@ import java.util.stream.Stream;
 /*
 TODO:
 - Create layout
-- Reminder string
 - Color
  */
 

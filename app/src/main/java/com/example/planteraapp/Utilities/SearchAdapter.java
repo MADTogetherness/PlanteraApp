@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planteraapp.R;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
@@ -35,7 +36,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         PlantsWithEverything plant = plants.get(position);
 
         holder.plantName.setText(plant.plant.plantName);
-        holder.plantReminders.setText(plant.plant.plantName);
+
+        StringBuilder reminderStr = new StringBuilder();
+        for (int i = 0; i < plant.Reminders.size(); i++) {
+            if(i == 0) {
+                reminderStr.append(plant.Reminders.get(i));
+                continue;
+            }
+
+            reminderStr.append(" & ").append(plant.Reminders.get(i));
+        }
+
+
+        holder.plantReminders.setText(reminderStr.toString());
         holder.plantDescription.setText(plant.plant.description);
     }
 

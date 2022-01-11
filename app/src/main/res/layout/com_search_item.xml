@@ -3,24 +3,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/padding_16_dp"
-    android:orientation="vertical">
+    android:layout_marginBottom="@dimen/margin_16_dp"
+    android:background="@drawable/com_round_shape"
+    android:backgroundTint="@color/Section_Container"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_16_dp">
 
     <TextView
         android:id="@+id/plant_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Plant name" />
+        android:text="Plant name"
+        android:textColor="@color/Primary_Font"
+        android:textSize="@dimen/com_size_20_dp" />
 
     <TextView
         android:id="@+id/plant_reminders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reminder 1 and Reminder 2" />
+        android:text="Reminder 1 and Reminder 2"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/plant_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Plant description" />
+        android:paddingTop="6dp"
+        android:text="Plant description"
+        android:textColor="@color/Secondary_Font" />
 </LinearLayout>
