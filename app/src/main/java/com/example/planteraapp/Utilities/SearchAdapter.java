@@ -40,11 +40,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
             if(i == 0) {
-                reminderStr.append(plant.Reminders.get(i));
+                reminderStr.append(plant.Reminders.get(i).name);
                 continue;
             }
 
-            reminderStr.append(" & ").append(plant.Reminders.get(i));
+            reminderStr.append(" & ").append(plant.Reminders.get(i).name);
         }
 
 
