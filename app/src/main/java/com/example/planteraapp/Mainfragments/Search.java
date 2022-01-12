@@ -2,13 +2,22 @@ package com.example.planteraapp.Mainfragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Reminder;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -20,6 +20,7 @@ import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantAndReminders;
 import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
 
@@ -86,11 +87,10 @@ public class Calendar extends Fragment {
         rvTodayReminder = getView().findViewById(R.id.rv_today);
         rvTomorrowReminder = getView().findViewById(R.id.rv_tomorrow);
 
-        todayReminderList = DAO.getTodayRemindersWithPlant();
-        tomorrowReminderList = DAO.getTomorrowRemindersWithPlant();
+        todayReminderList = new ArrayList<>();
+        tomorrowReminderList = new ArrayList<>();
 
-        todayReminderRVA = new ReminderRecyclerAdapter(todayReminderList);
-        tomorrowReminderRVA = new ReminderRecyclerAdapter(tomorrowReminderList);
+        getAllReminders();
 
         RecyclerView.LayoutManager todayLayoutManager = new LinearLayoutManager(getContext());
         rvTodayReminder.setLayoutManager(todayLayoutManager);
@@ -104,5 +104,19 @@ public class Calendar extends Fragment {
         rvTomorrowReminder.setHasFixedSize(true);
         rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
 
+    }
+
+    private void getAllReminders() {
+        long now = System.currentTimeMillis();
+        long day = 24*60*60*1000;
+        List<ReminderAndPlant> all_reminders = DAO.getRemindersWithPlant();
+        for (ReminderAndPlant rem: all_reminders) {
+            if(rem.reminder.time >= now && rem.reminder.time <= now+day)
+                todayReminderList.add(rem);
+            else
+                tomorrowReminderList.add(rem);
+        }
+        todayReminderRVA = new ReminderRecyclerAdapter(todayReminderList, requireContext());
+        tomorrowReminderRVA = new ReminderRecyclerAdapter(tomorrowReminderList, requireContext());
     }
 }

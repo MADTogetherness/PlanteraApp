@@ -1,6 +1,7 @@
 package com.example.planteraapp.adapters;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
 
@@ -22,9 +26,10 @@ import java.util.List;
 public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecyclerAdapter.ReminderViewHolder>{
 
     private List<ReminderAndPlant> reminderList;
-
-    public ReminderRecyclerAdapter(List<ReminderAndPlant> reminderList){
+    private Context context;
+    public ReminderRecyclerAdapter(List<ReminderAndPlant> reminderList, Context context){
         this.reminderList = reminderList;
+        this.context = context;
     }
 
     @NonNull
@@ -41,14 +46,16 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         holder.textPlantName.setText(reminderList.get(position).reminder.plantName);
         holder.cbTaskDone.setChecked(reminderList.get(position).reminder.completedReminder);
         holder.textReminderName.setText(reminderList.get(position).reminder.name);
-//        holder.imagePlant.setImageBitmap();
-//        holder.reminderType.setBackground();
+        holder.imagePlant.setImageBitmap(AttributeConverters.StringToBitMap(reminderList.get(position).plant.profile_image));
+        holder.reminderType.setBackgroundTintList(ContextCompat.getColorStateList(context, LauncherActivity.getColour(
+                reminderList.get(position).reminder.name
+        )));
 //        holder.textTime.setText();
         holder.cbTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 // checkbox pressed
-                reminderList.remove(reminderList.get(position));
+//                reminderList.remove(reminderList.get(position));
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyDataSetChanged();
                 // update the database

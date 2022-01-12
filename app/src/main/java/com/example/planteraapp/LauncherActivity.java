@@ -79,4 +79,21 @@ public class LauncherActivity extends AppCompatActivity {
                 return "Default Theme";
         }
     }
+
+    public static int getColour(String name){
+        switch (name){
+            case "Water":
+            case "water":
+            case "Aqua":
+            case "aqua":
+                return R.color.Reminder_Water;
+            case "Soil":
+            case "Fertile":
+            case "soil":
+            case "fertile":
+                return R.color.Reminder_Soil;
+            default:
+                return R.color.Reminder_Other;
+        }
+    }
 }

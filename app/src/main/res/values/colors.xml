@@ -8,4 +8,7 @@
     <color name="Section_Shadow">#DBDBDB</color>
     <color name="Button_Primary">#006064</color>
     <color name="Button_Secondary">#0195AE</color>
+    <color name="Reminder_Water">#00C2CB</color>
+    <color name="Reminder_Soil">#614242</color>
+    <color name="Reminder_Other">#FF6F3C</color>
 </resources>
