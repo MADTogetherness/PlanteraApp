@@ -8,16 +8,34 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Plant;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MyPlant extends AppCompatActivity {
+    String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", };
+    private Plant plant;
     private PlantDAO DAO;
     private String plantName;
+    Button deleteBtn, editBtn, editThemeBtn;
+    ImageButton closeBtn, item2editreminderBtn;
+    TextView themenameTV, nextreminderTV, itemdateCreatedTV, itemnameplantTV, itemdescriptionTV, item2remindernameTV, item2reminderdescTV;
+    ImageView itemplantimageIV, task_doneIV;
     private boolean isActivityRecreated = false;
     private int selectedTheme = R.style.Theme_PlanteraApp;
 
@@ -26,10 +44,33 @@ public class MyPlant extends AppCompatActivity {
         // TODO: GET THE PLANT NAME FROM PREVIOUS ACTIVITY NOT DATABASE
         plantName = getIntent().getStringExtra("plantName");
         DAO = AppDatabase.getInstance(this).plantDAO();
+        plant = DAO.getSinglePlantInstance(plantName);
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_plant);
+        init();
     }
+
+    public void init(){
+        deleteBtn = findViewById(R.id.deleteBtn);
+        editBtn = findViewById(R.id.editBtn);
+        closeBtn = findViewById(R.id.closeBtn);
+        editThemeBtn = findViewById(R.id.editThemeBtn);
+        themenameTV = findViewById(R.id.themenameTV);
+        nextreminderTV = findViewById(R.id.nextreminderTV);
+        item2editreminderBtn = findViewById(R.id.editreminderBtn);
+        itemdateCreatedTV = findViewById(R.id.item_dateCreatedTV);
+        itemnameplantTV = findViewById(R.id.name_plant);
+        itemdescriptionTV = findViewById(R.id.description);
+        item2remindernameTV = findViewById(R.id.reminder_name);
+        item2reminderdescTV = findViewById(R.id.reminder_desc);
+        itemplantimageIV = findViewById(R.id.item_image);
+        task_doneIV = findViewById(R.id.task_done);
+
+        itemnameplantTV.setText(plant.plantName);
+        itemdateCreatedTV.setText(getDate(plant.dateOfCreation));
+    }
+
 
 
     @Override
@@ -60,5 +101,15 @@ public class MyPlant extends AppCompatActivity {
     public void setTheme(int resId) {
         selectedTheme = resId;
         super.setTheme(resId);
+    }
+
+    public String getDate(Long datel){
+        Date date = new Date(datel);
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String dayValue = formatter.format(date).substring(0,2);
+        String monthValue = formatter.format(date).substring(3,5);
+        String yearValue = formatter.format(date).substring(6,8);
+
+        return dayValue + " " + months[Integer.parseInt(monthValue)] + " " + yearValue;
     }
 }

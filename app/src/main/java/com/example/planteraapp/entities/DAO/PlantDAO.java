@@ -63,9 +63,9 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();
 //
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    Plant getSinglePlantInstance(String plantName);
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+    Plant getSinglePlantInstance(String plantName);
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
