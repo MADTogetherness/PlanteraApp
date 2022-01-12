@@ -1,25 +1,30 @@
 package com.example.planteraapp.Mainfragments;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Dao;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
+import com.example.planteraapp.adapters.ReminderRecyclerAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
+import com.example.planteraapp.entities.Reminder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,14 +33,12 @@ import com.example.planteraapp.entities.PlantType;
  */
 public class Calendar extends Fragment {
     private PlantDAO DAO;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+    private RecyclerView rvTodayReminder, rvTomorrowReminder;
+    private List<ReminderAndPlant> todayReminderList;
+    private List<ReminderAndPlant> tomorrowReminderList;
+    private ReminderRecyclerAdapter todayReminderRVA, tomorrowReminderRVA;
 
     public Calendar() {
         // Required empty public constructor
@@ -52,10 +55,6 @@ public class Calendar extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static Calendar newInstance(String param1, String param2) {
         Calendar fragment = new Calendar();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -63,8 +62,7 @@ public class Calendar extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -78,5 +76,34 @@ public class Calendar extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
+        initViews();
+    }
+
+
+
+    public void initViews(){
+        rvTodayReminder = getView().findViewById(R.id.rv_today);
+        rvTomorrowReminder = getView().findViewById(R.id.rv_tomorrow);
+
+        todayReminderList = DAO.getAllRemindersWithPlant();
+
+        tomorrowReminderList = new ArrayList<>();
+
+        todayReminderRVA = new ReminderRecyclerAdapter(todayReminderList);
+        tomorrowReminderRVA = new ReminderRecyclerAdapter(tomorrowReminderList);
+
+        RecyclerView.LayoutManager todayLayoutManager = new LinearLayoutManager(getContext());
+        rvTodayReminder.setLayoutManager(todayLayoutManager);
+        rvTodayReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTodayReminder.setHasFixedSize(true);
+        rvTodayReminder.setAdapter(todayReminderRVA);
+
+        RecyclerView.LayoutManager tomorrowLayoutManager = new LinearLayoutManager(getContext());
+        rvTomorrowReminder.setLayoutManager(tomorrowLayoutManager);
+        rvTomorrowReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTomorrowReminder.setHasFixedSize(true);
+        rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
+
     }
 }

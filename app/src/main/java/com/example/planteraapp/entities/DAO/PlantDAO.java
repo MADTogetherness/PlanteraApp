@@ -14,6 +14,8 @@ import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
+import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
@@ -35,6 +37,9 @@ public interface PlantDAO {
     @Insert
     long[] insertNewPlant(Plant... plant);
 
+    @Insert
+    long[] insertNewReminder(Reminder... reminder);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImage(Images image);
 
@@ -48,6 +53,10 @@ public interface PlantDAO {
     @Transaction
     @Query("SELECT * FROM PlantLocation")
     List<PlantLocation> getAllPlantLocations();
+
+    @Transaction
+    @Query("SELECT * FROM Reminder")
+    List<ReminderAndPlant> getAllRemindersWithPlant();
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
