@@ -58,6 +58,14 @@ public interface PlantDAO {
     @Query("SELECT * FROM Reminder")
     List<ReminderAndPlant> getAllRemindersWithPlant();
 
+    @Transaction
+    @Query("SELECT * FROM Reminder")
+    List<ReminderAndPlant> getTodayRemindersWithPlant();
+
+    @Transaction
+    @Query("SELECT * FROM Reminder")
+    List<ReminderAndPlant> getTomorrowRemindersWithPlant();
+
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();

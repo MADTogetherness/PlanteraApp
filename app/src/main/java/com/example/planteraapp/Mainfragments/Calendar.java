@@ -86,9 +86,8 @@ public class Calendar extends Fragment {
         rvTodayReminder = getView().findViewById(R.id.rv_today);
         rvTomorrowReminder = getView().findViewById(R.id.rv_tomorrow);
 
-        todayReminderList = DAO.getAllRemindersWithPlant();
-
-        tomorrowReminderList = new ArrayList<>();
+        todayReminderList = DAO.getTodayRemindersWithPlant();
+        tomorrowReminderList = DAO.getTomorrowRemindersWithPlant();
 
         todayReminderRVA = new ReminderRecyclerAdapter(todayReminderList);
         tomorrowReminderRVA = new ReminderRecyclerAdapter(tomorrowReminderList);

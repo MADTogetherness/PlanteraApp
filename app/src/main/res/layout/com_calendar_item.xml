@@ -76,8 +76,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:background="@drawable/com_round"
-        android:backgroundTint="@color/Primary_Font"
-        />
+        android:backgroundTint="@color/Primary_Font" />
 
 
 

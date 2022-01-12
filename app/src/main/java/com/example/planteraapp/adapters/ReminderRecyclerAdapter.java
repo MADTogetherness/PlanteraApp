@@ -1,10 +1,13 @@
 package com.example.planteraapp.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,10 +36,24 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ReminderViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ReminderViewHolder holder, @SuppressLint("RecyclerView") int position) {
+
         holder.textPlantName.setText(reminderList.get(position).reminder.plantName);
         holder.cbTaskDone.setChecked(reminderList.get(position).reminder.completedReminder);
         holder.textReminderName.setText(reminderList.get(position).reminder.name);
+//        holder.imagePlant.setImageBitmap();
+//        holder.reminderType.setBackground();
+//        holder.textTime.setText();
+        holder.cbTaskDone.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                // checkbox pressed
+                reminderList.remove(reminderList.get(position));
+                notifyItemRemoved(holder.getAdapterPosition());
+                notifyDataSetChanged();
+                // update the database
+            }
+        });
     }
 
     @Override
@@ -53,6 +70,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
         public TextView textTime;
         public ImageView imagePlant;
         public CheckBox cbTaskDone;
+        public View reminderType;
         public ReminderViewHolder(View view) {
             super(view);
             textPlantName = (TextView) view.findViewById(R.id.text1);
@@ -60,7 +78,7 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
             textTime = (TextView) view.findViewById(R.id.time);
             imagePlant = (ImageView) view.findViewById(R.id.item_image);
             cbTaskDone = (CheckBox) view.findViewById(R.id.task_done);
-
+            reminderType = view.findViewById(R.id.type_of_reminder);
         }
     }
 }
