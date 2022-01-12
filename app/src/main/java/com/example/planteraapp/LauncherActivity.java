@@ -76,7 +76,7 @@ public class LauncherActivity extends AppCompatActivity {
             case R.style.Theme_PlanteraApp_Dracula_Light:
                 return "Dracula Light";
             default:
-                return "Default Theme";
+                return "Default App Theme";
         }
     }
 }

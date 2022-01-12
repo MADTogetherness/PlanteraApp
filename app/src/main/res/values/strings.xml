@@ -11,4 +11,6 @@
     <string name="NextButton">Next</string>
     <string name="add_new_plant">Add new plant</string>
     <string name="filter_label">Filters :</string>
+    <string name="default_img_name">Default01.jpg</string>
+    <string name="default_theme_name">Default App Theme</string>
 </resources>
