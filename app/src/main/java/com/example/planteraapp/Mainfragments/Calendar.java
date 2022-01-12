@@ -7,14 +7,20 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Dao;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.R;
 import com.example.planteraapp.adapters.ReminderRecyclerAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.PlantLocation;
+import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
 
 import java.util.ArrayList;
@@ -30,8 +36,8 @@ public class Calendar extends Fragment {
 
 
     private RecyclerView rvTodayReminder, rvTomorrowReminder;
-    private List<Reminder> todayReminderList;
-    private List<Reminder> tomorrowReminderList;
+    private List<ReminderAndPlant> todayReminderList;
+    private List<ReminderAndPlant> tomorrowReminderList;
     private ReminderRecyclerAdapter todayReminderRVA, tomorrowReminderRVA;
 
     public Calendar() {
@@ -70,7 +76,7 @@ public class Calendar extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
         initViews();
     }
 
@@ -79,7 +85,8 @@ public class Calendar extends Fragment {
     public void initViews(){
         rvTodayReminder = getView().findViewById(R.id.rv_today);
         rvTomorrowReminder = getView().findViewById(R.id.rv_tomorrow);
-        todayReminderList = new ArrayList<>();
+
+        todayReminderList = DAO.getAllRemindersWithPlant();
 
         tomorrowReminderList = new ArrayList<>();
 

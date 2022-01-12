@@ -11,15 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.planteraapp.R;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
 public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecyclerAdapter.ReminderViewHolder>{
 
-    private List<Reminder> reminderList;
+    private List<ReminderAndPlant> reminderList;
 
-    public ReminderRecyclerAdapter(List<Reminder> reminderList){
+    public ReminderRecyclerAdapter(List<ReminderAndPlant> reminderList){
         this.reminderList = reminderList;
     }
 
@@ -33,9 +34,9 @@ public class ReminderRecyclerAdapter extends RecyclerView.Adapter<ReminderRecycl
 
     @Override
     public void onBindViewHolder(@NonNull ReminderViewHolder holder, int position) {
-        holder.textPlantName.setText(reminderList.get(position).plantName);
-        holder.cbTaskDone.setChecked(reminderList.get(position).completedReminder);
-        holder.textReminderName.setText(reminderList.get(position).name);
+        holder.textPlantName.setText(reminderList.get(position).reminder.plantName);
+        holder.cbTaskDone.setChecked(reminderList.get(position).reminder.completedReminder);
+        holder.textReminderName.setText(reminderList.get(position).reminder.name);
     }
 
     @Override
