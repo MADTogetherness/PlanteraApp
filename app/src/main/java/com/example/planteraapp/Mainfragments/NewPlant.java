@@ -63,7 +63,7 @@ public class NewPlant<TextView> extends Fragment {
     private android.widget.TextView imageNameTV, extraTextTV, addNewReminderTV;
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
-    Button  saveData, resetButton;
+    Button  saveData, resetButton, updateImage;
     private ShapeableImageView plantImage;
     private View view;
     private PlantDAO DAO;
@@ -71,6 +71,7 @@ public class NewPlant<TextView> extends Fragment {
     private LinearLayout reminderlinear;
     RecyclerView rv;
     private List<Reminder> reminders;
+    private int plantTheme;
 
     String name[], time[], interval[], lastComp[];
 
@@ -166,6 +167,7 @@ public class NewPlant<TextView> extends Fragment {
         plantImage = view.findViewById(R.id.profile_image);
         saveData = view.findViewById(R.id.save_btn);
         resetButton = view.findViewById(R.id.reset_btn);
+        updateImage = view.findViewById(R.id.new_picture);
         List<?> plantTypesInDatabase = DAO.getAllPlantTypes();
         List<?> plantLocationInDatabase = DAO.getAllPlantLocations();
         getType(plantTypesInDatabase);
@@ -174,13 +176,20 @@ public class NewPlant<TextView> extends Fragment {
         getLifecycle().addObserver(pickAndReleaseImages);
 
         resetButton.setOnClickListener(view -> {
+            int drawableID = getContext().getResources().getIdentifier("img_default_profile_image", "drawable", getContext().getPackageName());
+            plantImage.setImageResource(drawableID);
             reminders = new ArrayList<>();
+            plantNameET.setEnabled(true);
             plantNameET.setText("");
             typeATV.setText("");
             locationATV.setText("");
             descriptionET.setText("");
             addRemindersToList(reminders);
 
+        });
+
+        updateImage.setOnClickListener(view ->{
+            plantImage.setImageBitmap(singleBitMap);
         });
 
         plantImage.setOnClickListener(view -> {
@@ -211,20 +220,27 @@ public class NewPlant<TextView> extends Fragment {
                 e.printStackTrace();
             }
 
+            if(singleBitMap == null){
+                int drawableID = getContext().getResources().getIdentifier("img_default_profile_image", "drawable", getContext().getPackageName());
+                singleBitMap = BitmapFactory.decodeResource(getContext().getResources(), drawableID);
+                imagePath =  AttributeConverters.BitMapToString(singleBitMap);
+                Toast.makeText(requireContext(), "Default Image used", Toast.LENGTH_SHORT).show();
+
+            }
+
             if (singleBitMap.getWidth()>=0) {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, 23455, description);
                 long successful = DAO.insertNewPlant(plant)[0];
                 Log.d("insertP", String.valueOf(successful));
                 Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
 
-                Reminder[] all_reminders = {
-                        new Reminder(name, "Water", System.currentTimeMillis(), 203044456),
-                        new Reminder(name, "Fertile", System.currentTimeMillis(), 203044456),
-                        new Reminder(name, "Be With Them", System.currentTimeMillis(), 203044456)
-                };
+                for (Reminder singleRem: reminders ) {
+                    long[] successfulR = DAO.insertReminders(singleRem);
+                    Log.d("insertR", "Successful");
+                    Toast.makeText(requireContext(), "NEW Reminder Inserted : " + singleRem.name + " for plant " + singleRem.plantName, Toast.LENGTH_SHORT).show();
+                }
 
-                //long[] successfulR = DAO.insertReminders(all_reminders);
-                Log.d("insertR", "Successful");
+
             } else {
                 Toast.makeText(requireContext(), "Profile Image not set", Toast.LENGTH_SHORT).show();
             }
@@ -260,6 +276,7 @@ public class NewPlant<TextView> extends Fragment {
         boolean maxRemFlag = false;
 
         if (items.size() != 0) {
+            plantNameET.setEnabled(false);
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinear, false);
                 ImageView imgbell = item.findViewById(R.id.bell);

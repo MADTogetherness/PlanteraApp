@@ -14,6 +14,7 @@ import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
@@ -40,6 +41,9 @@ public interface PlantDAO {
 
     @Insert
     long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
+
+    @Insert
+    long[] insertReminders(Reminder... reminder);
 
     @Transaction
     @Query("SELECT * FROM PlantType")

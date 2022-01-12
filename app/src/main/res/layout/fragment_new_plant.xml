@@ -87,7 +87,7 @@
                         android:background="@android:color/transparent"
                         android:drawableTop="@drawable/ic_camera"
                         android:fontFamily="@font/opensans_semibold"
-                        android:text="NEW PICTURE"
+                        android:text="UPDATE VIEW"
                         android:textAlignment="center"
                         android:textColor="@color/Primary_Font"
                         android:textSize="12sp" />
