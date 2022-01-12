@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +36,7 @@ import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
+import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.Utilities.PickAndReleaseImages;
@@ -60,10 +62,10 @@ import java.util.List;
  */
 public class NewPlant<TextView> extends Fragment {
 
-    private android.widget.TextView imageNameTV, extraTextTV, addNewReminderTV;
+    private android.widget.TextView imageNameTV, extraTextTV, addNewReminderTV, themenameTV;
     private AutoCompleteTextView typeATV, locationATV;
     private EditText plantNameET, descriptionET, nameToLoadET;
-    Button  saveData, resetButton, updateImage;
+    Button  saveData, resetButton, updateImage, changeTheme;
     private ShapeableImageView plantImage;
     private View view;
     private PlantDAO DAO;
@@ -71,7 +73,7 @@ public class NewPlant<TextView> extends Fragment {
     private LinearLayout reminderlinear;
     RecyclerView rv;
     private List<Reminder> reminders;
-    private int plantTheme;
+    private int plantTheme = 0;
 
     String name[], time[], interval[], lastComp[];
 
@@ -168,6 +170,9 @@ public class NewPlant<TextView> extends Fragment {
         saveData = view.findViewById(R.id.save_btn);
         resetButton = view.findViewById(R.id.reset_btn);
         updateImage = view.findViewById(R.id.new_picture);
+        changeTheme = view.findViewById(R.id.change_theme);
+        themenameTV = view.findViewById(R.id.themenameTV);
+        themenameTV.setText("Theme: " + LauncherActivity.getThemeName(plantTheme));
         List<?> plantTypesInDatabase = DAO.getAllPlantTypes();
         List<?> plantLocationInDatabase = DAO.getAllPlantLocations();
         getType(plantTypesInDatabase);
@@ -176,20 +181,17 @@ public class NewPlant<TextView> extends Fragment {
         getLifecycle().addObserver(pickAndReleaseImages);
 
         resetButton.setOnClickListener(view -> {
-            int drawableID = getContext().getResources().getIdentifier("img_default_profile_image", "drawable", getContext().getPackageName());
-            plantImage.setImageResource(drawableID);
-            reminders = new ArrayList<>();
-            plantNameET.setEnabled(true);
-            plantNameET.setText("");
-            typeATV.setText("");
-            locationATV.setText("");
-            descriptionET.setText("");
-            addRemindersToList(reminders);
+            resetFields();
 
         });
 
         updateImage.setOnClickListener(view ->{
             plantImage.setImageBitmap(singleBitMap);
+        });
+
+        changeTheme.setOnClickListener(v ->{
+            getTheme();
+            //themenameTV.setText(plantTheme);
         });
 
         plantImage.setOnClickListener(view -> {
@@ -198,10 +200,15 @@ public class NewPlant<TextView> extends Fragment {
         });
 
         saveData.setOnClickListener(view -> {
-            String name = plantNameET.getText().toString().trim(), description = descriptionET.getText().toString().trim();
-            String type = typeATV.getText().toString().trim(), location = locationATV.getText().toString().trim();
-            if (name.equals("") || type.equals("") || description.equals("") || location.equals(""))
+            String name = plantNameET.getText().toString().trim();
+            String description = descriptionET.getText().toString().trim();
+            String type = typeATV.getText().toString().trim();
+            String location = locationATV.getText().toString().trim();
+            if (name.equals("") || type.equals("") || description.equals("") || location.equals("")){
+                Toast.makeText(requireContext(), "Please enter all fields", Toast.LENGTH_SHORT).show();
                 return;
+            }
+
             PlantType newType = new PlantType(type);
             PlantLocation newLocation = new PlantLocation(location);
             try {
@@ -229,7 +236,7 @@ public class NewPlant<TextView> extends Fragment {
             }
 
             if (singleBitMap.getWidth()>=0) {
-                Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, 23455, description);
+                Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
                 long successful = DAO.insertNewPlant(plant)[0];
                 Log.d("insertP", String.valueOf(successful));
                 Toast.makeText(requireContext(), "NEW Plant Inserted : " + plant.toString(), Toast.LENGTH_SHORT).show();
@@ -239,6 +246,8 @@ public class NewPlant<TextView> extends Fragment {
                     Log.d("insertR", "Successful");
                     Toast.makeText(requireContext(), "NEW Reminder Inserted : " + singleRem.name + " for plant " + singleRem.plantName, Toast.LENGTH_SHORT).show();
                 }
+
+                resetFields();
 
 
             } else {
@@ -370,23 +379,6 @@ public class NewPlant<TextView> extends Fragment {
         }
     }
 
-    /*
-    public void getReminder(){
-        getParentFragmentManager().setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            long time = bundle.getLong("time");
-            long interval = bundle.getLong("interval");
-            boolean togglenoti = bundle.getBoolean("notification");
-            String name = bundle.getString("name");
-
-            reminders.add(new Reminder(plantNameET.getText().toString(), name, time, interval));
-            addRemindersToList(reminders);
-        });
-        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        Navigation.findNavController(view).navigate(R.id.action_newPlant_fragment_to_setReminder, null,
-                LauncherActivity.slide_in_out_fragment_options.build());
-    }
-     */
-
     public void getReminder(int position, Reminder... reminder){
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
@@ -424,5 +416,43 @@ public class NewPlant<TextView> extends Fragment {
 
 
     }
+
+    public void getTheme(){
+        FragmentManager fm = requireActivity().getSupportFragmentManager();
+        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            int result = bundle.getInt("plantTheme");
+            plantTheme = result;
+            themenameTV.setText("Theme: " + LauncherActivity.getThemeName(plantTheme));
+            Toast.makeText(requireContext(), "Theme "+ LauncherActivity.getThemeName(plantTheme) + " chosen", Toast.LENGTH_SHORT).show();
+        });
+        Bundle b = null;
+
+        b = new Bundle();
+        b.putInt("result", plantTheme);
+        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
+        ColorTheme chooseColorTheme = new ColorTheme();
+        chooseColorTheme.setArguments(b);
+
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+                .add(R.id.nav_controller, chooseColorTheme, "SubFrag")
+                .addToBackStack(chooseColorTheme.getTag())
+                .commit();
+    }
+
+    public void resetFields(){
+        int drawableID = getContext().getResources().getIdentifier("img_default_profile_image", "drawable", getContext().getPackageName());
+        plantImage.setImageResource(drawableID);
+        reminders = new ArrayList<>();
+        plantNameET.setEnabled(true);
+        plantNameET.setText("");
+        typeATV.setText("");
+        locationATV.setText("");
+        descriptionET.setText("");
+        plantTheme = 0;
+        themenameTV.setText("Theme: " + LauncherActivity.getThemeName(plantTheme));
+        addRemindersToList(reminders);
+    }
+
 
 }

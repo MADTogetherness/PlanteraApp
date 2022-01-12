@@ -7,7 +7,8 @@
     tools:context=".Mainfragments.NewPlant"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/App_Container">
+    android:background="@color/App_Container"
+    android:id="@+id/newPlant_fragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,11 +134,12 @@
 
                     <TextView
                         android:id="@+id/themenameTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/opensans_semibold"
                         android:textAlignment="center"
-                        android:textColor="@color/Primary_Font" />
+                        android:textColor="@color/Change_Font"
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
