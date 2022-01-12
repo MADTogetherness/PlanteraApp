@@ -24,7 +24,8 @@
             android:orientation="vertical"
             android:paddingLeft="@dimen/padding_16_dp"
             android:paddingTop="@dimen/padding_100_dp"
-            android:paddingRight="@dimen/padding_16_dp">
+            android:paddingRight="@dimen/padding_16_dp"
+            android:paddingBottom="@dimen/padding_100_dp">
 
             <TextView
                 android:layout_width="wrap_content"

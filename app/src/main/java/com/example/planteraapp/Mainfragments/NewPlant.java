@@ -316,7 +316,7 @@ public class NewPlant extends Fragment {
 
                 tvTitle.setText(all_reminders.name);
                 tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
-                bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), getColour(all_reminders.name)));
+                bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(all_reminders.name)));
                 ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
 
                 int finalI = i;
@@ -344,24 +344,6 @@ public class NewPlant extends Fragment {
         ((RelativeLayout) imgBell.getParent()).setBackgroundResource(BackgroundResource);
         item.setOnClickListener(v -> getReminder(-1));
         reminderlinearlayout.addView(item);
-    }
-
-
-    public int getColour(String name){
-        switch (name){
-            case "Water":
-            case "water":
-            case "Aqua":
-            case "aqua":
-                return R.color.Reminder_Water;
-            case "Soil":
-            case "Fertile":
-            case "soil":
-            case "fertile":
-                return R.color.Reminder_Soil;
-            default:
-                return R.color.Reminder_Other;
-        }
     }
 
     public int getDrawableForReminder(int i) {
