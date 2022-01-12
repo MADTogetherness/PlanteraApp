@@ -24,8 +24,6 @@ import java.util.stream.Collectors;
 
 public class Search extends Fragment implements SearchAdapter.SearchItemClickListener {
 
-    private PlantDAO plantDAO;
-
     // Plants fetched from DB when view created
     private List<PlantsWithEverything> allPlants;
 
@@ -44,7 +42,7 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
-        plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
+        PlantDAO plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
 
         EditText searchBar = view.findViewById(R.id.search_bar);

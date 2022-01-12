@@ -36,9 +36,6 @@ public interface PlantDAO {
     @Insert
     long[] insertNewPlant(Plant... plant);
 
-    @Insert
-    long[] insertNewReminder(Reminder... reminder);
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImage(Images image);
 
