@@ -52,6 +52,7 @@
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape.xml" value="0.176" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape_addrem.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape_save.xml" value="0.1730263157894737" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_search_bar.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_small_circle.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_thumb_selector.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_top_app_bar_background.xml" value="0.16938110749185667" />
@@ -95,11 +96,12 @@
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_all_plants_grid_item.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_bottom_sheet_layout.xml" value="0.2" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_radio_button_layout.xml" value="0.16282894736842105" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_search_item.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_all_plants.xml" value="0.2" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.176" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_color_theme.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_new_plant.xml" value="0.176" />
-        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_search.xml" value="0.1171875" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_search.xml" value="0.2" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_set_reminder.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_settings.xml" value="0.2" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/intro_slide_layout.xml" value="0.2" />

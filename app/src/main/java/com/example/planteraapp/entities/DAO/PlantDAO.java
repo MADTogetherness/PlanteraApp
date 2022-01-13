@@ -91,7 +91,7 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    public List<BlogWithImages> getBlogwWithImages(long ID);
 
-//    @Transaction
-//    @Query("SELECT * FROM Plant")
-//    List<PlantsWithEverything> getAllPlantsWithEverything();
+    @Transaction
+    @Query("SELECT * FROM Plant")
+    List<PlantsWithEverything> getAllPlantsWithEverything();
 }
