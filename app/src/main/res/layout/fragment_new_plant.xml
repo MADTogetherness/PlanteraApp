@@ -42,8 +42,8 @@
                 android:layout_marginBottom="@dimen/margin_10_dp"
                 android:background="@drawable/com_round_shape"
                 android:backgroundTint="@color/Section_Container"
-                android:orientation="vertical"
                 android:focusableInTouchMode="true"
+                android:orientation="vertical"
                 android:paddingTop="@dimen/padding_16_dp"
                 android:paddingBottom="@dimen/padding_16_dp">
 

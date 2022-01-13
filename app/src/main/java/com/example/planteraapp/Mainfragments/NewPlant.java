@@ -320,7 +320,7 @@ public class NewPlant extends Fragment {
                 View bubble = item.findViewById(R.id.bubble);
 
                 tvTitle.setText(all_reminders.name);
-                tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
+                tvDesc.setText("Repeat After " + AttributeConverters.toDays(all_reminders.repeatInterval) + " day(s)" + "\nTime: " + AttributeConverters.getReadableTime(all_reminders.time) + "\nReminder is " + (all_reminders.notify ? "on" : "off"));
                 bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(all_reminders.name)));
                 ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
 
