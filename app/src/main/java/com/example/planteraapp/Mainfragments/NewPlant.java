@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -155,25 +156,29 @@ public class NewPlant extends Fragment {
                 Toast.makeText(requireContext(), "Image is still uploading, Please wait", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (plantNameET.getText().toString().trim().isEmpty()) {
+                plantNameET.setError("Name Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), plantNameET);
+                return;
+            } else if (locationATV.getText().toString().trim().isEmpty()) {
+                locationATV.setError("Location Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), locationATV);
+                return;
+            } else if (typeATV.getText().toString().trim().isEmpty()) {
+                typeATV.setError("Type Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), typeATV);
+                return;
+            } else if (descriptionET.getText().toString().trim().isEmpty()) {
+                descriptionET.setError("Type at least 2 words in bio");
+                LauncherActivity.openSoftKeyboard(requireContext(), descriptionET);
+                return;
+            }
             String temp = plantNameET.getText().toString().trim();
             String name = temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
             String description = descriptionET.getText().toString().trim();
             String type = typeATV.getText().toString().trim();
             String location = locationATV.getText().toString().trim();
             plantName = name;
-            if (name.isEmpty()) {
-                plantNameET.setError("Name Field is required");
-                return;
-            } else if (location.isEmpty()) {
-                locationATV.setError("Location Field is required");
-                return;
-            } else if (type.isEmpty()) {
-                typeATV.setError("Type Field is required");
-                return;
-            } else if (description.isEmpty()) {
-                descriptionET.setError("Type at least 2 words in bio");
-                return;
-            }
 
             long successT = -1, successL = -1, successP = -1;
             PlantType newType = new PlantType(type);
@@ -414,6 +419,5 @@ public class NewPlant extends Fragment {
                 .addToBackStack(chooseColorTheme.getTag())
                 .commit();
     }
-
 
 }
