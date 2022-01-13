@@ -39,6 +39,7 @@
                 android:text="Choose a plant theme"
                 android:textColor="@color/Primary_Font"
                 android:textSize="@dimen/font_size_22sp"
+                android:fontFamily="@font/main_variable_font"
                 android:textStyle="bold" />
 
         </LinearLayout>

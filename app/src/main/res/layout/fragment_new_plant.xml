@@ -289,8 +289,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/padding_16_dp"
             android:layout_weight="1"
-            android:fontFamily="@font/opensans_bold"
-            android:textSize="19sp"
+            android:fontFamily="@font/main_variable_font"
+            android:textSize="@dimen/font_size_22sp"
+            android:textStyle="bold"
             android:text="Add new plant"
             android:textColor="@color/Primary_Font" />
 

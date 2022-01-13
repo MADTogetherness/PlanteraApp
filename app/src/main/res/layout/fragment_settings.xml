@@ -23,6 +23,7 @@
             android:text="@string/settings"
             android:textSize="@dimen/font_size_22sp"
             android:textStyle="bold"
+            android:fontFamily="@font/main_variable_font"
             android:textColor="@color/Primary_Font"/>
 
         <TextView
