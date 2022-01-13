@@ -20,6 +20,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     private ImageButton filterImageBtnOnHost;
     private TextView filtersAppliedLabelOnHost;
     GridLayout gridLayout;
-    LinearLayout default_item_layout;
+    ScrollView default_item_layout;
     private List<PlantType> all_plant_types;
     private List<PlantLocation> all_plant_locations;
     private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive, isBottomSheetOpen, preventMultipleCheckedChange = false;

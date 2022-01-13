@@ -75,7 +75,6 @@ public class Settings extends Fragment {
             int mode = isChecked ? 2 : 1;
             edit("mode", mode);
             AppCompatDelegate.setDefaultNightMode(mode == 2 ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
-            Home.recreate = true;
             requireActivity().recreate();
         });
 
@@ -88,7 +87,6 @@ public class Settings extends Fragment {
                 }
                 float scale = 0.75f + 0.25f * position;
                 edit("font", scale);
-                Home.recreate = true;
                 requireActivity().recreate();
             }
 

@@ -42,7 +42,6 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     FloatingActionButton add_plants_fab;
     NavController navController;
     NavOptions.Builder options;
-    public static boolean recreate = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +69,7 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         int v = getIntent().getIntExtra("destination", -1);
         if (v != -1) {
             navController.navigate(v, null, options.build());
+            getIntent().putExtra("destination", -1);
         }
     }
 
@@ -109,8 +109,6 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
 
     @Override
     public void recreate() {
-        if (recreate) {
-            recreate = false;
             Bundle bundle = new Bundle();
             onSaveInstanceState(bundle);
             Intent intent = new Intent(this, getClass());
@@ -119,8 +117,6 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        } else
-            super.recreate();
     }
 
     @Override
