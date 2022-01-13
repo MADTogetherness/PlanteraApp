@@ -60,7 +60,7 @@ public class ColorTheme extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            selectedTheme = convertTheme(getArguments().getInt("theme"));
+            selectedTheme = convertTheme(getArguments().getInt("plantTheme"));
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         } else {

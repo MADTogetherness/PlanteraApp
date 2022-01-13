@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.planteraapp.R;
 
@@ -61,6 +62,30 @@ public class SetReminder extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set_reminder, container, false);
+
+
+        View v = inflater.inflate(R.layout.fragment_set_reminder, container, false);
+
+
+        v.findViewById(R.id.button).setOnClickListener(view->{
+            setReminder();
+        });
+        return v;
     }
+
+
+    //check if getArgumentss is Null, then new reminder
+    //if not, then exissting
+
+
+    public void setReminder(){
+        Bundle b = new Bundle();
+        b.putLong("time", 11111);
+        b.putLong("interval", 11111);
+        b.putString("reminderName", "Water");
+        b.putBoolean("notificationEnabled", true);
+        getParentFragmentManager().setFragmentResult("requestKey", b);
+        requireActivity().onBackPressed();
+    }
+
 }

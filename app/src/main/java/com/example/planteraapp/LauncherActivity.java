@@ -76,7 +76,24 @@ public class LauncherActivity extends AppCompatActivity {
             case R.style.Theme_PlanteraApp_Dracula_Light:
                 return "Dracula Light";
             default:
-                return "Default Theme";
+                return "Default App Theme";
+        }
+    }
+
+    public static int getColour(String name) {
+        switch (name) {
+            case "Water":
+            case "water":
+            case "Aqua":
+            case "aqua":
+                return R.color.Reminder_Water;
+            case "Soil":
+            case "Fertile":
+            case "soil":
+            case "fertile":
+                return R.color.Reminder_Soil;
+            default:
+                return R.color.Reminder_Other;
         }
     }
 }

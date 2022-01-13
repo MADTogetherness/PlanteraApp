@@ -1,6 +1,7 @@
 package com.example.planteraapp.entities.DAO;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -42,6 +43,9 @@ public interface PlantDAO {
     @Insert
     long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
 
+    @Insert
+    long[] insertReminders(Reminder... reminder);
+
     @Transaction
     @Query("SELECT * FROM PlantType")
     List<PlantType> getAllPlantTypes();
@@ -50,6 +54,11 @@ public interface PlantDAO {
     @Query("SELECT * FROM PlantLocation")
     List<PlantLocation> getAllPlantLocations();
 
+    @Delete
+    void deleteType(PlantType type);
+
+    @Delete
+    void deleteLocation(PlantLocation location);
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();
