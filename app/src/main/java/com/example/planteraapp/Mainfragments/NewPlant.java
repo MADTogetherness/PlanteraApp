@@ -68,7 +68,7 @@ public class NewPlant extends Fragment {
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
     // The thread to load the image
-    private Thread thread;
+    private Thread thread = null;
     // The image path is in this variable - get imagePath & store in the profile image field
     // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
     private String imagePath;
@@ -277,7 +277,7 @@ public class NewPlant extends Fragment {
     }
 
     public void resetFields() {
-        if (thread.isAlive())
+        if (thread != null && thread.isAlive())
             thread.interrupt();
         plantImage.setImageResource(R.drawable.img_default_profile_image);
         imageNameTV.setText(R.string.default_img_name);

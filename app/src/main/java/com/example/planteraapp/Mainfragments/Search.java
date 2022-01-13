@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +30,8 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
     // Filtered by name when user types in search bar
     private List<PlantsWithEverything> filteredPlants;
+    private RecyclerView recyclerView;
+    private LinearLayout emptyView;
 
     public Search() {
     }
@@ -44,33 +47,41 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
         PlantDAO plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
-
+        recyclerView = view.findViewById(R.id.search_list);
+        // View to display when list search result is empty
+        emptyView = view.findViewById(R.id.empty_view);
         EditText searchBar = view.findViewById(R.id.search_bar);
-        RecyclerView recyclerView = view.findViewById(R.id.search_list);
-
+        // Calling it initially to display all plants
+        filter_plants("");
         // Filter plants every keystroke instead of pressing enter
         // This way is much smoother and responsive
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Filter by name
-                filteredPlants = allPlants.stream().filter(
-                        p -> p.plant.plantName.toLowerCase()
-                                .contains(searchBar.getText().toString().toLowerCase())).collect(Collectors.toList());
-
-                // Set recycle view adapter
-                SearchAdapter adapter = new SearchAdapter(filteredPlants, Search.this);
-                recyclerView.setAdapter(adapter);
+                filter_plants(searchBar.getText().toString().toLowerCase());
             }
         });
 
         return view;
+    }
+
+    public void filter_plants(String txt) {
+        filteredPlants = allPlants.stream().filter(
+                p -> p.plant.plantName.toLowerCase()
+                        .contains(txt)).collect(Collectors.toList());
+        if (filteredPlants.size() == 0)
+            emptyView.setVisibility(View.VISIBLE);
+        else
+            emptyView.setVisibility(View.GONE);
+        recyclerView.setAdapter(new SearchAdapter(filteredPlants, Search.this, requireContext()));
     }
 
     @Override

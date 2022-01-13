@@ -1,26 +1,30 @@
 package com.example.planteraapp.Utilities;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
 
     List<PlantsWithEverything> plants;
     SearchItemClickListener listener;
+    Context context;
 
-    public SearchAdapter(List<PlantsWithEverything> plants, SearchItemClickListener listener) {
+    public SearchAdapter(List<PlantsWithEverything> plants, SearchItemClickListener listener, Context context) {
         this.plants = plants;
         this.listener = listener;
+        this.context = context;
     }
 
     @NonNull
@@ -43,15 +47,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
                 reminderStr.append(plant.Reminders.get(i).name);
                 continue;
             }
-
             reminderStr.append(" & ").append(plant.Reminders.get(i).name);
         }
+        if (reminderStr.length() == 0)
+            reminderStr.append("No reminders set");
 
-
-        // Set text values
         holder.plantName.setText(plant.plant.plantName);
         holder.plantReminders.setText(reminderStr.toString());
-        holder.plantDescription.setText(plant.plant.description);
+        holder.plantDescription.setText(plant.plant.description.replaceAll("\\R+", " "));
+        if (plant.Reminders.size() != 0)
+            holder.view.setBackgroundTintList(ContextCompat.getColorStateList(context, LauncherActivity.getColour(reminderStr.toString().trim())));
     }
 
     @Override
@@ -64,11 +69,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     }
 
     static class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
         public TextView plantName;
         public TextView plantReminders;
         public TextView plantDescription;
-
+        public View view;
         private final SearchItemClickListener listener;
 
         public SearchViewHolder(@NonNull View itemView, SearchItemClickListener listener) {
@@ -79,7 +83,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             plantName = itemView.findViewById(R.id.plant_name);
             plantReminders = itemView.findViewById(R.id.plant_reminders);
             plantDescription = itemView.findViewById(R.id.plant_description);
-
+            view = itemView.findViewById(R.id.type_of_reminder);
             itemView.setOnClickListener(this);
         }
 
