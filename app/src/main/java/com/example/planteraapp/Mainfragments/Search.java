@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +33,8 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
     private List<PlantsWithEverything> filteredPlants;
     private RecyclerView recyclerView;
     private LinearLayout emptyView;
+    private TextView no_search, no_search_sub;
+    private EditText searchBar;
 
     public Search() {
     }
@@ -48,9 +51,11 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
         PlantDAO plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
         recyclerView = view.findViewById(R.id.search_list);
+        no_search = view.findViewById(R.id.no_search);
+        no_search_sub = view.findViewById(R.id.no_search_sub);
         // View to display when list search result is empty
         emptyView = view.findViewById(R.id.empty_view);
-        EditText searchBar = view.findViewById(R.id.search_bar);
+        searchBar = view.findViewById(R.id.search_bar);
         // Calling it initially to display all plants
         filter_plants("");
         // Filter plants every keystroke instead of pressing enter
@@ -77,9 +82,17 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
         filteredPlants = allPlants.stream().filter(
                 p -> p.plant.plantName.toLowerCase()
                         .contains(txt)).collect(Collectors.toList());
-        if (filteredPlants.size() == 0)
+        if (filteredPlants.size() == 0) {
+            if (searchBar.getText().toString().trim().isEmpty()) {
+                no_search.setText(R.string.nothing_search_result);
+                no_search_sub.setText(R.string.nothing_search_result_sub);
+            } else {
+                no_search.setText(R.string.no_search_result);
+                no_search_sub.setText(R.string.no_search_result_sub);
+            }
             emptyView.setVisibility(View.VISIBLE);
-        else
+
+        } else
             emptyView.setVisibility(View.GONE);
         recyclerView.setAdapter(new SearchAdapter(filteredPlants, Search.this, requireContext()));
     }

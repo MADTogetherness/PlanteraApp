@@ -55,7 +55,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="gone"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
@@ -68,21 +67,23 @@
             android:backgroundTint="@color/Section_Container"
             app:tint="@color/Primary_Font"
             android:layout_marginBottom="@dimen/margin_10_dp"
-            android:contentDescription="No results found" />
+            android:contentDescription="@string/no_search_result" />
 
         <TextView
+            android:id="@+id/no_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No Matching Results"
+            android:text="@string/no_search_result"
             android:textSize="@dimen/font_size_18sp"
             android:textStyle="bold"
             android:textColor="@color/Primary_Font"
             android:fontFamily="@font/main_variable_font" />
 
         <TextView
+            android:id="@+id/no_search_sub"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
-            android:text="Sorry, there are no results for this search, please try another phrase"
+            android:text="@string/no_search_result_sub"
             android:textSize="@dimen/font_size_14sp"
             android:textAlignment="center"
             android:textColor="@color/Secondary_Font" />
