@@ -47,7 +47,7 @@
             android:id="@+id/empty_today"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No Upcoming tasks today"
+            android:text="No Upcoming tasks for today"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_17sp"
             android:textStyle="bold"
