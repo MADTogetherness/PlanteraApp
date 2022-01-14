@@ -70,7 +70,6 @@ public class SetReminder extends Fragment {
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_set_reminder, container, false);
         // Initialise the views
         init(view);
@@ -186,18 +185,21 @@ public class SetReminder extends Fragment {
         color = view.findViewById(R.id.view_reminder_color);
         autoCompleteTextView = view.findViewById(R.id.reminder_last_completed);
         btnDone = view.findViewById(R.id.set_reminder_done);
-        arrayAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, generateList());
+        arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, generateList());
+        Log.d("opened", "yes3");
         autoCompleteTextView.setAdapter(arrayAdapter);
     }
 
     public List<WeekDay> generateList() {
         List<WeekDay> days = new ArrayList<>();
-        int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK), i = today + 1;
+        int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK), i = (today % 7) + 1; //7
+        Log.d("opened", "yes1");
         while (i != today) {
             Log.d("day", String.valueOf(i));
             days.add(new WeekDay(i++));
             if (i - 1 == 7) i = 1;
         }
+        Log.d("opened", "yes2");
         days.add(new WeekDay(i));
         return days;
     }
