@@ -11,9 +11,10 @@ import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
 
-public class PlantAndReminders {
+public class ReminderAndPlant {
     @Embedded
-    public Plant plant;
+    public Reminder reminder;
     @Relation(parentColumn = "plantName", entityColumn = "plantName")
-    public List<Reminder> Reminders;
+    public Plant plant;
+
 }

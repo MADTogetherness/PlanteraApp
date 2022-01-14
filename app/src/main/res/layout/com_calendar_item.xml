@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_16_dp"
-    android:layout_margin="@dimen/margin_16_dp"
+    android:layout_marginTop="@dimen/margin_10_dp"
+    android:layout_marginBottom="@dimen/margin_10_dp"
     android:layout_rowWeight="1"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/com_round_shape"
@@ -67,6 +68,7 @@
             android:fontFamily="@font/main_variable_font"
             android:text="6 hours 22 mins"
             android:layout_gravity="right"
+            android:layout_marginTop="@dimen/margin_10_dp"
             android:textStyle="bold"
             android:textColor="@color/Primary_Font"
             android:textSize="@dimen/font_size_14sp" />

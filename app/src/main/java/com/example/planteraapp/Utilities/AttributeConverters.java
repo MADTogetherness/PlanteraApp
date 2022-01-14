@@ -2,6 +2,7 @@ package com.example.planteraapp.Utilities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.util.TimeZone;
 import android.util.Base64;
 
 import androidx.room.TypeConverter;
@@ -104,7 +105,7 @@ public class AttributeConverters {
 
     //TODO: ATTRIBUTE FOR NABEEL
     public static String getRemainingTime(long durationRemaining) {
-        long[] time = getHoursAndMinutes(durationRemaining);
+        long[] time = getHoursAndMinutes(durationRemaining - System.currentTimeMillis());
         return time[0] > 0 ? String.format(Locale.getDefault(), "%02d hour(s) %02d minute(s)", time[0], time[1]) : String.format(Locale.getDefault(), "%02d minute(s)", time[1]);
     }
 

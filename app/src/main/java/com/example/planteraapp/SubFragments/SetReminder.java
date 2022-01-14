@@ -141,13 +141,14 @@ public class SetReminder extends Fragment {
             return;
         }
         String name = setReminderName.getText().toString().trim().substring(0, 1).toUpperCase() + setReminderName.getText().toString().trim().substring(1).toLowerCase();
+        long repeat = AttributeConverters.getMillisFrom(Integer.parseInt(repeatInterval.getText().toString().trim()));
         reminderInstance = new Reminder(
                 null,
                 name,                                                                                           // Reminder Name
                 AttributeConverters.getMillisFrom(selectedHour, selectedMinute),                                // Time
-                AttributeConverters.getEpochTime(selectedHour, selectedMinute),                                 // Real Time Epoch
+                AttributeConverters.getEpochTime(selectedHour, selectedMinute) + repeat,              // Real Time Epoch
                 lastCompleted.getLastCompletedInLong(),                                                         // Last Completed Epoch
-                AttributeConverters.getMillisFrom(Integer.parseInt(repeatInterval.getText().toString().trim())) // Repeat interval in days (not epoch)
+                repeat                                                                                          // Repeat interval in days (not epoch)
         );
         reminderInstance.notify = switchCompat.isChecked();
         Log.d("day", AttributeConverters.getGsonParser().toJson(reminderInstance));

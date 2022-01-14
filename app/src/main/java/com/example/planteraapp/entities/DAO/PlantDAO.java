@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.room.Transaction;
+import androidx.room.Update;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
 import com.example.planteraapp.entities.BlogImagesCrossRef;
@@ -15,6 +16,7 @@ import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
 
 import java.util.List;
@@ -59,6 +61,13 @@ public interface PlantDAO {
 
     @Delete
     void deleteLocation(PlantLocation location);
+
+    @Transaction
+    @Query("SELECT * FROM Reminder")
+    List<ReminderAndPlant> getRemindersWithPlant();
+
+    @Update
+    void updateReminder(Reminder reminder);
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();
@@ -69,7 +78,7 @@ public interface PlantDAO {
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    PlantAndReminders getAllRemindersOfPlantFromID(String plantName);
+//    ReminderAndPlant getAllRemindersOfPlantFromID(String plantName);
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
