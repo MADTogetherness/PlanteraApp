@@ -55,6 +55,8 @@ import java.util.TimerTask;
 
 
 public class NewPlant extends Fragment {
+    public static String REMINDER_KEY = "getReminder";
+    public static String THEME_KEY = "getTheme";
     private PlantDAO DAO;
     private TextView imageNameTV, themeNameTV;
     private AutoCompleteTextView typeATV, locationATV;
@@ -127,30 +129,6 @@ public class NewPlant extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        plantNameET.addTextChangedListener(new TextWatcher() {
-            Timer timer = new Timer();
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                timer.cancel();
-                timer.purge();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        ChangePlantNames();
-                    }
-                }, 1200);
-            }
-        });
         saveData.setOnClickListener(v -> {
             if (!saveData.isActivated()) {
                 Toast.makeText(requireContext(), "Image is still uploading, Please wait", Toast.LENGTH_SHORT).show();
@@ -179,7 +157,8 @@ public class NewPlant extends Fragment {
             String type = typeATV.getText().toString().trim();
             String location = locationATV.getText().toString().trim();
             plantName = name;
-
+            // Change plant Name for all reminders set
+            ChangePlantNames();
             long successT = -1, successL = -1, successP = -1;
             PlantType newType = new PlantType(type);
             PlantLocation newLocation = new PlantLocation(location);
@@ -250,7 +229,6 @@ public class NewPlant extends Fragment {
         final ArrayAdapter<?> arrayAdapter = new ArrayAdapter<>(
                 requireActivity(), android.R.layout.simple_dropdown_item_1line, theList);
         atv.setAdapter(arrayAdapter);
-        atv.setOnClickListener(arg0 -> atv.showDropDown());
     }
 
     public void getNewImage() {
@@ -261,10 +239,8 @@ public class NewPlant extends Fragment {
     }
 
     public void ChangePlantNames() {
-        for (Reminder rem : reminders) {
-            String temp = plantNameET.getText().toString().trim();
-            rem.plantName = temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
-        }
+        for (Reminder rem : reminders)
+            rem.plantName = plantName;
     }
 
     public void EnableDisable(boolean val) {
@@ -320,7 +296,7 @@ public class NewPlant extends Fragment {
                 View bubble = item.findViewById(R.id.bubble);
 
                 tvTitle.setText(all_reminders.name);
-                tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
+                tvDesc.setText("Repeat After " + AttributeConverters.toDays(all_reminders.repeatInterval) + " day(s)" + "\nTime: " + AttributeConverters.getReadableTime(all_reminders.time) + "\nReminder is " + (all_reminders.notify ? "on" : "off"));
                 bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(all_reminders.name)));
                 ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
 
@@ -367,56 +343,39 @@ public class NewPlant extends Fragment {
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            boolean notificationEnabled = bundle.getBoolean("notificationEnabled");
-            String reminderName = bundle.getString("reminderName");
-            long time = bundle.getLong("time");
-            long interval = bundle.getLong("interval");
-            Reminder newReminder = new Reminder(plantNameET.getText().toString(), reminderName, time, interval);
-            newReminder.notify = notificationEnabled;
+            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(REMINDER_KEY), Reminder.class);
             if(position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
             addRemindersToList(reminders);
-            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + reminderName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
         });
         Bundle b = null;
         if(position>=0 && reminder!=null){
             b = new Bundle();
-            b.putBoolean("notificationEnabled", reminder[0].notify);
-            b.putString("reminderName", reminder[0].name);
-            b.putLong("time", reminder[0].time);
-            b.putLong("interval", reminder[0].repeatInterval);
+            b.putString(REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
         }
-        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        SetReminder setReminder = new SetReminder();
-        setReminder.setArguments(b);
-
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.nav_controller, setReminder, "SubFrag")
-                .addToBackStack(setReminder.getTag())
-                .commit();
-
-
-
+        openSubFragment(new SetReminder(), b, fm);
     }
 
-    public void getTheme(){
+    public void getTheme() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            plantTheme = bundle.getInt("plantTheme");
+            plantTheme = bundle.getInt(THEME_KEY);
             themeNameTV.setText(LauncherActivity.getThemeName(plantTheme));
             Toast.makeText(requireContext(), "Theme set to " + LauncherActivity.getThemeName(plantTheme), Toast.LENGTH_SHORT).show();
         });
-        Bundle b;
-        b = new Bundle();
-        b.putInt("plantTheme", plantTheme);
+        Bundle b = new Bundle();
+        b.putInt(THEME_KEY, plantTheme);
+        openSubFragment(new ColorTheme(), b, fm);
+    }
+
+    public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
         requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        ColorTheme chooseColorTheme = new ColorTheme();
-        chooseColorTheme.setArguments(b);
+        fg.setArguments(bn);
         fm.beginTransaction()
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.nav_controller, chooseColorTheme, "SubFrag")
-                .addToBackStack(chooseColorTheme.getTag())
+                .add(R.id.nav_controller, fg, "SubFrag")
+                .addToBackStack(fg.getTag())
                 .commit();
     }
 

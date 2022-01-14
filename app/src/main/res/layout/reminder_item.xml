@@ -40,9 +40,10 @@
         android:layout_marginStart="15dp"
         android:layout_toStartOf="@id/bubble"
         android:layout_toEndOf="@id/bell"
-        android:text="Reminder"
+        android:fontFamily="@font/main_variable_font"
+        android:lineHeight="18sp"
         android:textColor="@color/Secondary_Font"
-        android:textSize="@dimen/font_size_14sp" />
+        android:textSize="@dimen/font_size_16sp" />
 
     <ImageView
         android:id="@+id/arrow"

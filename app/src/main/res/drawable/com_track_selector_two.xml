@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false">
+        <layer-list>
+            <item android:top="@dimen/com_padding_inner_4_dp" android:start="@dimen/com_padding_inner_4_dp" android:end="@dimen/com_padding_inner_4_dp" android:bottom="@dimen/com_padding_inner_4_dp" android:gravity="center_vertical|fill_horizontal">
+                <shape>
+                    <solid android:color="?attr/Section_Container" />
+                    <corners android:radius="@dimen/com_size_24_dp" />
+                    <size android:height="@dimen/com_size_24_dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item android:state_checked="true">
+        <layer-list>
+            <item android:top="@dimen/com_padding_inner_4_dp" android:start="@dimen/com_padding_inner_4_dp" android:end="@dimen/com_padding_inner_4_dp" android:bottom="@dimen/com_padding_inner_4_dp" android:gravity="center_vertical|fill_horizontal">
+                <shape>
+                    <solid android:color="?attr/Section_Container" />
+                    <corners android:radius="@dimen/com_size_24_dp" />
+                    <size android:height="@dimen/com_size_24_dp" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

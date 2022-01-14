@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a5c831045d99783c0143627273e0b433",
+    "identityHash": "994d282904a852ae467589ccfd965a13",
     "entities": [
       {
         "tableName": "Reminder",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reminderID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantName` TEXT, `lastCompleted` INTEGER NOT NULL, `completedReminder` INTEGER NOT NULL, `name` TEXT, `time` INTEGER NOT NULL, `notify` INTEGER NOT NULL, `repeatInterval` INTEGER NOT NULL, FOREIGN KEY(`plantName`) REFERENCES `Plant`(`plantName`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`reminderID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `plantName` TEXT, `lastCompleted` INTEGER NOT NULL, `completedReminder` INTEGER NOT NULL, `name` TEXT, `time` INTEGER NOT NULL, `realEpochTime` INTEGER NOT NULL, `notify` INTEGER NOT NULL, `repeatInterval` INTEGER NOT NULL, FOREIGN KEY(`plantName`) REFERENCES `Plant`(`plantName`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "reminderID",
@@ -41,6 +41,12 @@
           {
             "fieldPath": "time",
             "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "realEpochTime",
+            "columnName": "realEpochTime",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -374,7 +380,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a5c831045d99783c0143627273e0b433')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '994d282904a852ae467589ccfd965a13')"
     ]
   }
 }
