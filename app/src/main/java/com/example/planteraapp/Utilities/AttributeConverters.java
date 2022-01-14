@@ -6,8 +6,12 @@ import android.util.Base64;
 
 import androidx.room.TypeConverter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.ByteArrayOutputStream;
 import java.sql.Time;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Timer;
@@ -51,6 +55,19 @@ public class AttributeConverters {
         return img;
     }
 
+    public static Gson getGsonParser() {
+        return new GsonBuilder().create();
+    }
+
+    public static long getEpochTime(int h, int m) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, h);
+        calendar.set(Calendar.MINUTE, m);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
     public static long[] getHoursAndMinutes(long millis) {
         long seconds = Math.round((double) millis / 1000);
         long hours = TimeUnit.SECONDS.toHours(seconds);
@@ -85,6 +102,7 @@ public class AttributeConverters {
         return String.format(Locale.getDefault(), "%02d:%02d %s", (hours > 12) ? hours - 12 : ((hours == 0) ? 12 : hours), minutes, (hours > 11) ? "PM" : "AM");
     }
 
+    //TODO: ATTRIBUTE FOR NABEEL
     public static String getRemainingTime(long durationRemaining) {
         long[] time = getHoursAndMinutes(durationRemaining);
         return time[0] > 0 ? String.format(Locale.getDefault(), "%02d hour(s) %02d minute(s)", time[0], time[1]) : String.format(Locale.getDefault(), "%02d minute(s)", time[1]);

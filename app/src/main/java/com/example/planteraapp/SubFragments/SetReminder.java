@@ -14,10 +14,14 @@ import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,94 +29,71 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.entities.Reminder;
 
 import org.w3c.dom.Attr;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SetReminder#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SetReminder extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public SetReminder() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SetReminder.
-     */
-    // TODO: Rename and change types and number of parameters
-
+    private static final int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     private EditText setReminderName, setTime, repeatInterval;
     private SwitchCompat switchCompat;
     private View color;
     private AppCompatButton btnDone;
+    private AutoCompleteTextView autoCompleteTextView;
     private int selectedHour = -1, selectedMinute = -1;
+    private WeekDay lastCompleted;
+    private ArrayAdapter<WeekDay> arrayAdapter;
+    private Reminder reminderInstance;
 
-    public static SetReminder newInstance(String param1, String param2) {
-        SetReminder fragment = new SetReminder();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public SetReminder() {/*Required empty public constructor*/}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        reminderInstance = getArguments() != null ?
+                AttributeConverters.getGsonParser().fromJson(getArguments().getString(NewPlant.REMINDER_KEY), Reminder.class)
+                : null;
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_set_reminder, container, false);
-        setReminderName = view.findViewById(R.id.set_reminder_name);
-        setTime = view.findViewById(R.id.set_reminder_time);
-        repeatInterval = view.findViewById(R.id.set_repeat_interval);
-        switchCompat = view.findViewById(R.id.notify_enabled);
-        color = view.findViewById(R.id.view_reminder_color);
-        btnDone = view.findViewById(R.id.set_reminder_done);
-        if (getArguments() != null) {
+        // Initialise the views
+        init(view);
+        // Check if the reminderInstance is new or existing
+        // If existing then set the properties
+        if (reminderInstance != null) {
             ((TextView) view.findViewById(R.id.header)).setText("Edit Reminder");
-            long[] time = AttributeConverters.getHoursAndMinutes(getArguments().getLong("time"));
+            long[] time = AttributeConverters.getHoursAndMinutes(reminderInstance.time);
             selectedHour = (int) time[0];
             selectedMinute = (int) time[1];
-            setTime.setText(String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute));
-            repeatInterval.setText(String.valueOf(AttributeConverters.toDays(getArguments().getLong("interval"))));
-            switchCompat.setChecked(getArguments().getBoolean("notificationEnabled"));
-            String reminder_name = getArguments().getString("reminderName");
-            setReminderName.setText(reminder_name);
-            color.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(reminder_name)));
-        }
+            setTime.setText(AttributeConverters.getReadableTime(selectedHour, selectedMinute));
+            repeatInterval.setText(String.valueOf(AttributeConverters.toDays(reminderInstance.repeatInterval)));
+            switchCompat.setChecked(reminderInstance.notify);
+            setReminderName.setText(reminderInstance.name);
+            color.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(reminderInstance.name)));
+            Calendar c = Calendar.getInstance();
+            c.setTimeInMillis(reminderInstance.lastCompleted);
+            lastCompleted = new WeekDay(c.get(Calendar.DAY_OF_WEEK));
+        } else lastCompleted = arrayAdapter.getItem(arrayAdapter.getCount() - 1);
+
+        // Set the lastCompleted Day
+        autoCompleteTextView.setText(lastCompleted.toString(), false);
+        autoCompleteTextView.setOnItemClickListener((adapterView, v, i, l) -> lastCompleted = arrayAdapter.getItem(i));
         return view;
     }
 
@@ -159,13 +140,27 @@ public class SetReminder extends Fragment {
             LauncherActivity.openSoftKeyboard(requireContext(), repeatInterval);
             return;
         }
-        String name = setReminderName.getText().toString().trim();
-        int repeat = Integer.parseInt(repeatInterval.getText().toString().trim());
+        String name = setReminderName.getText().toString().trim().substring(0, 1).toUpperCase() + setReminderName.getText().toString().trim().substring(1).toLowerCase();
+        reminderInstance = new Reminder(
+                null,
+                name,                                                                                           // Reminder Name
+                AttributeConverters.getMillisFrom(selectedHour, selectedMinute),                                // Time
+                AttributeConverters.getEpochTime(selectedHour, selectedMinute),                                 // Real Time Epoch
+                lastCompleted.getLastCompletedInLong(),                                                         // Last Completed Epoch
+                AttributeConverters.getMillisFrom(Integer.parseInt(repeatInterval.getText().toString().trim())) // Repeat interval in days (not epoch)
+        );
+        reminderInstance.notify = switchCompat.isChecked();
+        Log.d("day", AttributeConverters.getGsonParser().toJson(reminderInstance));
+        Log.d("day - check", "" + (reminderInstance.lastCompleted <= reminderInstance.realEpochTime));
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(reminderInstance.lastCompleted + reminderInstance.repeatInterval);
+        Log.d("day - next", AttributeConverters.getReadableTime(c.get(Calendar.HOUR), c.get(Calendar.MINUTE)));
+        c = Calendar.getInstance();
+        c.setTimeInMillis(reminderInstance.realEpochTime + reminderInstance.repeatInterval);
+        Log.d("day - next", getDay(c.get(Calendar.DAY_OF_WEEK)));
+
         Bundle b = new Bundle();
-        b.putLong("time", AttributeConverters.getMillisFrom(selectedHour, selectedMinute));
-        b.putLong("interval", AttributeConverters.getMillisFrom(repeat));
-        b.putString("reminderName", name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
-        b.putBoolean("notificationEnabled", switchCompat.isChecked());
+        b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminderInstance));
         getParentFragmentManager().setFragmentResult("requestKey", b);
         requireActivity().onBackPressed();
     }
@@ -180,6 +175,78 @@ public class SetReminder extends Fragment {
             setTime.setText(AttributeConverters.getReadableTime(selectedHour, selectedMinute));
         }, this.selectedHour != -1 ? this.selectedHour : hour, this.selectedMinute != -1 ? this.selectedMinute : minute, false);
         timePickerDialog.show();
+    }
+
+    public void init(View view) {
+        setReminderName = view.findViewById(R.id.set_reminder_name);
+        setTime = view.findViewById(R.id.set_reminder_time);
+        repeatInterval = view.findViewById(R.id.set_repeat_interval);
+        switchCompat = view.findViewById(R.id.notify_enabled);
+        color = view.findViewById(R.id.view_reminder_color);
+        autoCompleteTextView = view.findViewById(R.id.reminder_last_completed);
+        btnDone = view.findViewById(R.id.set_reminder_done);
+        arrayAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, generateList());
+        autoCompleteTextView.setAdapter(arrayAdapter);
+    }
+
+    public List<WeekDay> generateList() {
+        List<WeekDay> days = new ArrayList<>();
+        int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK), i = today + 1;
+        while (i != today) {
+            Log.d("day", String.valueOf(i));
+            days.add(new WeekDay(i++));
+            if (i - 1 == 7) i = 1;
+        }
+        days.add(new WeekDay(i));
+        return days;
+    }
+
+    public String getDay(int d) {
+        switch (d) {
+            case 1:
+                return "Sunday";
+            case 2:
+                return "Monday";
+            case 3:
+                return "Tuesday";
+            case 4:
+                return "Wednesday";
+            case 5:
+                return "Thursday";
+            case 6:
+                return "Friday";
+            case 7:
+                return "Saturday";
+        }
+        return null;
+    }
+
+    class WeekDay {
+        String name;
+        int day;
+
+        WeekDay(int day) {
+            this.day = day;
+            this.name = day == today ? "Today" : getDay(day);
+        }
+
+        long getLastCompletedInLong() {
+            final Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
+            calendar.set(Calendar.MINUTE, selectedMinute);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+            int d = (today - day) < 0 ? today - day + 7 : today - day;
+            return calendar.getTimeInMillis() - TimeUnit.DAYS.toMillis(d);
+
+        }
+
+        @NonNull
+        @Override
+        public String toString() {
+            return name;
+        }
+
     }
 
 }

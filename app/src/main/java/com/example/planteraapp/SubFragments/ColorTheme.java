@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
 
 /**
@@ -29,29 +30,11 @@ public class ColorTheme extends Fragment {
     private int[] colors;
     private RadioGroup group;
     private int selectedTheme;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public ColorTheme() {/* Required empty public constructor */}
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ColorTheme.
-     */
     // TODO: Rename and change types and number of parameters
     public static ColorTheme newInstance(String param1, String param2) {
         ColorTheme fragment = new ColorTheme();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,13 +42,7 @@ public class ColorTheme extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            selectedTheme = convertTheme(getArguments().getInt("plantTheme"));
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        } else {
-            selectedTheme = convertTheme(R.style.Theme_PlanteraApp);
-        }
+        selectedTheme = convertTheme(getArguments() != null ? getArguments().getInt(NewPlant.THEME_KEY) : R.style.Theme_PlanteraApp);
     }
 
     @Override
@@ -110,7 +87,7 @@ public class ColorTheme extends Fragment {
     }
 
     public void saveTheme(Bundle result, int theme) {
-        result.putInt("plantTheme", convertTheme(theme));
+        result.putInt(NewPlant.THEME_KEY, convertTheme(theme));
         Log.d("set", LauncherActivity.getThemeName(convertTheme(theme)));
         requireActivity().getSupportFragmentManager().setFragmentResult("requestKey", result);
         requireActivity().onBackPressed();
