@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Time;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -103,10 +104,14 @@ public class AttributeConverters {
         return String.format(Locale.getDefault(), "%02d:%02d %s", (hours > 12) ? hours - 12 : ((hours == 0) ? 12 : hours), minutes, (hours > 11) ? "PM" : "AM");
     }
 
-    //TODO: ATTRIBUTE FOR NABEEL
+    // Gets remaining time from NOW to notification time in hh hours mm minutes format
     public static String getRemainingTime(long durationRemaining) {
-        long[] time = getHoursAndMinutes(durationRemaining - System.currentTimeMillis());
-        return time[0] > 0 ? String.format(Locale.getDefault(), "%02d hour(s) %02d minute(s)", time[0], time[1]) : String.format(Locale.getDefault(), "%02d minute(s)", time[1]);
+        Duration d = Duration.ofMillis(durationRemaining - System.currentTimeMillis());
+        long days = d.toDays(), hours = d.toHours() % 24;
+        String dy = days > 0 ? String.format(Locale.getDefault(), "%d day(s) ", days) : "";
+        String h = hours > 0 ? String.format(Locale.getDefault(), "%02d hr(s) ", hours) : "";
+        String m = String.format(Locale.getDefault(), "%02d min(s)", d.toMinutes() % 60);
+        return dy + h + m;
     }
 
 }

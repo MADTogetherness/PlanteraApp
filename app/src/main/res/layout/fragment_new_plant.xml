@@ -141,6 +141,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:endIconMode="clear_text"
+                    app:startIconDrawable="@drawable/ic_my_plants_view_icon_v24"
+                    app:startIconTint="@color/Primary_Font"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -163,6 +165,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/ic_location_24"
+                    app:startIconTint="@color/Primary_Font"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -185,6 +189,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:startIconDrawable="@drawable/ic_type_icon"
+                    app:startIconTint="@color/Primary_Font"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">

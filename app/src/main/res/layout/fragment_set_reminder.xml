@@ -61,6 +61,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
+                app:startIconDrawable="@drawable/ic_bell"
+                app:startIconTint="@color/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -82,6 +84,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_access_time_24"
+                app:startIconTint="@color/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -103,6 +107,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:suffixText="day(s)"
+                app:startIconDrawable="@drawable/ic_repeat_24"
+                app:startIconTint="@color/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -123,6 +129,8 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:startIconDrawable="@drawable/ic_previous_24"
+                app:startIconTint="@color/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <AutoCompleteTextView

@@ -63,7 +63,7 @@ public interface PlantDAO {
     void deleteLocation(PlantLocation location);
 
     @Transaction
-    @Query("SELECT * FROM Reminder")
+    @Query("SELECT * FROM Reminder ORDER BY realEpochTime")
     List<ReminderAndPlant> getRemindersWithPlant();
 
     @Update
