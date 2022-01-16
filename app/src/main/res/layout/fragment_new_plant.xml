@@ -276,11 +276,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:background="@drawable/com_top_app_bar_background"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
         android:padding="@dimen/padding_16_dp">
 
         <TextView
@@ -289,9 +289,9 @@
             android:layout_marginStart="@dimen/padding_16_dp"
             android:layout_weight="1"
             android:fontFamily="@font/opensans_bold"
-            android:textSize="19sp"
             android:text="Add new plant"
-            android:textColor="@color/Primary_Font" />
+            android:textColor="@color/Primary_Font"
+            android:textSize="19sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/reset_btn"

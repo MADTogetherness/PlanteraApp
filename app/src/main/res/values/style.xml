@@ -104,7 +104,7 @@
     <style name="Theme.PlanteraApp.Dracula.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Theme Colors -->
         <item name="App_Container">#282a36</item>
-        <item name="Section_Container">#262837</item>
+        <item name="Section_Container">#44475A</item>
         <item name="Primary_Font">#f8f8f2</item>
         <item name="Secondary_Font">#B1BBD9</item>
         <item name="Button_Font">#000000</item>
