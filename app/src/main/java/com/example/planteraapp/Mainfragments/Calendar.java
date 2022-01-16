@@ -1,6 +1,9 @@
 //Calendar.java
 package com.example.planteraapp.Mainfragments;
 
+import android.animation.Animator;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,25 +12,33 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.planteraapp.AppDatabase;
+import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.Utilities.ReminderRecyclerAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Relations.ReminderAndPlant;
+import com.example.planteraapp.entities.Reminder;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-public class Calendar extends Fragment {
+import java.util.Objects;
+
+public class Calendar extends Fragment implements ReminderRecyclerAdapter.CalendarItemCheckListener {
     private PlantDAO DAO;
     private RecyclerView rvTodayReminder, rvTomorrowReminder;
     private ReminderRecyclerAdapter todayReminderRVA, tomorrowReminderRVA;
-    private List<List<ReminderAndPlant>> allReminderList;
+    private List<ReminderAndPlant> today, tomorrow;
 
     public Calendar() {/*Required empty public constructor*/}
 
@@ -52,27 +63,15 @@ public class Calendar extends Fragment {
     public void initViews(View view) {
         rvTodayReminder = view.findViewById(R.id.rv_today);
         rvTomorrowReminder = view.findViewById(R.id.rv_tomorrow);
-        allReminderList = getReminderList();
-        todayReminderRVA = new ReminderRecyclerAdapter(allReminderList.get(0), DAO, requireContext());
-        tomorrowReminderRVA = new ReminderRecyclerAdapter(allReminderList.get(1), DAO, requireContext());
-
-        if (allReminderList.get(0).size() == 0)
-            view.findViewById(R.id.empty_today).setVisibility(View.VISIBLE);
-        if (allReminderList.get(1).size() == 0)
-            view.findViewById(R.id.empty_tomorrow).setVisibility(View.VISIBLE);
-
         RecyclerView.LayoutManager todayLayoutManager = new LinearLayoutManager(getContext());
         rvTodayReminder.setLayoutManager(todayLayoutManager);
         rvTodayReminder.setItemAnimator(new DefaultItemAnimator());
         rvTodayReminder.setHasFixedSize(true);
-        rvTodayReminder.setAdapter(todayReminderRVA);
-
         RecyclerView.LayoutManager tomorrowLayoutManager = new LinearLayoutManager(getContext());
         rvTomorrowReminder.setLayoutManager(tomorrowLayoutManager);
         rvTomorrowReminder.setItemAnimator(new DefaultItemAnimator());
         rvTomorrowReminder.setHasFixedSize(true);
-        rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
-
+        initialiseAdapter();
     }
 
     public List<List<ReminderAndPlant>> getReminderList() {
@@ -85,5 +84,58 @@ public class Calendar extends Fragment {
                 tomorrow.add(reminder);
         }
         return Arrays.asList(today, tomorrow);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void initialiseAdapter() {
+        List<List<ReminderAndPlant>> all_rem = getReminderList();
+        today = all_rem.get(0);
+        tomorrow = all_rem.get(1);
+        todayReminderRVA = new ReminderRecyclerAdapter(rvTodayReminder.getId(), today, this, requireContext());
+        tomorrowReminderRVA = new ReminderRecyclerAdapter(rvTomorrowReminder.getId(), tomorrow, this, requireContext());
+        rvTodayReminder.setAdapter(todayReminderRVA);
+        rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
+        if (today.size() == 0)
+            requireView().findViewById(R.id.empty_today).setVisibility(View.VISIBLE);
+        if (tomorrow.size() == 0)
+            requireView().findViewById(R.id.empty_tomorrow).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onChecked(int recyclerID, View itemView, int position, boolean isChecked) {
+        Log.d("check", isChecked + "");
+        itemView.animate().translationX(1400).setDuration(600).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                Reminder rem = recyclerID == rvTodayReminder.getId()
+                        ? today.get(position).reminder
+                        : tomorrow.get(position).reminder;
+                if (isChecked) {
+                    rem.lastCompleted = rem.realEpochTime;
+                    rem.realEpochTime += rem.repeatInterval;
+                }
+                DAO.updateReminder(rem);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                initialiseAdapter();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                initialiseAdapter();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        initialiseAdapter();
+        super.onResume();
     }
 }

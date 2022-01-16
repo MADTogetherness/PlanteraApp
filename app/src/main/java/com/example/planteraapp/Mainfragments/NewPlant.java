@@ -1,6 +1,8 @@
 package com.example.planteraapp.Mainfragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
@@ -39,6 +41,7 @@ import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
+import com.example.planteraapp.Utilities.AlertReceiver;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
@@ -49,6 +52,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -274,6 +278,16 @@ public class NewPlant extends Fragment {
     }
 
     public void callForMyPlantActivity() {
+        for (Reminder rem : reminders) {
+            AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(requireContext(), AlertReceiver.class);
+            intent.putExtra("Title", "Reminder to " + rem.name);
+            intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + locationATV.getText().toString().trim());
+            int reqCode = (int) System.currentTimeMillis();
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireActivity().getApplicationContext(), reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            // TODO: Change the time
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+        }
         resetFields();
         Intent intent = new Intent(requireActivity(), MyPlant.class);
         intent.putExtra("plantName", plantName);

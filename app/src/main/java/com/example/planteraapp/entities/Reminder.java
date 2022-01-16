@@ -46,6 +46,7 @@ public class Reminder {
      *                        last completed changes & new realEpochTime set using repeatInterval
      *                        (new lastCompleted = realEpochTime)
      *                        (new realEpochTime = realEpochTime + repeatInterval)
+     *
      */
     public Reminder(String plantName, String name, long time, long realEpochTime, long lastCompleted, long repeatInterval) {
         this.plantName = plantName;

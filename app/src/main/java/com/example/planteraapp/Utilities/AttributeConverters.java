@@ -1,8 +1,9 @@
 package com.example.planteraapp.Utilities;
 
+import static java.lang.Math.abs;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.util.TimeZone;
 import android.util.Base64;
 
 import androidx.room.TypeConverter;
@@ -11,12 +12,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.ByteArrayOutputStream;
-import java.sql.Time;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 public class AttributeConverters {
@@ -106,12 +105,14 @@ public class AttributeConverters {
 
     // Gets remaining time from NOW to notification time in hh hours mm minutes format
     public static String getRemainingTime(long durationRemaining) {
-        Duration d = Duration.ofMillis(durationRemaining - System.currentTimeMillis());
-        long days = d.toDays(), hours = d.toHours() % 24;
+        long remaining = durationRemaining - System.currentTimeMillis();
+        Duration d = Duration.ofMillis(remaining);
+        long days = abs(d.toDays()), hours = abs(d.toHours() % 24);
+        String prefix = remaining < 1000 ? "Overdue by " : "In ";
         String dy = days > 0 ? String.format(Locale.getDefault(), "%d day(s) ", days) : "";
         String h = hours > 0 ? String.format(Locale.getDefault(), "%02d hr(s) ", hours) : "";
-        String m = String.format(Locale.getDefault(), "%02d min(s)", d.toMinutes() % 60);
-        return dy + h + m;
+        String m = String.format(Locale.getDefault(), "%02d min(s)", abs(d.toMinutes() % 60));
+        return prefix + dy + h + m;
     }
 
 }

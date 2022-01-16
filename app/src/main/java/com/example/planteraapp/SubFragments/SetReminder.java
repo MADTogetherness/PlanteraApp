@@ -1,13 +1,19 @@
 package com.example.planteraapp.SubFragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -31,6 +37,7 @@ import android.widget.Toast;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AlertReceiver;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Reminder;
 
@@ -49,8 +56,7 @@ public class SetReminder extends Fragment {
     private static final int today = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
     private EditText setReminderName, setTime, repeatInterval;
     private SwitchCompat switchCompat;
-    private View color;
-    private AppCompatButton btnDone;
+    private AppCompatButton test_notification, btnDone;
     private AutoCompleteTextView autoCompleteTextView;
     private int selectedHour = -1, selectedMinute = -1;
     private WeekDay lastCompleted;
@@ -84,7 +90,6 @@ public class SetReminder extends Fragment {
             repeatInterval.setText(String.valueOf(AttributeConverters.toDays(reminderInstance.repeatInterval)));
             switchCompat.setChecked(reminderInstance.notify);
             setReminderName.setText(reminderInstance.name);
-            color.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(reminderInstance.name)));
             Calendar c = Calendar.getInstance();
             c.setTimeInMillis(reminderInstance.lastCompleted);
             lastCompleted = new WeekDay(c.get(Calendar.DAY_OF_WEEK));
@@ -99,27 +104,23 @@ public class SetReminder extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         setTime.setOnClickListener(v -> popTimePicker());
-        setReminderName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().trim().length() == 0) {
-                    color.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), android.R.color.transparent));
-                    return;
-                }
-                String temp = charSequence.toString().trim();
-                color.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase())));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
         view.findViewById(R.id.reminder_close).setOnClickListener(v -> requireActivity().onBackPressed());
+        test_notification.setOnClickListener(v -> {
+            Intent actionIntent = new Intent(requireContext(), AlertReceiver.class);
+            actionIntent.putExtra("test", 1999);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 1999, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), LauncherActivity.CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_my_plants_view_icon_v24)
+                    .setContentTitle("Reminder to care")
+                    .setContentText("Notification works well")
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true);
+
+            NotificationManagerCompat test = NotificationManagerCompat.from(requireContext().getApplicationContext());
+            test.notify(1999, builder.build());
+            Toast.makeText(requireContext(), "Testing notification Now", Toast.LENGTH_LONG).show();
+        });
         btnDone.setOnClickListener(v -> setReminder());
     }
 
@@ -145,7 +146,7 @@ public class SetReminder extends Fragment {
                 null,
                 name,                                                                                           // Reminder Name
                 AttributeConverters.getMillisFrom(selectedHour, selectedMinute),                                // Time
-                AttributeConverters.getEpochTime(selectedHour, selectedMinute) + repeat,              // Real Time Epoch
+                lastCompleted.getLastCompletedInLong() + repeat,              // Real Time Epoch
                 lastCompleted.getLastCompletedInLong(),                                                         // Last Completed Epoch
                 repeat                                                                                          // Repeat interval in days (not epoch)
         );
@@ -182,8 +183,8 @@ public class SetReminder extends Fragment {
         setTime = view.findViewById(R.id.set_reminder_time);
         repeatInterval = view.findViewById(R.id.set_repeat_interval);
         switchCompat = view.findViewById(R.id.notify_enabled);
-        color = view.findViewById(R.id.view_reminder_color);
         autoCompleteTextView = view.findViewById(R.id.reminder_last_completed);
+        test_notification = view.findViewById(R.id.test_notification);
         btnDone = view.findViewById(R.id.set_reminder_done);
         arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, generateList());
         Log.d("opened", "yes3");

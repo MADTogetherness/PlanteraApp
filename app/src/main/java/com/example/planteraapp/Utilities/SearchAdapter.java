@@ -5,11 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
@@ -39,7 +37,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         PlantsWithEverything plant = plants.get(position);
-
         // Build up reminder string eg. "Water & Fertilize"
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
@@ -77,9 +74,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         public SearchViewHolder(@NonNull View itemView, SearchItemClickListener listener) {
             super(itemView);
-
             this.listener = listener;
-
             plantName = itemView.findViewById(R.id.plant_name);
             plantReminders = itemView.findViewById(R.id.plant_reminders);
             plantDescription = itemView.findViewById(R.id.plant_description);

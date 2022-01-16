@@ -1,12 +1,17 @@
 package com.example.planteraapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -38,6 +43,15 @@ public class Intro_Activity extends AppCompatActivity {
         viewPager.setAdapter(slideAdapter);
         viewPager.addOnPageChangeListener(viewListener);
         dotsIndicator.setViewPager(viewPager);
+        Next.setOnClickListener(view -> {
+            if (viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
+            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+        });
+        TextView skip = findViewById(R.id.skip_intro);
+        skip.setOnClickListener(view -> NewActivity());
+    }
+
+    public void NewActivity() {
         PlantDAO DAO = AppDatabase.getInstance(this).plantDAO();
         long[] success1 = DAO.insertPlantLocations(
                 new PlantLocation("Hallway"),
@@ -50,17 +64,7 @@ public class Intro_Activity extends AppCompatActivity {
                 new PlantType("Fern"),
                 new PlantType("Foliage")
         );
-        Log.d("runtime", "Default PlantLocations Insertions : " + success1.length);
-        Log.d("runtime", "Default PlantTypes Insertions : " + success2.length);
-        Next.setOnClickListener(view -> {
-            if (viewPager.getCurrentItem() + 1 >= slideAdapter.getCount()) NewActivity();
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-        });
-        TextView skip = findViewById(R.id.skip_intro);
-        skip.setOnClickListener(view -> NewActivity());
-    }
-
-    public void NewActivity(){
+        createNotificationChannel();
         SharedPreferences.Editor editor = getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).edit();
         editor.putInt("IsOld", 1);
         editor.apply();
@@ -74,12 +78,35 @@ public class Intro_Activity extends AppCompatActivity {
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
         @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        }
 
         @Override
-        public void onPageSelected(int position) {change_NextButton_Color(position);}
+        public void onPageSelected(int position) {
+            change_NextButton_Color(position);
+        }
 
         @Override
-        public void onPageScrollStateChanged(int state) { }
+        public void onPageScrollStateChanged(int state) {
+        }
     };
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_MAX;
+        NotificationChannel channel = new NotificationChannel(LauncherActivity.CHANNEL_ID, name, importance);
+        channel.setDescription(description);
+        channel.enableLights(true);
+        channel.enableVibration(true);
+        channel.setLightColor(R.color.Button_Primary);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
 }

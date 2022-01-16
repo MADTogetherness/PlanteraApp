@@ -148,37 +148,50 @@
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/view_reminder_color"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_below="@id/layout_1"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/margin_10_dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/small_circle" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/notify_enabled"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_2"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_1"
-            android:layout_alignParentEnd="true"
-            android:fontFamily="@font/main_variable_font"
-            android:padding="@dimen/padding_16_dp"
-            android:text="Notification "
-            android:checked="true"
-            android:textSize="@dimen/font_size_17sp"
-            android:textStyle="bold"
-            android:thumb="@drawable/com_thumb_selector"
-            app:switchPadding="@dimen/padding_16_dp"
-            app:track="@drawable/com_track_selector_two" />
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/test_notification"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:text="Test"
+                android:textStyle="bold"
+                android:backgroundTint="@color/Button_Secondary"
+                android:layout_marginStart="@dimen/margin_10_dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/notify_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:fontFamily="@font/main_variable_font"
+                android:padding="@dimen/padding_16_dp"
+                android:text="Notification "
+                android:textSize="@dimen/font_size_17sp"
+                android:textStyle="bold"
+                android:thumb="@drawable/com_thumb_selector"
+                app:switchPadding="@dimen/padding_16_dp"
+                app:track="@drawable/com_track_selector_two" />
+
+        </LinearLayout>
+
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/set_reminder_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/notify_enabled"
+            android:layout_below="@+id/layout_2"
             android:layout_marginTop="@dimen/margin_16_dp"
             android:background="@drawable/com_round_shape"
             android:backgroundTint="@color/Button_Primary"

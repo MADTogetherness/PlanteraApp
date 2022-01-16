@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
+    public static String CHANNEL_ID = "2119";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**

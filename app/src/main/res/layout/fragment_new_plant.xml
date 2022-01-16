@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:fontFamily="@font/main_variable_font"
-                        android:hint="Location Type"
+                        android:hint="Location"
                         android:imeOptions="actionNext"
                         android:inputType="textCapSentences"
                         android:lines="1"
@@ -272,7 +272,6 @@
 
     </ScrollView>
 
-    <!--    TODO: Add fixed header below or TOOLBAR-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
