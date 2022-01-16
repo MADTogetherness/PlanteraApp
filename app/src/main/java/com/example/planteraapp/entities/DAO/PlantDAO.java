@@ -59,13 +59,14 @@ public interface PlantDAO {
 
     @Delete
     void deleteLocation(PlantLocation location);
+
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();
 //
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    Plant getSinglePlantInstance(String plantName);
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+    Plant getSinglePlantInstance(String plantName);
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="400dp"
+    android:padding="@dimen/padding_16_dp"
+    android:layout_margin="@dimen/margin_16_dp"
+    android:layout_marginTop="15dp"
+    android:layout_rowWeight="1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/com_round_shape"
+    android:backgroundTint="?attr/Section_Container">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="79dp"
+
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginStart="127dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="111dp"
+        android:layout_marginBottom="390dp"
+        android:foregroundGravity="center_vertical"
+        android:src="@drawable/img_default_profile_image"
+        app:shapeAppearance="@style/Image_circle" />
+
+    <TextView
+        android:id="@+id/item_dateCreatedTV"
+        android:layout_width="130dp"
+        android:layout_height="38dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="233dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:text="27 November 2020"
+        android:textSize="12sp"
+        android:textColor="?attr/Secondary_Font"/>
+
+
+    <TextView
+        android:id="@+id/name_plant"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="190dp"
+        android:layout_marginEnd="41dp"
+        android:fontFamily="@font/opensans_semibold"
+        android:text="Plantimus Prime"
+        android:textAlignment="center"
+        android:textColor="?attr/Secondary_Font"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginTop="234dp"
+        android:gravity="center"
+        android:fontFamily="@font/opensans_semibold"
+        android:text="Lorem ipsum dolor sit amet,"
+        android:textColor="?attr/Secondary_Font"
+        android:textSize="10sp" />
+
+
+</RelativeLayout>
+
