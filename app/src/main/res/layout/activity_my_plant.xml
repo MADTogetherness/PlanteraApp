@@ -176,6 +176,7 @@
             <!--             TODO: Inflate the timeline dynamically-->
             <!--            TODO: DRAW LAYOUT FOR TIMELINE -->
             <!--            TODO: TIMELINE NEEDS A SUB LAYOUT CALLED ImageView in another file-->
+<!--            Complete com_layout_timeline.xml-->
             <LinearLayout
                 android:id="@+id/timelineLayout"
                 android:layout_width="match_parent"
