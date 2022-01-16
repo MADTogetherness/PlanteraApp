@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_16_dp"
-                android:fontFamily="@font/main_variable_font"
+                android:fontFamily="@font/opensans_semibold"
                 android:text="Theme : "
                 android:textColor="?attr/Button_Primary"
                 android:textSize="@dimen/font_size_17sp" />
