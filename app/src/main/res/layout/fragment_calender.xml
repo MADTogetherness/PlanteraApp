@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".Mainfragments.Calendar"
     android:gravity="center"
+    android:scrollbars="none"
     android:orientation="vertical"
     android:background="@color/App_Container">
 
