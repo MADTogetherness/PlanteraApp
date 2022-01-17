@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reminder_item_layout"
+    android:layout_width="match_parent"
+    android:padding="@dimen/padding_16_dp"
+    android:clickable="true"
+    android:backgroundTint="@color/Section_Container"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/bell"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:contentDescription="Notification Icon"
+        android:src="@drawable/ic_bell"
+        app:tint="?attr/Primary_Font" />
+
+    <TextView
+        android:id="@+id/reminder_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="15dp"
+        android:layout_toStartOf="@id/edit"
+        android:layout_toEndOf="@id/bell"
+        android:text="Water"
+        android:textColor="?attr/Primary_Font"
+        android:textSize="@dimen/font_size_17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/reminder_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reminder_name"
+        android:layout_marginStart="15dp"
+        android:layout_toStartOf="@id/edit"
+        android:layout_toEndOf="@id/bell"
+        android:text="Reminder"
+        android:textColor="?attr/Secondary_Font"
+        android:textSize="@dimen/font_size_14sp" />
+
+    <ImageView
+        android:id="@+id/edit"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/margin_16_dp"
+        android:src="@drawable/ic_pencil"
+        android:contentDescription="Set Reminder"
+        app:tint="?attr/Primary_Font"/>
+
+
+</RelativeLayout>

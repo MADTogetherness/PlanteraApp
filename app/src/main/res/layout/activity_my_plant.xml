@@ -30,6 +30,7 @@
             android:paddingEnd="@dimen/padding_16_dp">
 
             <TextView
+                android:id="@+id/themenameTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/margin_16_dp"
@@ -182,8 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10_dp"
-                android:background="@drawable/com_round_shape"
-                android:backgroundTint="@color/Section_Container"
+
                 android:orientation="vertical" />
 
         </LinearLayout>

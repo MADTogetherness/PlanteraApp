@@ -9,6 +9,7 @@ import androidx.room.RawQuery;
 import androidx.room.Transaction;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
@@ -80,9 +81,9 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    List<Blog> getAllBlogs(long ID);
 //
-//    @Transaction
-//    @Query("SELECT * FROM Blog WHERE plantID = :ID")
-//    List<Blog> getAllBlogsPlantID(long ID);
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE plantName = :plantName")
+    List<Blog> getAllBlogsPlantID(String plantName);
 //
 //    @Transaction
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
@@ -91,6 +92,10 @@ public interface PlantDAO {
 //    @Transaction
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    public List<BlogWithImages> getBlogwWithImages(long ID);
+
+    @Transaction
+    @Query("SELECT * FROM Reminder WHERE plantName = :plantName")
+    List<Reminder> getRemindersOfPlant(String plantName);
 
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
