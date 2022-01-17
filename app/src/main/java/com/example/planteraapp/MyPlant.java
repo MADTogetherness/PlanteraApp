@@ -340,8 +340,6 @@ public class MyPlant extends AppCompatActivity {
             itemnew.findViewById(R.id.saveblogBtn).setOnClickListener(v->{
                 saveBlog(itemnew);
             });
-
-
             timelinelinearlayout.addView(itemnew);
         }
 
