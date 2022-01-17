@@ -40,5 +40,14 @@
 
         />
 
+    <LinearLayout
+        android:id="@+id/timeline_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_10_dp"
+        android:layout_below="@id/timeline_desc"
+
+        android:orientation="horizontal" />
+
 
 </RelativeLayout>

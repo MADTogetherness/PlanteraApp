@@ -2,16 +2,21 @@ package com.example.planteraapp;
 
 import static com.example.planteraapp.Utilities.AttributeConverters.StringToBitMap;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteConstraintException;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
@@ -26,17 +31,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.planteraapp.SubFragments.SetReminder;
+import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
+import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Reminder;
 
+import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -54,6 +65,39 @@ public class MyPlant extends AppCompatActivity {
     private List<Reminder> reminders;
     private LinearLayout timelinelinearlayout;
     private List<Blog> timelines;
+
+    // Get the bitmap of image user has just selected from gallery
+    private Bitmap singleBitMap;
+    // The thread to load the image
+    private Thread thread;
+    // The image path is in this variable - get imagePath & store in the profile image field
+    // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
+    private String imagePath;
+    // The mGetSingleContent Variable
+    // Call mGetSingleContent.launch("image/*")
+    @SuppressLint("SetTextI18n")
+    private final ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    Toast.makeText(this, "Uploading Image", Toast.LENGTH_SHORT).show();
+                    Toast success = Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_SHORT);
+                    try {
+                        singleBitMap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri));
+                    } catch (FileNotFoundException e) {
+                        Toast.makeText(this, "Image loading failed", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                    thread = new Thread(() -> {
+                        imagePath = AttributeConverters.BitMapToString(singleBitMap);
+                        success.show();
+                    });
+                    thread.start();
+                }
+            });
+
+
+
+
 
     private boolean isActivityRecreated = false;
     private int selectedTheme = R.style.Theme_PlanteraApp;
@@ -107,9 +151,10 @@ public class MyPlant extends AppCompatActivity {
         reminders = DAO.getRemindersOfPlant(plant.plantName);
         addRemindersToList(reminders);
 
-        //timelines = DAO.getAllBlogsPlantID(plant.plantName);
-        timelines.add(0, new Blog(plant.plantName ,"a description"));
-        timelines.add(0, new Blog(plant.plantName ,"a second description"));
+        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+        Collections.reverse(timelines);
+        //timelines.add(0, new Blog(plant.plantName ,"a description"));
+        //timelines.add(0, new Blog(plant.plantName ,"a second description"));
         addBlogsToList(timelines, false);
 
 
@@ -118,7 +163,6 @@ public class MyPlant extends AppCompatActivity {
 
 
         add_new_timeline.setOnClickListener(v->{
-
             addBlogsToList(timelines, true);
         });
     }
@@ -168,8 +212,17 @@ public class MyPlant extends AppCompatActivity {
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinearlayout.removeAllViews();
         int i = 0;
-        if (items.size() == 0)
-            addNewReminderViewPrompt(getDrawableForReminder(-1));
+        if (items.size() == 0){
+            View newitem = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
+            newitem.setTag(String.valueOf(i));
+
+            TextView tvTitle = newitem.findViewById(R.id.reminder_name);
+            TextView tvDesc = newitem.findViewById(R.id.reminder_desc);
+
+            tvTitle.setText("No reminders exist");
+            ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(R.drawable.com_round_shape);
+        }
+
         else {
             for (Reminder all_reminders : items) {
                 Context context = this;
@@ -188,8 +241,6 @@ public class MyPlant extends AppCompatActivity {
                 //item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
                 reminderlinearlayout.addView(item);
 
-                if (i == items.size() - 1 && items.size() <= 2)
-                    addNewReminderViewPrompt(getDrawableForReminder(2));
                 i++;
 
             }
@@ -197,21 +248,7 @@ public class MyPlant extends AppCompatActivity {
     }
 
 
-    public void addNewReminderViewPrompt(int BackgroundResource) {
-        View item = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
-        ImageView imgBell = item.findViewById(R.id.bell);
-        ImageView imgEdit = item.findViewById(R.id.edit);
-        TextView tvTitle = item.findViewById(R.id.reminder_name);
-        TextView tvDesc = item.findViewById(R.id.reminder_desc);
-        imgBell.setImageResource(R.drawable.ic_add_new_icon_24);
-        tvTitle.setText("Add New Reminder");
-        imgEdit.setVisibility(View.GONE);
-        tvDesc.setVisibility(View.GONE);
-        ((RelativeLayout) imgBell.getParent()).setBackgroundResource(BackgroundResource);
-        // TODO: change later
-        //item.setOnClickListener(v -> getReminder(-1));
-        reminderlinearlayout.addView(item);
-    }
+
 
     /*
     public void getReminder(int position, Reminder... reminder) {
@@ -290,6 +327,21 @@ public class MyPlant extends AppCompatActivity {
 
         if(newBlog){
             View itemnew = getLayoutInflater().inflate(R.layout.com_layout_new_timeline, timelinelinearlayout, false);
+
+            TextView dateTV = itemnew.findViewById(R.id.timeline_date);
+            TextView descTV = itemnew.findViewById(R.id.timeline_desc);
+
+
+            itemnew.findViewById(R.id.add_pictureBtn).setOnClickListener(v->{
+                mGetSingleContent.launch("image/*");
+            });
+
+
+            itemnew.findViewById(R.id.saveblogBtn).setOnClickListener(v->{
+                saveBlog(itemnew);
+            });
+
+
             timelinelinearlayout.addView(itemnew);
         }
 
@@ -297,16 +349,32 @@ public class MyPlant extends AppCompatActivity {
         if (items.size() == 0)
             ;
         else {
+            int j=0;
             for (Blog all_blogs : items) {
 
                 Context context = this;
                 View item = getLayoutInflater().inflate(R.layout.com_layout_timeline, timelinelinearlayout, false);
-                item.setTag(String.valueOf(i));
+                item.setTag(String.valueOf(j));
 
                 TextView dateTV = item.findViewById(R.id.timeline_date);
                 TextView descTV = item.findViewById(R.id.timeline_desc);
                 descTV.setText(all_blogs.description);
-                dateTV.setText(String.valueOf(all_blogs.dateCreated));
+                dateTV.setText(String.valueOf(getDate(all_blogs.dateCreated)));
+
+                LinearLayout imageLayout = item.findViewById(R.id.timeline_images);
+
+                List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
+
+                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
+
+                for(Images img: images){
+                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
+                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
+                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
+                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
+
+                    imageLayout.addView(itemimg);
+                }
 
                 int finalI = i;
                 // TODO: change later
@@ -315,5 +383,45 @@ public class MyPlant extends AppCompatActivity {
 
             }
         }
+    }
+
+    public long saveBlog(View itemnew){
+        Blog blogtoAdd = new Blog(plant.plantName, ((TextView)itemnew.findViewById(R.id.timeline_desc)).getText().toString());
+
+
+        long blogid = DAO.insertBlogs(blogtoAdd)[0];
+
+        Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
+        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+        Collections.reverse(timelines);
+        addBlogsToList(timelines, false);
+
+
+        long successP = -1;
+        if (singleBitMap != null) {
+            Images image = new Images("blogimg" + plant.plantName, imagePath);
+            try {
+                long imgid = DAO.insertImage(image);
+                Toast.makeText(this, "Image added to image " + imgid, Toast.LENGTH_SHORT).show();
+
+                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
+                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
+                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
+
+
+            } catch (SQLiteConstraintException e) {
+
+                Toast.makeText(this, "Plant with same name already exists", Toast.LENGTH_SHORT).show();
+                if (successP == -1) {
+                    //DAO.deleteImage(image);
+                }
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return blogid;
+
     }
 }

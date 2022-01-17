@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_10_dp"
         android:padding="@dimen/margin_10_dp"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam, justo vel pulvinar fringilla, felis velit laoreet massa, ac vestibulum dolor massa vitae sem. Vestibulum varius, nibh sit amet luctus viverra, libero eros vestibulum erat, nec iaculis ipsum nibh in ligula. Donec neque ex, sollicitudin ut sollicitudin et, scelerisque et erat. "
+        android:text="Lorem ipsum dolor sit amet"
         android:textColor="?attr/Primary_Font"
 
         />
