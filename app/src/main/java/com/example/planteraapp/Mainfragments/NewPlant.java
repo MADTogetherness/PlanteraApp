@@ -47,6 +47,7 @@ import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.imageview.ShapeableImageView;
 
@@ -186,10 +187,18 @@ public class NewPlant extends Fragment {
             if (singleBitMap.getWidth()>=0) {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
                 try {
-                    successP = DAO.insertNewPlant(plant)[0];
-                    for (Reminder singleRem : reminders) {
-                        long[] successfulR = DAO.insertReminders(singleRem);
-                        Log.d("insertR", "Successful");
+                    if (getArguments() != null) {
+                        DAO.updatePlant(plant);
+                        for (Reminder singleRem : reminders) {
+                            DAO.updateReminder(singleRem);
+                            Log.d("insertR", "Successful");
+                        }
+                    } else {
+                        successP = DAO.insertNewPlant(plant)[0];
+                        for (Reminder singleRem : reminders) {
+                            long[] successfulR = DAO.insertReminders(singleRem);
+                            Log.d("insertR", "Successful");
+                        }
                     }
                     callForMyPlantActivity();
                 } catch (SQLiteConstraintException e) {
@@ -210,6 +219,7 @@ public class NewPlant extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void init(View view) {
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
         imageNameTV = view.findViewById(R.id.new_image_name);
@@ -226,6 +236,20 @@ public class NewPlant extends Fragment {
         EnableDisable(true);
         reminderlinearlayout = view.findViewById(R.id.reminders);
         reminders = new ArrayList<>();
+        if (getArguments() != null) {
+            PlantsWithEverything PWE = DAO.getAllPlantAttributes(getArguments().getString(LauncherActivity.plantNameKey));
+            typeATV.setText(PWE.type.type, false);
+            locationATV.setText(PWE.location.location, false);
+            plantNameET.setText(PWE.plant.plantName);
+            descriptionET.setText(PWE.plant.description);
+            reminders = PWE.Reminders;
+            imageNameTV.setText(PWE.plant.plantName + ".jpg");
+            plantTheme = PWE.plant.selectedTheme;
+            themeNameTV.setText(LauncherActivity.getThemeName(plantTheme));
+            imagePath = PWE.plant.profile_image;
+            singleBitMap = AttributeConverters.StringToBitMap(imagePath);
+            plantImage.setImageBitmap(singleBitMap);
+        }
         addRemindersToList(reminders);
     }
 
@@ -283,8 +307,7 @@ public class NewPlant extends Fragment {
             Intent intent = new Intent(requireContext(), AlertReceiver.class);
             intent.putExtra("Title", "Reminder to " + rem.name);
             intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + locationATV.getText().toString().trim());
-            int reqCode = (int) System.currentTimeMillis();
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireActivity().getApplicationContext(), reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireActivity().getApplicationContext(), (int) rem.reminderID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             // TODO: Change the time
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
         }
@@ -303,7 +326,7 @@ public class NewPlant extends Fragment {
         else {
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
-                item.setTag(String.valueOf(i));
+//                item.setTag(String.valueOf(i));
 
                 TextView tvTitle = item.findViewById(R.id.reminder_name);
                 TextView tvDesc = item.findViewById(R.id.reminder_desc);

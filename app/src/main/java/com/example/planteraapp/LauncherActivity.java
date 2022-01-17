@@ -16,7 +16,11 @@ import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
+    public static String navigateToKey = "destination";
     public static String CHANNEL_ID = "2119";
+    public static String BundleKey = "NavigateBundle";
+    public static String plantNameKey = "plantName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**

@@ -68,6 +68,9 @@ public interface PlantDAO {
 
     @Update
     void updateReminder(Reminder reminder);
+
+    @Update
+    void updatePlant(Plant plant);
 //    @Transaction
 //    @Query("SELECT * FROM Plant")
 //    List<Plant> getAllPlants();
@@ -80,9 +83,9 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
 //    ReminderAndPlant getAllRemindersOfPlantFromID(String plantName);
 
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    PlantsWithEverything getAllPlantAttributes(String plantName);
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+    PlantsWithEverything getAllPlantAttributes(String plantName);
 
     //    @Transaction
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")

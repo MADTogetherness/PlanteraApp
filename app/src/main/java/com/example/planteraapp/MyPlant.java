@@ -15,6 +15,13 @@ import android.widget.RelativeLayout;
 
 import com.example.planteraapp.entities.DAO.PlantDAO;
 
+//      TODO: Call on edit button
+//            Intent i = new Intent(this, Home.class);
+//            i.putExtra(LauncherActivity.navigateToKey, R.id.action_calendar_to_new_plant);
+//            Bundle b = new Bundle();
+//            b.putString(LauncherActivity.plantNameKey, plantName);
+//            i.putExtra(LauncherActivity.BundleKey, b);
+//            startActivity(i);
 public class MyPlant extends AppCompatActivity {
     private PlantDAO DAO;
     private String plantName;

@@ -66,10 +66,11 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
         bottomNavigationView.setOnItemSelectedListener(this);
         navController.addOnDestinationChangedListener(this);
         //TODO: GOING TO DIFFERENT FRAGMENTS FROM ANOTHER ACTIVITY
-        int v = getIntent().getIntExtra("destination", -1);
+        int v = getIntent().getIntExtra(LauncherActivity.navigateToKey, -1);
+        Bundle b = getIntent().getBundleExtra(LauncherActivity.BundleKey);
         if (v != -1) {
-            navController.navigate(v, null, options.build());
-            getIntent().putExtra("destination", -1);
+            navController.navigate(v, b, options.build());
+            getIntent().putExtra(LauncherActivity.navigateToKey, -1);
         }
     }
 
@@ -109,14 +110,14 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
 
     @Override
     public void recreate() {
-            Bundle bundle = new Bundle();
-            onSaveInstanceState(bundle);
-            Intent intent = new Intent(this, getClass());
-            intent.putExtra("saved_state", bundle);
-            intent.putExtra("destination", R.id.settings);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+        Bundle bundle = new Bundle();
+        onSaveInstanceState(bundle);
+        Intent intent = new Intent(this, getClass());
+        intent.putExtra("saved_state", bundle);
+        intent.putExtra(LauncherActivity.navigateToKey, R.id.action_calendar_to_settings);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
