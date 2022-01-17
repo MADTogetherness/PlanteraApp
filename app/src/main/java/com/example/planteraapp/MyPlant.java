@@ -367,6 +367,7 @@ public class MyPlant extends AppCompatActivity {
 
                 for(Images img: images){
                     Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
+
                     View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
                     ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
                     imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
