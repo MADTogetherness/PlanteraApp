@@ -108,6 +108,7 @@ public class MyPlant extends AppCompatActivity {
         plantName = getIntent().getStringExtra("plantName");
         DAO = AppDatabase.getInstance(this).plantDAO();
         plant = DAO.getSinglePlantInstance(plantName);
+        //this.setTheme(plant.selectedTheme);
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_plant);
@@ -116,6 +117,8 @@ public class MyPlant extends AppCompatActivity {
 
     public void init(){
         Context context = this;
+
+
 
         deleteBtn = findViewById(R.id.delete_btn);
         editBtn = findViewById(R.id.edit_btn);
@@ -371,6 +374,7 @@ public class MyPlant extends AppCompatActivity {
                     View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
                     ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
                     imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
+                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
 
                     imageLayout.addView(itemimg);
                 }
@@ -393,7 +397,7 @@ public class MyPlant extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
         timelines = DAO.getAllBlogsPlantID(plant.plantName);
         Collections.reverse(timelines);
-        addBlogsToList(timelines, false);
+
 
 
         long successP = -1;
@@ -417,6 +421,8 @@ public class MyPlant extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
+        addBlogsToList(timelines, false);
 
 
 

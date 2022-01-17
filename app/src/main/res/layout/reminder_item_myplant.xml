@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/reminder_item_layout"
+    android:theme="@style/Theme.PlanteraApp.Dracula.Light"
     android:layout_width="match_parent"
     android:padding="@dimen/padding_16_dp"
     android:clickable="true"
-    android:backgroundTint="@color/Section_Container"
+    android:backgroundTint="?attr/Section_Container"
     android:layout_height="wrap_content">
 
     <ImageView

@@ -119,12 +119,13 @@
             -->
             <LinearLayout
                 android:id="@+id/reminders"
+                android:theme="@style/Theme.PlanteraApp.Dracula.Light"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10_dp"
                 android:layout_marginBottom="@dimen/margin_10_dp"
                 android:background="@drawable/com_round_shape"
-                android:backgroundTint="@color/Section_Container"
+                android:backgroundTint="?attr/Section_Container"
                 android:orientation="vertical" />
             <!--            TODO: END   -->
 
