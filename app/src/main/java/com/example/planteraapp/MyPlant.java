@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.annotation.SuppressLint;
@@ -30,6 +31,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.planteraapp.Mainfragments.NewPlant;
+import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
@@ -38,6 +41,7 @@ import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.Relations.BlogWithImages;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 
 import java.io.FileNotFoundException;
@@ -72,6 +76,9 @@ public class MyPlant extends AppCompatActivity {
     private List<Reminder> reminders;
     private LinearLayout timelinelinearlayout;
     private List<Blog> timelines;
+    private PlantsWithEverything everyThing;
+
+    int plantTheme;
 
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
@@ -114,7 +121,8 @@ public class MyPlant extends AppCompatActivity {
         // TODO: GET THE PLANT NAME FROM PREVIOUS ACTIVITY NOT DATABASE
         plantName = getIntent().getStringExtra("plantName");
         DAO = AppDatabase.getInstance(this).plantDAO();
-        plant = DAO.getSinglePlantInstance(plantName);
+        everyThing = DAO.getAllPlantAttributes(plantName);
+        plant = everyThing.plant;
         //this.setTheme(plant.selectedTheme);
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);
@@ -144,6 +152,8 @@ public class MyPlant extends AppCompatActivity {
         timelinelinearlayout= findViewById(R.id.timelineLayout);
         timelines = new ArrayList<>();
 
+        themenameTV.setText("Theme : " + LauncherActivity.getThemeName(plant.selectedTheme));
+
 
 
 
@@ -158,10 +168,10 @@ public class MyPlant extends AppCompatActivity {
         plantdescriptionTV.setText(plant.description);
         plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
 
-        reminders = DAO.getRemindersOfPlant(plant.plantName);
+        reminders = everyThing.Reminders;
         addRemindersToList(reminders);
 
-        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+//        timelines = DAO.getAllBlogsPlantID(plant.plantName);
         Collections.reverse(timelines);
         //timelines.add(0, new Blog(plant.plantName ,"a description"));
         //timelines.add(0, new Blog(plant.plantName ,"a second description"));
@@ -175,6 +185,20 @@ public class MyPlant extends AppCompatActivity {
         add_new_timeline.setOnClickListener(v->{
             addBlogsToList(timelines, true);
         });
+
+        editThemeBtn.setOnClickListener(v->{
+            getnewTheme();
+        });
+
+        editBtn.setOnClickListener(v->{
+            Intent i = new Intent(this, Home.class);
+            i.putExtra(LauncherActivity.navigateToKey, R.id.action_calendar_to_new_plant);
+            Bundle b = new Bundle();
+            b.putString(LauncherActivity.plantNameKey, plantName);
+            i.putExtra(LauncherActivity.BundleKey, b);
+            startActivity(i);
+        });
+
     }
 
 
@@ -235,7 +259,6 @@ public class MyPlant extends AppCompatActivity {
 
         else {
             for (Reminder all_reminders : items) {
-                Context context = this;
                 View item = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
                 item.setTag(String.valueOf(i));
 
@@ -248,7 +271,7 @@ public class MyPlant extends AppCompatActivity {
 
                 int finalI = i;
                 // TODO: change later
-                //item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
+                item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
                 reminderlinearlayout.addView(item);
 
                 i++;
@@ -371,20 +394,20 @@ public class MyPlant extends AppCompatActivity {
 
                 LinearLayout imageLayout = item.findViewById(R.id.timeline_images);
 
-                List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
+//                List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
 
-                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
+//                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
 
-                for(Images img: images){
-                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
-
-                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
-                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
-                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
-                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
-
-                    imageLayout.addView(itemimg);
-                }
+//                for(Images img: images){
+//                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
+//
+//                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
+//                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
+//                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
+//                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
+//
+//                    imageLayout.addView(itemimg);
+//                }
 
                 int finalI = i;
                 // TODO: change later
@@ -395,14 +418,14 @@ public class MyPlant extends AppCompatActivity {
         }
     }
 
-    public long saveBlog(View itemnew){
+    public void saveBlog(View itemnew){
         Blog blogtoAdd = new Blog(plant.plantName, ((TextView)itemnew.findViewById(R.id.timeline_desc)).getText().toString());
 
 
-        long blogid = DAO.insertBlogs(blogtoAdd)[0];
+//        long blogid = DAO.insertBlogs(blogtoAdd)[0];
 
-        Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
-        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+//        Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
+//        timelines = DAO.getAllBlogsPlantID(plant.plantName);
         Collections.reverse(timelines);
 
 
@@ -414,9 +437,9 @@ public class MyPlant extends AppCompatActivity {
                 long imgid = DAO.insertImage(image);
                 Toast.makeText(this, "Image added to image " + imgid, Toast.LENGTH_SHORT).show();
 
-                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
-                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
-                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
+//                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
+//                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
+//                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
 
 
             } catch (SQLiteConstraintException e) {
@@ -433,7 +456,58 @@ public class MyPlant extends AppCompatActivity {
 
 
 
-        return blogid;
+//        return blogid;
 
+    }
+
+    public void getnewTheme() {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            plantTheme = bundle.getInt(NewPlant.THEME_KEY);
+            plant.selectedTheme = plantTheme;
+            DAO.updateTheme(plant);
+
+            Toast.makeText(this, "Theme set to " + LauncherActivity.getThemeName(plantTheme), Toast.LENGTH_SHORT).show();
+            ChangeThemeFromDB(true);
+        });
+        Bundle b = new Bundle();
+        b.putInt(NewPlant.THEME_KEY, plantTheme);
+        openSubFragment(new ColorTheme(), b, fm);
+    }
+
+    public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
+        fg.setArguments(bn);
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+                .add(R.id.container, fg, "SubFrag")
+                .addToBackStack(fg.getTag())
+                .commit();
+    }
+
+    public void getReminder(int position, Reminder... reminder) {
+        FragmentManager fm = getSupportFragmentManager();
+        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(NewPlant.REMINDER_KEY), Reminder.class);
+            if(position >= 0) reminders.set(position, newReminder);
+            else reminders.add(newReminder);
+            addRemindersToList(reminders);
+            Toast.makeText(this, "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
+        });
+        Bundle b = new Bundle();
+        if(position>=0 && reminder!=null)
+            b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
+        b.putString("location", everyThing.location.location);
+        openSubFragment(new SetReminder(), b, fm);
+    }
+
+
+
+    @Override
+    public void onBackPressed() {
+            Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");
+            if (frag != null)
+                getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
+            else
+                super.onBackPressed();
     }
 }

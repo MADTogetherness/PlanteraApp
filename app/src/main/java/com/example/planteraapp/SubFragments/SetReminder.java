@@ -34,11 +34,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AlertReceiver;
 import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Reminder;
 
 import org.w3c.dom.Attr;
@@ -62,15 +64,16 @@ public class SetReminder extends Fragment {
     private WeekDay lastCompleted;
     private ArrayAdapter<WeekDay> arrayAdapter;
     private Reminder reminderInstance;
+    PlantDAO DAO;
 
     public SetReminder() {/*Required empty public constructor*/}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        reminderInstance = getArguments() != null ?
-                AttributeConverters.getGsonParser().fromJson(getArguments().getString(NewPlant.REMINDER_KEY), Reminder.class)
-                : null;
+        if(getArguments() != null && getArguments().getString(NewPlant.REMINDER_KEY) != null)
+        reminderInstance = AttributeConverters.getGsonParser().fromJson(getArguments().getString(NewPlant.REMINDER_KEY), Reminder.class);
+
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
@@ -78,6 +81,7 @@ public class SetReminder extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_set_reminder, container, false);
         // Initialise the views
+        DAO = AppDatabase.getInstance(requireActivity()).plantDAO();
         init(view);
         // Check if the reminderInstance is new or existing
         // If existing then set the properties
@@ -163,6 +167,10 @@ public class SetReminder extends Fragment {
         Bundle b = new Bundle();
         b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminderInstance));
         getParentFragmentManager().setFragmentResult("requestKey", b);
+        if(reminderInstance.plantName!=null){
+            DAO.updateReminder(reminderInstance);
+            NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"));
+        }
         requireActivity().onBackPressed();
     }
 

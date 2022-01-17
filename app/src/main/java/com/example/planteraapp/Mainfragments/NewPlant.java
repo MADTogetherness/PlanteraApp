@@ -301,15 +301,19 @@ public class NewPlant extends Fragment {
         addRemindersToList(reminders);
     }
 
+    public static void setAlarm(Context context, Reminder rem, String location){
+        AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlertReceiver.class);
+        intent.putExtra("Title", "Reminder to " + rem.name);
+        intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + location);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), (int) rem.reminderID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        // TODO: Change the time
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+    }
+
     public void callForMyPlantActivity() {
         for (Reminder rem : reminders) {
-            AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(requireContext(), AlertReceiver.class);
-            intent.putExtra("Title", "Reminder to " + rem.name);
-            intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + locationATV.getText().toString().trim());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireActivity().getApplicationContext(), (int) rem.reminderID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            // TODO: Change the time
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+            setAlarm(requireContext(), rem, locationATV.getText().toString().trim());
         }
         resetFields();
         Intent intent = new Intent(requireActivity(), MyPlant.class);

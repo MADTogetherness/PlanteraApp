@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SubFragments.SetReminder"
-    android:background="@color/App_Container">
+    android:background="?attr/App_Container">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
             android:fontFamily="@font/main_variable_font"
             android:gravity="center_vertical"
             android:text="Add Reminder"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:textSize="@dimen/font_size_22sp"
             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
             android:background="@drawable/com_round_shape"
             android:layout_below="@id/reminder_close"
             android:layout_marginTop="@dimen/margin_16_dp"
-            android:backgroundTint="@color/Section_Container"
+            android:backgroundTint="?attr/Section_Container"
             android:orientation="vertical"
             android:padding="@dimen/padding_16_dp">
 
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_bell"
-                app:startIconTint="@color/Primary_Font"
+                app:startIconTint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -75,6 +75,7 @@
                     android:hint="Reminder Name"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences"
+                    android:textColor="?attr/Primary_Font"
                     android:lines="1"
                     android:textSize="@dimen/font_size_17sp" />
 
@@ -85,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_access_time_24"
-                app:startIconTint="@color/Primary_Font"
+                app:startIconTint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -95,6 +96,7 @@
                     android:autofillHints="name"
                     android:focusable="false"
                     android:fontFamily="@font/main_variable_font"
+                    android:textColor="?attr/Primary_Font"
                     android:hint="Set Time"
                     android:inputType="none"
                     android:lines="1"
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 app:suffixText="day(s)"
                 app:startIconDrawable="@drawable/ic_repeat_24"
-                app:startIconTint="@color/Primary_Font"
+                app:startIconTint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -117,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="name"
                     android:fontFamily="@font/main_variable_font"
+                    android:textColor="?attr/Primary_Font"
                     android:hint="Repeat Interval"
                     android:imeOptions="actionDone"
                     android:inputType="number"
@@ -130,7 +133,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_previous_24"
-                app:startIconTint="@color/Primary_Font"
+                app:startIconTint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <AutoCompleteTextView
@@ -138,6 +141,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/main_variable_font"
+                    android:textColor="?attr/Primary_Font"
                     android:hint="Last Completed"
                     android:inputType="none"
                     android:focusable="false"
@@ -162,7 +166,7 @@
                 android:layout_height="48dp"
                 android:text="Test"
                 android:textStyle="bold"
-                android:backgroundTint="@color/Button_Secondary"
+                android:backgroundTint="?attr/Button_Secondary"
                 android:layout_marginStart="@dimen/margin_10_dp" />
 
             <View
@@ -178,6 +182,7 @@
                 android:fontFamily="@font/main_variable_font"
                 android:padding="@dimen/padding_16_dp"
                 android:text="Notification "
+                android:textColor="?attr/Primary_Font"
                 android:textSize="@dimen/font_size_17sp"
                 android:textStyle="bold"
                 android:thumb="@drawable/com_thumb_selector"
@@ -194,9 +199,9 @@
             android:layout_below="@+id/layout_2"
             android:layout_marginTop="@dimen/margin_16_dp"
             android:background="@drawable/com_round_shape"
-            android:backgroundTint="@color/Button_Primary"
+            android:backgroundTint="?attr/Button_Primary"
             android:text="Done"
-            android:textColor="@color/Button_Font" />
+            android:textColor="?attr/Button_Font" />
 
     </RelativeLayout>
 </ScrollView>
