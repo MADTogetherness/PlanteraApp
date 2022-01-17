@@ -1,82 +1,141 @@
+//Calendar.java
 package com.example.planteraapp.Mainfragments;
-import android.content.Context;
-import android.content.SharedPreferences;
+
+import android.animation.Animator;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.AttributeConverters;
+import com.example.planteraapp.Utilities.ReminderRecyclerAdapter;
 import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.ReminderAndPlant;
+import com.example.planteraapp.entities.Reminder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Settings#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Calendar extends Fragment {
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+public class Calendar extends Fragment implements ReminderRecyclerAdapter.CalendarItemCheckListener {
     private PlantDAO DAO;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView rvTodayReminder, rvTomorrowReminder;
+    private ReminderRecyclerAdapter todayReminderRVA, tomorrowReminderRVA;
+    private List<ReminderAndPlant> today, tomorrow;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Calendar() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Settings.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Calendar newInstance(String param1, String param2) {
-        Calendar fragment = new Calendar();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    public Calendar() {/*Required empty public constructor*/}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_calender, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DAO = AppDatabase.getInstance(requireContext()).plantDAO();
+        initViews(view);
+    }
+
+
+    public void initViews(View view) {
+        rvTodayReminder = view.findViewById(R.id.rv_today);
+        rvTomorrowReminder = view.findViewById(R.id.rv_tomorrow);
+        RecyclerView.LayoutManager todayLayoutManager = new LinearLayoutManager(getContext());
+        rvTodayReminder.setLayoutManager(todayLayoutManager);
+        rvTodayReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTodayReminder.setHasFixedSize(true);
+        RecyclerView.LayoutManager tomorrowLayoutManager = new LinearLayoutManager(getContext());
+        rvTomorrowReminder.setLayoutManager(tomorrowLayoutManager);
+        rvTomorrowReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTomorrowReminder.setHasFixedSize(true);
+        initialiseAdapter();
+    }
+
+    public List<List<ReminderAndPlant>> getReminderList() {
+        List<ReminderAndPlant> today = new ArrayList<>();
+        List<ReminderAndPlant> tomorrow = new ArrayList<>();
+        for (ReminderAndPlant reminder : DAO.getRemindersWithPlant()) {
+            if (Duration.between(Instant.now(), Instant.ofEpochMilli(reminder.reminder.realEpochTime)).compareTo(Duration.ofDays(1)) <= 0)
+                today.add(reminder);
+            else
+                tomorrow.add(reminder);
+        }
+        return Arrays.asList(today, tomorrow);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void initialiseAdapter() {
+        List<List<ReminderAndPlant>> all_rem = getReminderList();
+        today = all_rem.get(0);
+        tomorrow = all_rem.get(1);
+        todayReminderRVA = new ReminderRecyclerAdapter(rvTodayReminder.getId(), today, this, requireContext());
+        tomorrowReminderRVA = new ReminderRecyclerAdapter(rvTomorrowReminder.getId(), tomorrow, this, requireContext());
+        rvTodayReminder.setAdapter(todayReminderRVA);
+        rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
+        if (today.size() == 0)
+            requireView().findViewById(R.id.empty_today).setVisibility(View.VISIBLE);
+        if (tomorrow.size() == 0)
+            requireView().findViewById(R.id.empty_tomorrow).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onChecked(int recyclerID, View itemView, int position, boolean isChecked) {
+        Log.d("check", isChecked + "");
+        itemView.animate().translationX(1400).setDuration(600).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+                Reminder rem = recyclerID == rvTodayReminder.getId()
+                        ? today.get(position).reminder
+                        : tomorrow.get(position).reminder;
+                if (isChecked) {
+                    rem.lastCompleted = rem.realEpochTime;
+                    rem.realEpochTime += rem.repeatInterval;
+                }
+                DAO.updateReminder(rem);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                initialiseAdapter();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+                initialiseAdapter();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        initialiseAdapter();
+        super.onResume();
     }
 }

@@ -1,13 +1,22 @@
 package com.example.planteraapp.Utilities;
 
+import static java.lang.Math.abs;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import androidx.room.TypeConverter;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.io.ByteArrayOutputStream;
+import java.time.Duration;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class AttributeConverters {
     @TypeConverter
@@ -46,4 +55,64 @@ public class AttributeConverters {
         }
         return img;
     }
+
+    public static Gson getGsonParser() {
+        return new GsonBuilder().create();
+    }
+
+    public static long getEpochTime(int h, int m) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, h);
+        calendar.set(Calendar.MINUTE, m);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis();
+    }
+
+    public static long[] getHoursAndMinutes(long millis) {
+        long seconds = Math.round((double) millis / 1000);
+        long hours = TimeUnit.SECONDS.toHours(seconds);
+        if (hours > 0)
+            seconds -= TimeUnit.HOURS.toSeconds(hours);
+        long minutes = seconds > 0 ? TimeUnit.SECONDS.toMinutes(seconds) : 0;
+        if (minutes > 0)
+            seconds -= TimeUnit.MINUTES.toSeconds(minutes);
+        return new long[]{hours, minutes, seconds};
+    }
+
+    public static long getMillisFrom(int hour, int minutes) {
+        return TimeUnit.HOURS.toMillis(hour) + TimeUnit.MINUTES.toMillis(minutes);
+    }
+
+    public static long getMillisFrom(int days) {
+        return TimeUnit.DAYS.toMillis(days);
+    }
+
+    public static int toDays(long millis) {
+        return (int) TimeUnit.MILLISECONDS.toDays(millis);
+    }
+
+    public static String getReadableTime(long millis) {
+        long[] time = getHoursAndMinutes(millis);
+        String suffix = (time[0] > 11) ? "PM" : "AM";
+        time[0] = (time[0] > 12) ? time[0] -= 12 : ((time[0] == 0) ? 12 : time[0]);
+        return String.format(Locale.getDefault(), "%02d:%02d %s", time[0], time[1], suffix);
+    }
+
+    public static String getReadableTime(int hours, int minutes) {
+        return String.format(Locale.getDefault(), "%02d:%02d %s", (hours > 12) ? hours - 12 : ((hours == 0) ? 12 : hours), minutes, (hours > 11) ? "PM" : "AM");
+    }
+
+    // Gets remaining time from NOW to notification time in hh hours mm minutes format
+    public static String getRemainingTime(long durationRemaining) {
+        long remaining = durationRemaining - System.currentTimeMillis();
+        Duration d = Duration.ofMillis(remaining);
+        long days = abs(d.toDays()), hours = abs(d.toHours() % 24);
+        String prefix = remaining < 1000 ? "Overdue by " : "In ";
+        String dy = days > 0 ? String.format(Locale.getDefault(), "%d day(s) ", days) : "";
+        String h = hours > 0 ? String.format(Locale.getDefault(), "%02d hr(s) ", hours) : "";
+        String m = String.format(Locale.getDefault(), "%02d min(s)", abs(d.toMinutes() % 60));
+        return prefix + dy + h + m;
+    }
+
 }

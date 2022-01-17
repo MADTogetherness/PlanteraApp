@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:padding="@dimen/padding_16_dp"
     android:clickable="true"
-    android:backgroundTint="?attr/Section_Container"
+    android:backgroundTint="@color/Section_Container"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -17,7 +17,7 @@
         android:layout_marginStart="10dp"
         android:contentDescription="Notification Icon"
         android:src="@drawable/ic_bell"
-        app:tint="?attr/Primary_Font" />
+        app:tint="@color/Primary_Font" />
 
     <TextView
         android:id="@+id/reminder_name"
@@ -28,7 +28,7 @@
         android:layout_toStartOf="@id/bubble"
         android:layout_toEndOf="@id/bell"
         android:text="Water"
-        android:textColor="?attr/Primary_Font"
+        android:textColor="@color/Primary_Font"
         android:textSize="@dimen/font_size_17sp"
         android:textStyle="bold" />
 
@@ -40,9 +40,10 @@
         android:layout_marginStart="15dp"
         android:layout_toStartOf="@id/bubble"
         android:layout_toEndOf="@id/bell"
-        android:text="Reminder"
-        android:textColor="?attr/Secondary_Font"
-        android:textSize="@dimen/font_size_14sp" />
+        android:fontFamily="@font/main_variable_font"
+        android:lineHeight="18sp"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="@dimen/font_size_16sp" />
 
     <ImageView
         android:id="@+id/arrow"

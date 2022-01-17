@@ -13,4 +13,10 @@
     <string name="filter_label">Filters :</string>
     <string name="default_img_name">Default01.jpg</string>
     <string name="default_theme_name">Default App Theme</string>
+    <string name="no_search_result">No results found</string>
+    <string name="nothing_search_result">Nothing here yet</string>
+    <string name="no_search_result_sub">Sorry, there are no results for this search, please try another phrase</string>
+    <string name="nothing_search_result_sub">Have you tried creating new plant?</string>
+    <string name="channel_name">Plantera</string>
+    <string name="channel_description">This is a channel to send notifications for plants</string>
 </resources>

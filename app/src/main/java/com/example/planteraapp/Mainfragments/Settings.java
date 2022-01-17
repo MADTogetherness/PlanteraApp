@@ -24,6 +24,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.planteraapp.Home;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.R;
 

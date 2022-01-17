@@ -20,6 +20,7 @@ import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     private ImageButton filterImageBtnOnHost;
     private TextView filtersAppliedLabelOnHost;
     GridLayout gridLayout;
-    LinearLayout default_item_layout;
+    ScrollView default_item_layout;
     private List<PlantType> all_plant_types;
     private List<PlantLocation> all_plant_locations;
     private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive, isBottomSheetOpen, preventMultipleCheckedChange = false;
@@ -164,11 +165,11 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
 
     public void validateFilterActivation(@Nullable List<?> typeList, @Nullable List<?> locList) {
         setFiltersAppliedLabelOnHost();
-        if (typeList == null && locList == null)
-            putAllPlantDataInGrid(true);
         generateFilter(typeList, type_radio_group, isTypeFilterOnBottomSheetActive);
         generateFilter(locList, locations_radio_group, isLocationFilterOnBottomSheetActive);
-        if (preventMultipleCheckedChange) {
+        if (typeList == null && locList == null)
+            putAllPlantDataInGrid(true);
+        else if (preventMultipleCheckedChange) {
             putAllPlantDataInGrid(false);
             preventMultipleCheckedChange = false;
         }
@@ -250,6 +251,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     }
 
     public void putAllPlantDataInGrid(boolean generateAll) {
+        Log.d("Query", "called me : " + generateAll);
         new Thread(() -> {
             List<PlantsWithEverything> newlist;
             if (!generateAll) {
@@ -273,7 +275,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                 newlist = new ArrayList<>();
                 ex.printStackTrace();
             }
-            Log.d("Query", filterQuery);
+            Log.d("Query", filterQuery + " : " + generateAll);
             filterQuery = query;
             List<PlantsWithEverything> finalNewlist = newlist;
             requireActivity().runOnUiThread(() -> addPlantViewsToGrid(finalNewlist));

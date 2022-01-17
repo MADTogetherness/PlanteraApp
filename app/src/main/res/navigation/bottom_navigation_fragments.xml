@@ -8,7 +8,21 @@
         android:id="@+id/calendar"
         android:name="com.example.planteraapp.Mainfragments.Calendar"
         android:label="@string/calender"
-        tools:layout="@layout/fragment_calender" />
+        tools:layout="@layout/fragment_calender">
+
+        <action
+            android:id="@+id/action_calendar_to_settings"
+            app:destination="@id/settings"
+            app:popUpTo="@+id/calendar"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_calendar_to_new_plant"
+            app:destination="@id/newPlant_fragment"
+            app:popUpTo="@+id/calendar"
+            app:popUpToInclusive="true" />
+
+    </fragment>
     <fragment
         android:id="@+id/search"
         android:name="com.example.planteraapp.Mainfragments.Search"

@@ -1,6 +1,8 @@
 package com.example.planteraapp.Mainfragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
@@ -24,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -38,22 +41,27 @@ import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
+import com.example.planteraapp.Utilities.AlertReceiver;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 
 public class NewPlant extends Fragment {
+    public static String REMINDER_KEY = "getReminder";
+    public static String THEME_KEY = "getTheme";
     private PlantDAO DAO;
     private TextView imageNameTV, themeNameTV;
     private AutoCompleteTextView typeATV, locationATV;
@@ -68,7 +76,7 @@ public class NewPlant extends Fragment {
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
     // The thread to load the image
-    private Thread thread;
+    private Thread thread = null;
     // The image path is in this variable - get imagePath & store in the profile image field
     // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
     private String imagePath;
@@ -126,33 +134,26 @@ public class NewPlant extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        plantNameET.addTextChangedListener(new TextWatcher() {
-            Timer timer = new Timer();
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                timer.cancel();
-                timer.purge();
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        ChangePlantNames();
-                    }
-                }, 1200);
-            }
-        });
         saveData.setOnClickListener(v -> {
             if (!saveData.isActivated()) {
                 Toast.makeText(requireContext(), "Image is still uploading, Please wait", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (plantNameET.getText().toString().trim().isEmpty()) {
+                plantNameET.setError("Name Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), plantNameET);
+                return;
+            } else if (locationATV.getText().toString().trim().isEmpty()) {
+                locationATV.setError("Location Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), locationATV);
+                return;
+            } else if (typeATV.getText().toString().trim().isEmpty()) {
+                typeATV.setError("Type Field is required");
+                LauncherActivity.openSoftKeyboard(requireContext(), typeATV);
+                return;
+            } else if (descriptionET.getText().toString().trim().isEmpty()) {
+                descriptionET.setError("Type at least 2 words in bio");
+                LauncherActivity.openSoftKeyboard(requireContext(), descriptionET);
                 return;
             }
             String temp = plantNameET.getText().toString().trim();
@@ -161,20 +162,8 @@ public class NewPlant extends Fragment {
             String type = typeATV.getText().toString().trim();
             String location = locationATV.getText().toString().trim();
             plantName = name;
-            if (name.isEmpty()) {
-                plantNameET.setError("Name Field is required");
-                return;
-            } else if (location.isEmpty()) {
-                locationATV.setError("Location Field is required");
-                return;
-            } else if (type.isEmpty()) {
-                typeATV.setError("Type Field is required");
-                return;
-            } else if (description.isEmpty()) {
-                descriptionET.setError("Type at least 2 words in bio");
-                return;
-            }
-
+            // Change plant Name for all reminders set
+            ChangePlantNames();
             long successT = -1, successL = -1, successP = -1;
             PlantType newType = new PlantType(type);
             PlantLocation newLocation = new PlantLocation(location);
@@ -198,10 +187,18 @@ public class NewPlant extends Fragment {
             if (singleBitMap.getWidth()>=0) {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
                 try {
-                    successP = DAO.insertNewPlant(plant)[0];
-                    for (Reminder singleRem : reminders) {
-                        long[] successfulR = DAO.insertReminders(singleRem);
-                        Log.d("insertR", "Successful");
+                    if (getArguments() != null) {
+                        DAO.updatePlant(plant);
+                        for (Reminder singleRem : reminders) {
+                            DAO.updateReminder(singleRem);
+                            Log.d("insertR", "Successful");
+                        }
+                    } else {
+                        successP = DAO.insertNewPlant(plant)[0];
+                        for (Reminder singleRem : reminders) {
+                            long[] successfulR = DAO.insertReminders(singleRem);
+                            Log.d("insertR", "Successful");
+                        }
                     }
                     callForMyPlantActivity();
                 } catch (SQLiteConstraintException e) {
@@ -222,6 +219,7 @@ public class NewPlant extends Fragment {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     public void init(View view) {
         DAO = AppDatabase.getInstance(requireContext()).plantDAO();
         imageNameTV = view.findViewById(R.id.new_image_name);
@@ -238,6 +236,20 @@ public class NewPlant extends Fragment {
         EnableDisable(true);
         reminderlinearlayout = view.findViewById(R.id.reminders);
         reminders = new ArrayList<>();
+        if (getArguments() != null) {
+            PlantsWithEverything PWE = DAO.getAllPlantAttributes(getArguments().getString(LauncherActivity.plantNameKey));
+            typeATV.setText(PWE.type.type, false);
+            locationATV.setText(PWE.location.location, false);
+            plantNameET.setText(PWE.plant.plantName);
+            descriptionET.setText(PWE.plant.description);
+            reminders = PWE.Reminders;
+            imageNameTV.setText(PWE.plant.plantName + ".jpg");
+            plantTheme = PWE.plant.selectedTheme;
+            themeNameTV.setText(LauncherActivity.getThemeName(plantTheme));
+            imagePath = PWE.plant.profile_image;
+            singleBitMap = AttributeConverters.StringToBitMap(imagePath);
+            plantImage.setImageBitmap(singleBitMap);
+        }
         addRemindersToList(reminders);
     }
 
@@ -245,7 +257,6 @@ public class NewPlant extends Fragment {
         final ArrayAdapter<?> arrayAdapter = new ArrayAdapter<>(
                 requireActivity(), android.R.layout.simple_dropdown_item_1line, theList);
         atv.setAdapter(arrayAdapter);
-        atv.setOnClickListener(arg0 -> atv.showDropDown());
     }
 
     public void getNewImage() {
@@ -256,10 +267,8 @@ public class NewPlant extends Fragment {
     }
 
     public void ChangePlantNames() {
-        for (Reminder rem : reminders) {
-            String temp = plantNameET.getText().toString().trim();
-            rem.plantName = temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
-        }
+        for (Reminder rem : reminders)
+            rem.plantName = plantName;
     }
 
     public void EnableDisable(boolean val) {
@@ -277,7 +286,7 @@ public class NewPlant extends Fragment {
     }
 
     public void resetFields() {
-        if (thread.isAlive())
+        if (thread != null && thread.isAlive())
             thread.interrupt();
         plantImage.setImageResource(R.drawable.img_default_profile_image);
         imageNameTV.setText(R.string.default_img_name);
@@ -293,6 +302,15 @@ public class NewPlant extends Fragment {
     }
 
     public void callForMyPlantActivity() {
+        for (Reminder rem : reminders) {
+            AlarmManager alarmManager = (AlarmManager) requireActivity().getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(requireContext(), AlertReceiver.class);
+            intent.putExtra("Title", "Reminder to " + rem.name);
+            intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + locationATV.getText().toString().trim());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireActivity().getApplicationContext(), (int) rem.reminderID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            // TODO: Change the time
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+        }
         resetFields();
         Intent intent = new Intent(requireActivity(), MyPlant.class);
         intent.putExtra("plantName", plantName);
@@ -308,15 +326,15 @@ public class NewPlant extends Fragment {
         else {
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
-                item.setTag(String.valueOf(i));
+//                item.setTag(String.valueOf(i));
 
                 TextView tvTitle = item.findViewById(R.id.reminder_name);
                 TextView tvDesc = item.findViewById(R.id.reminder_desc);
                 View bubble = item.findViewById(R.id.bubble);
 
                 tvTitle.setText(all_reminders.name);
-                tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
-                bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), getColour(all_reminders.name)));
+                tvDesc.setText("Repeat After " + AttributeConverters.toDays(all_reminders.repeatInterval) + " day(s)" + "\nTime: " + AttributeConverters.getReadableTime(all_reminders.time) + "\nReminder is " + (all_reminders.notify ? "on" : "off"));
+                bubble.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), LauncherActivity.getColour(all_reminders.name)));
                 ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
 
                 int finalI = i;
@@ -346,24 +364,6 @@ public class NewPlant extends Fragment {
         reminderlinearlayout.addView(item);
     }
 
-
-    public int getColour(String name){
-        switch (name){
-            case "Water":
-            case "water":
-            case "Aqua":
-            case "aqua":
-                return R.color.Reminder_Water;
-            case "Soil":
-            case "Fertile":
-            case "soil":
-            case "fertile":
-                return R.color.Reminder_Soil;
-            default:
-                return R.color.Reminder_Other;
-        }
-    }
-
     public int getDrawableForReminder(int i) {
         switch (i) {
             case 0:
@@ -380,58 +380,40 @@ public class NewPlant extends Fragment {
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            boolean notificationEnabled = bundle.getBoolean("notificationEnabled");
-            String reminderName = bundle.getString("reminderName");
-            long time = bundle.getLong("time");
-            long interval = bundle.getLong("interval");
-            Reminder newReminder = new Reminder(plantNameET.getText().toString(), reminderName, time, interval);
-            newReminder.notify = notificationEnabled;
+            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(REMINDER_KEY), Reminder.class);
             if(position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
             addRemindersToList(reminders);
-            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + reminderName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
         });
         Bundle b = null;
         if(position>=0 && reminder!=null){
             b = new Bundle();
-            b.putBoolean("notificationEnabled", reminder[0].notify);
-            b.putString("reminderName", reminder[0].name);
-            b.putLong("time", reminder[0].time);
-            b.putLong("interval", reminder[0].repeatInterval);
+            b.putString(REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
         }
-        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        SetReminder setReminder = new SetReminder();
-        setReminder.setArguments(b);
-
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.nav_controller, setReminder, "SubFrag")
-                .addToBackStack(setReminder.getTag())
-                .commit();
-
-
-
+        openSubFragment(new SetReminder(), b, fm);
     }
 
-    public void getTheme(){
+    public void getTheme() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            plantTheme = bundle.getInt("plantTheme");
+            plantTheme = bundle.getInt(THEME_KEY);
             themeNameTV.setText(LauncherActivity.getThemeName(plantTheme));
             Toast.makeText(requireContext(), "Theme set to " + LauncherActivity.getThemeName(plantTheme), Toast.LENGTH_SHORT).show();
         });
-        Bundle b;
-        b = new Bundle();
-        b.putInt("plantTheme", plantTheme);
-        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
-        ColorTheme chooseColorTheme = new ColorTheme();
-        chooseColorTheme.setArguments(b);
-        fm.beginTransaction()
-                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.nav_controller, chooseColorTheme, "SubFrag")
-                .addToBackStack(chooseColorTheme.getTag())
-                .commit();
+        Bundle b = new Bundle();
+        b.putInt(THEME_KEY, plantTheme);
+        openSubFragment(new ColorTheme(), b, fm);
     }
 
+    public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
+        requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
+        fg.setArguments(bn);
+        fm.beginTransaction()
+                .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+                .add(R.id.nav_controller, fg, "SubFrag")
+                .addToBackStack(fg.getTag())
+                .commit();
+    }
 
 }

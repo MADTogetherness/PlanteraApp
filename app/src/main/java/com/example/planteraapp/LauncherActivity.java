@@ -9,11 +9,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 public class LauncherActivity extends AppCompatActivity {
     public static String SharedFile = "LaunchFiles";
+    public static String navigateToKey = "destination";
+    public static String CHANNEL_ID = "2119";
+    public static String BundleKey = "NavigateBundle";
+    public static String plantNameKey = "plantName";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /**
@@ -78,5 +85,31 @@ public class LauncherActivity extends AppCompatActivity {
             default:
                 return "Default App Theme";
         }
+    }
+
+    public static int getColour(String name) {
+        switch (name) {
+            case "Water":
+            case "water":
+            case "Aqua":
+            case "aqua":
+                return R.color.Reminder_Water;
+            case "Soil":
+            case "Fertile":
+            case "soil":
+            case "fertile":
+                return R.color.Reminder_Soil;
+            default:
+                return R.color.Reminder_Other;
+        }
+    }
+
+    public static void openSoftKeyboard(final Context context, final EditText editText) {
+        editText.requestFocus();
+        editText.postDelayed(() -> {
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
+            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        }, 100);
     }
 }

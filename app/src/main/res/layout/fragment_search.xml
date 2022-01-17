@@ -1,17 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/App_Container"
-    tools:context=".Mainfragments.Search"
-    android:theme="@style/Theme.PlanteraApp.Accent.Dark">
+    android:paddingStart="@dimen/padding_16_dp"
+    android:paddingEnd="@dimen/padding_16_dp"
+    android:paddingTop="@dimen/padding_16_dp"
+    android:paddingBottom="@dimen/padding_100_dp"
+    tools:context=".Mainfragments.Search">
 
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/app_bar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/main_variable_font"
+        android:text="Search your garden"
+        android:textColor="@color/Primary_Font"
+        android:textSize="@dimen/font_size_22sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/app_bar_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="@dimen/margin_16_dp"
+        android:autofillHints="username"
+        android:background="@drawable/com_search_bar"
+        android:cursorVisible="true"
+        android:drawableEnd="@drawable/ic_search_icon_24"
+        android:drawableTint="@color/Button_Primary"
+        android:hint="Search..."
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="@dimen/padding_16_dp"
+        android:textColor="@color/Primary_Font" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/search_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <LinearLayout
+        android:id="@+id/empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="@dimen/padding_10_dp"
+            android:src="@drawable/ic_search_icon_24"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="@color/Section_Container"
+            app:tint="@color/Primary_Font"
+            android:layout_marginBottom="@dimen/margin_10_dp"
+            android:contentDescription="@string/no_search_result" />
+
+        <TextView
+            android:id="@+id/no_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_search_result"
+            android:textSize="@dimen/font_size_18sp"
+            android:textStyle="bold"
+            android:textColor="@color/Primary_Font"
+            android:fontFamily="@font/main_variable_font" />
+
+        <TextView
+            android:id="@+id/no_search_sub"
+            android:layout_width="265dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_search_result_sub"
+            android:textSize="@dimen/font_size_14sp"
+            android:textAlignment="center"
+            android:textColor="@color/Secondary_Font" />
 
     </LinearLayout>
 

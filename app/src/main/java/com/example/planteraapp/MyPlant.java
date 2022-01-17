@@ -51,6 +51,13 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+//      TODO: Call on edit button
+//            Intent i = new Intent(this, Home.class);
+//            i.putExtra(LauncherActivity.navigateToKey, R.id.action_calendar_to_new_plant);
+//            Bundle b = new Bundle();
+//            b.putString(LauncherActivity.plantNameKey, plantName);
+//            i.putExtra(LauncherActivity.BundleKey, b);
+//            startActivity(i);
 public class MyPlant extends AppCompatActivity {
     String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", };
     private Plant plant;

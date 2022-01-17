@@ -7,7 +7,6 @@
     android:background="@color/App_Container"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/padding_100_dp"
     tools:context=".Mainfragments.Settings" >
 
 
@@ -15,7 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_16_dp">
+        android:paddingTop="@dimen/padding_16_dp"
+        android:paddingBottom="@dimen/padding_100_dp"
+        android:paddingStart="@dimen/padding_16_dp"
+        android:paddingEnd="@dimen/padding_16_dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,7 +25,8 @@
             android:text="@string/settings"
             android:textSize="@dimen/font_size_22sp"
             android:textStyle="bold"
-            android:textColor="@color/Primary_Font"/>
+            android:fontFamily="@font/main_variable_font"
+            android:textColor="@color/Primary_Font" />
 
         <TextView
             android:layout_width="match_parent"

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_10_dp"
+    android:background="@drawable/com_round_shape"
+    android:backgroundTint="@color/Section_Container"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_16_dp">
+
+    <TextView
+        android:id="@+id/plant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:lines="1"
+        android:fontFamily="@font/main_variable_font"
+        android:text="Plant name"
+        android:textColor="@color/Primary_Font"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/plant_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plant_name"
+        android:layout_alignParentStart="true"
+        android:lines="1"
+        android:text="Reminder 1 and Reminder 2"
+        android:textColor="#7E8194"
+        android:textSize="@dimen/font_size_14sp" />
+
+    <TextView
+        android:id="@+id/plant_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/plant_reminders"
+        android:layout_alignParentStart="true"
+        android:paddingTop="6dp"
+        android:text="Plant description"
+        android:textColor="@color/Secondary_Font"
+        android:textSize="@dimen/font_size_16sp" />
+
+    <View
+        android:id="@+id/type_of_reminder"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/margin_16_dp"
+        android:background="@drawable/small_circle" />
+
+
+</RelativeLayout>
