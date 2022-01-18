@@ -10,11 +10,14 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.BlogWithImages;
+import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
@@ -30,14 +33,17 @@ public interface PlantDAO {
     @RawQuery
     List<PlantsWithEverything> customFilterPlantsRawQuery(SupportSQLiteQuery query);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertPlantLocations(PlantLocation... location);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertPlantTypes(PlantType... type);
 
     @Insert
     long[] insertNewPlant(Plant... plant);
+
+    @Insert
+    long[] insertBlogs(Blog... blog);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertImage(Images image);
@@ -66,7 +72,7 @@ public interface PlantDAO {
     @Query("SELECT * FROM Reminder ORDER BY realEpochTime")
     List<ReminderAndPlant> getRemindersWithPlant();
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     void updateReminder(Reminder reminder);
 
     @Update
@@ -94,17 +100,17 @@ public interface PlantDAO {
 //    @Query("SELECT * FROM Blog WHERE blogID = :ID")
 //    List<Blog> getAllBlogs(long ID);
 //
-//    @Transaction
-//    @Query("SELECT * FROM Blog WHERE plantID = :ID")
-//    List<Blog> getAllBlogsPlantID(long ID);
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE plantName = :plantName")
+    List<Blog> getAllBlogsPlantID(String plantName);
 //
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
 //
-//    @Transaction
-//    @Query("SELECT * FROM Blog WHERE blogID = :ID")
-//    public List<BlogWithImages> getBlogwWithImages(long ID);
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE blogID = :ID")
+    public List<BlogWithImages> getBlogwWithImages(long ID);
 
     @Transaction
     @Query("SELECT * FROM Plant")

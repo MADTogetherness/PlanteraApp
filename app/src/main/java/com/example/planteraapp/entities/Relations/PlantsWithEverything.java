@@ -20,4 +20,5 @@ public class PlantsWithEverything {
     public PlantType type;
     @Relation(parentColumn = "plantName", entityColumn = "plantName")
     public List<Reminder> Reminders;
+
 }

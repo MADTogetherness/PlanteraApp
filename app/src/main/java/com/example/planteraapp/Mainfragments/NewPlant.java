@@ -170,11 +170,13 @@ public class NewPlant extends Fragment {
             saveData.setEnabled(false);
             try {
                 successT = DAO.insertPlantTypes(newType)[0];
+                Log.d("updateT", "Successful");
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
             try {
                 successL = DAO.insertPlantLocations(newLocation)[0];
+                Log.d("updateL", "Successful");
             } catch (SQLiteConstraintException e) {
                 e.printStackTrace();
             }
@@ -188,7 +190,9 @@ public class NewPlant extends Fragment {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
                 try {
                     if (getArguments() != null) {
-                        DAO.updatePlant(plant);
+                        DAO.insertNewPlant(plant);
+                        Log.d("updateP" + plantName, "Successful");
+
                         for (Reminder singleRem : reminders) {
                             DAO.updateReminder(singleRem);
                             Log.d("insertR", "Successful");
@@ -203,12 +207,18 @@ public class NewPlant extends Fragment {
                     callForMyPlantActivity();
                 } catch (SQLiteConstraintException e) {
                     saveData.setEnabled(true);
-                    Toast.makeText(requireContext(), "Plant with same name already exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Plant haha with same name already exists", Toast.LENGTH_SHORT).show();
                     if (successP == -1) {
-                        if (successT != -1)
+                        if (successT != -1){
                             DAO.deleteType(newType);
-                        if (successL != -1)
+                            Log.d("deleteT", "Successful");
+                        }
+
+                        if (successL != -1){
                             DAO.deleteLocation(newLocation);
+                            Log.d("deleteL", "Successful");
+                        }
+
                     }
                     e.printStackTrace();
                 }

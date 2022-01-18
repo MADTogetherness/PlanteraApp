@@ -34,9 +34,11 @@ import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
+import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 
@@ -114,6 +116,7 @@ public class MyPlant extends AppCompatActivity {
         plantName = getIntent().getStringExtra("plantName");
         DAO = AppDatabase.getInstance(this).plantDAO();
         everyThing = DAO.getAllPlantAttributes(plantName);
+        Log.d("getPlant: " + plantName, "Successful");
         plant = everyThing.plant;
         selectedTheme = plant.selectedTheme;
         //this.setTheme(plant.selectedTheme);
@@ -164,7 +167,7 @@ public class MyPlant extends AppCompatActivity {
         reminders = everyThing.Reminders;
         addRemindersToList(reminders);
 
-//        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+        timelines = DAO.getAllBlogsPlantID(plant.plantName);
         Collections.reverse(timelines);
         //timelines.add(0, new Blog(plant.plantName ,"a description"));
         //timelines.add(0, new Blog(plant.plantName ,"a second description"));
@@ -427,20 +430,20 @@ public class MyPlant extends AppCompatActivity {
 
                 LinearLayout imageLayout = item.findViewById(R.id.timeline_images);
 
-//                List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
+                List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
 
-//                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
+                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
 
-//                for(Images img: images){
-//                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
-//
-//                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
-//                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
-//                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
-//                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
-//
-//                    imageLayout.addView(itemimg);
-//                }
+                for(Images img: images){
+                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
+
+                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
+                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
+                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
+                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
+
+                    imageLayout.addView(itemimg);
+                }
 
                 int finalI = i;
                 // TODO: change later
@@ -455,10 +458,10 @@ public class MyPlant extends AppCompatActivity {
         Blog blogtoAdd = new Blog(plant.plantName, ((TextView)itemnew.findViewById(R.id.timeline_desc)).getText().toString());
 
 
-//        long blogid = DAO.insertBlogs(blogtoAdd)[0];
+        long blogid = DAO.insertBlogs(blogtoAdd)[0];
 
-//        Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
-//        timelines = DAO.getAllBlogsPlantID(plant.plantName);
+        Toast.makeText(getApplicationContext(), "blog added " + blogid, Toast.LENGTH_SHORT).show();
+        timelines = DAO.getAllBlogsPlantID(plant.plantName);
         Collections.reverse(timelines);
 
 
@@ -470,9 +473,9 @@ public class MyPlant extends AppCompatActivity {
                 long imgid = DAO.insertImage(image);
                 Toast.makeText(this, "Image added to image " + imgid, Toast.LENGTH_SHORT).show();
 
-//                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
-//                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
-//                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
+                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
+                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
+                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
 
 
             } catch (SQLiteConstraintException e) {
