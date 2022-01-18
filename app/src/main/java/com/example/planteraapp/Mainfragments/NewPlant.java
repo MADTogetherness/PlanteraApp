@@ -330,8 +330,6 @@ public class NewPlant extends Fragment {
         else {
             for (Reminder all_reminders : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
-//                item.setTag(String.valueOf(i));
-
                 TextView tvTitle = item.findViewById(R.id.reminder_name);
                 TextView tvDesc = item.findViewById(R.id.reminder_desc);
                 View bubble = item.findViewById(R.id.bubble);

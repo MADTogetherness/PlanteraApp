@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SubFragments.ColorTheme"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/App_Container">
+    android:background="?attr/App_Container">
 
     <RadioGroup
         android:id="@+id/colorTheme_radio_group"
@@ -31,13 +32,14 @@
                 android:scaleType="centerCrop"
                 android:padding="4dp"
                 android:layout_marginEnd="@dimen/margin_10_dp"
-                android:background="@android:color/transparent" />
+                android:background="@android:color/transparent"
+                app:tint="?attr/Primary_Font" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Choose a plant theme"
-                android:textColor="@color/Primary_Font"
+                android:textColor="?attr/Primary_Font"
                 android:textSize="@dimen/font_size_22sp"
                 android:fontFamily="@font/main_variable_font"
                 android:textStyle="bold" />
@@ -52,7 +54,7 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Default App Theme"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"
             android:paddingStart="20dp"
@@ -83,7 +85,7 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Monochromatic Brown Theme"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"
             android:paddingStart="20dp"
@@ -114,7 +116,7 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Chiffon Purple Theme"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"
             android:paddingStart="20dp"
@@ -146,7 +148,7 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Accent Dark Theme"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"
             android:paddingStart="20dp"
@@ -177,7 +179,7 @@
             android:background="@drawable/com_top_item_shape"
             android:padding="@dimen/padding_16_dp"
             android:text="Dracula Light Theme"
-            android:textColor="@color/Primary_Font"
+            android:textColor="?attr/Primary_Font"
             android:fontFamily="@font/main_variable_font"
             android:textSize="@dimen/font_size_18sp"
             android:paddingStart="20dp"
@@ -205,8 +207,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/com_round_shape"
-            android:backgroundTint="@color/Button_Primary"
-            android:textColor="@color/Button_Font"
+            android:backgroundTint="?attr/Button_Primary"
+            android:textColor="?attr/Button_Font"
             android:layout_marginTop="@dimen/margin_16_dp"
             android:textSize="@dimen/font_size_18sp"
             android:text="DONE" />

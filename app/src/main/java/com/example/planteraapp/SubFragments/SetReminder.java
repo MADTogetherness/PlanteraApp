@@ -140,7 +140,12 @@ public class SetReminder extends Fragment {
             return;
         }
         if (repeatInterval.getText().toString().trim().length() == 0) {
-            repeatInterval.setError("Repeat not provided. Insert 0 for 1 time notification");
+            repeatInterval.setError("Repeat not provided");
+            LauncherActivity.openSoftKeyboard(requireContext(), repeatInterval);
+            return;
+        }
+        if (Integer.parseInt(repeatInterval.getText().toString().trim()) < 1) {
+            repeatInterval.setError("Repeat should be greater than 1");
             LauncherActivity.openSoftKeyboard(requireContext(), repeatInterval);
             return;
         }

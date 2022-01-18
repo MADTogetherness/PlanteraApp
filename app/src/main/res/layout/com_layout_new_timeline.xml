@@ -47,8 +47,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timeline_desc"
         android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/ic_camera"
-        android:text="Add Picture"
+        android:drawableStart="@drawable/ic_camera"
+        android:text="Add Multiple Images"
+        android:drawablePadding="@dimen/padding_10_dp"
+        android:fontFamily="@font/main_variable_font"
+        android:textSize="@dimen/font_size_17sp"
+        android:textAllCaps="false"
         android:textColor="?attr/Primary_Font" />
 
     <TextView

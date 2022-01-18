@@ -27,6 +27,7 @@
             android:padding="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_cross"
+            app:tint="?attr/Primary_Font"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -61,8 +62,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="clear_text"
+                app:endIconTint="?attr/Primary_Font"
                 app:startIconDrawable="@drawable/ic_bell"
                 app:startIconTint="?attr/Primary_Font"
+                android:textColorHint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -87,6 +90,7 @@
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_access_time_24"
                 app:startIconTint="?attr/Primary_Font"
+                android:textColorHint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -111,6 +115,7 @@
                 app:suffixText="day(s)"
                 app:startIconDrawable="@drawable/ic_repeat_24"
                 app:startIconTint="?attr/Primary_Font"
+                android:textColorHint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <EditText
@@ -134,6 +139,7 @@
                 android:layout_height="wrap_content"
                 app:startIconDrawable="@drawable/ic_previous_24"
                 app:startIconTint="?attr/Primary_Font"
+                android:textColorHint="?attr/Primary_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp">
 
                 <AutoCompleteTextView

@@ -13,13 +13,11 @@ import androidx.fragment.app.FragmentManager;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,21 +34,16 @@ import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.AttributeConverters;
 import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.DAO.PlantDAO;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 
 import java.io.FileNotFoundException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -63,7 +56,8 @@ import java.util.List;
 //            i.putExtra(LauncherActivity.BundleKey, b);
 //            startActivity(i);
 public class MyPlant extends AppCompatActivity {
-    String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December", };
+    private boolean fragmentOpened = false;
+    String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December",};
     private Plant plant;
     private PlantDAO DAO;
     private String plantName;
@@ -78,7 +72,7 @@ public class MyPlant extends AppCompatActivity {
     private List<Blog> timelines;
     private PlantsWithEverything everyThing;
 
-    int plantTheme;
+//    int plantTheme;
 
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
@@ -111,8 +105,6 @@ public class MyPlant extends AppCompatActivity {
 
 
 
-
-
     private boolean isActivityRecreated = false;
     private int selectedTheme = R.style.Theme_PlanteraApp;
 
@@ -123,6 +115,7 @@ public class MyPlant extends AppCompatActivity {
         DAO = AppDatabase.getInstance(this).plantDAO();
         everyThing = DAO.getAllPlantAttributes(plantName);
         plant = everyThing.plant;
+        selectedTheme = plant.selectedTheme;
         //this.setTheme(plant.selectedTheme);
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);
@@ -187,7 +180,7 @@ public class MyPlant extends AppCompatActivity {
         });
 
         editThemeBtn.setOnClickListener(v->{
-            getnewTheme();
+            getNewTheme();
         });
 
         editBtn.setOnClickListener(v->{
@@ -205,6 +198,7 @@ public class MyPlant extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        Log.d("themeXY", "coming back");
         if (isActivityRecreated) ChangeThemeFromDB(true);
         super.onResume();
     }
@@ -216,22 +210,16 @@ public class MyPlant extends AppCompatActivity {
     }
 
     private void ChangeThemeFromDB(boolean recreate) {
-        int theme = DAO.getSelectedThemeOfUser(plantName);
-        if (theme != 0 && theme == selectedTheme)
-            return;
-        setTheme(theme == 0 ? R.style.Theme_PlanteraApp : theme);
+        setTheme(selectedTheme);
+        Log.d("themeXY", "yay");
         if (recreate) {
-            overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
+            Log.d("themeXY", "RECREATING");
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             isActivityRecreated = false;
             recreate();
         }
     }
 
-    @Override
-    public void setTheme(int resId) {
-        selectedTheme = resId;
-        super.setTheme(resId);
-    }
 
     public String getDate(Long datel){
         Date date = new Date(datel);
@@ -243,42 +231,87 @@ public class MyPlant extends AppCompatActivity {
         return dayValue + " " + months[Integer.parseInt(monthValue)] + " " + yearValue;
     }
 
+    @SuppressLint("SetTextI18n")
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinearlayout.removeAllViews();
         int i = 0;
-        if (items.size() == 0){
-            View newitem = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
-            newitem.setTag(String.valueOf(i));
-
-            TextView tvTitle = newitem.findViewById(R.id.reminder_name);
-            TextView tvDesc = newitem.findViewById(R.id.reminder_desc);
-
-            tvTitle.setText("No reminders exist");
-            ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(R.drawable.com_round_shape);
-        }
-
+        if (items.size() == 0)
+            addNewReminderViewPrompt(getDrawableForReminder(-1));
         else {
             for (Reminder all_reminders : items) {
-                View item = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
-                item.setTag(String.valueOf(i));
-
+                View item = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
                 TextView tvTitle = item.findViewById(R.id.reminder_name);
                 TextView tvDesc = item.findViewById(R.id.reminder_desc);
-
+                View bubble = item.findViewById(R.id.bubble);
+                ImageView arrow = item.findViewById(R.id.arrow);
                 tvTitle.setText(all_reminders.name);
-                tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
+                tvDesc.setText("Repeat After " + AttributeConverters.toDays(all_reminders.repeatInterval) + " day(s)" + "\nTime: " + AttributeConverters.getReadableTime(all_reminders.time) + "\nReminder is " + (all_reminders.notify ? "on" : "off"));
+                bubble.setBackgroundTintList(ContextCompat.getColorStateList(this, LauncherActivity.getColour(all_reminders.name)));
                 ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
-
+                arrow.setImageResource(R.drawable.ic_pencil);
                 int finalI = i;
-                // TODO: change later
                 item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
                 reminderlinearlayout.addView(item);
 
+                if (i == items.size() - 1 && items.size() <= 2)
+                    addNewReminderViewPrompt(getDrawableForReminder(2));
                 i++;
 
             }
         }
     }
+
+    public void addNewReminderViewPrompt(int BackgroundResource) {
+        View item = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
+        ImageView imgBell = item.findViewById(R.id.bell);
+        TextView tvTitle = item.findViewById(R.id.reminder_name);
+        TextView tvDesc = item.findViewById(R.id.reminder_desc);
+        View bubble = item.findViewById(R.id.bubble);
+        imgBell.setImageResource(R.drawable.ic_add_new_icon_24);
+        tvTitle.setText("Add New Reminder");
+        tvDesc.setVisibility(View.GONE);
+        bubble.setVisibility(View.GONE);
+        ((RelativeLayout) imgBell.getParent()).setBackgroundResource(BackgroundResource);
+        item.setOnClickListener(v -> getReminder(-1));
+        reminderlinearlayout.addView(item);
+    }
+
+//    public void addRemindersToList(@NonNull List<Reminder> items) {
+//        reminderlinearlayout.removeAllViews();
+//        int i = 0;
+//        if (items.size() == 0){
+//            View newitem = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
+//            newitem.setTag(String.valueOf(i));
+//
+//            TextView tvTitle = newitem.findViewById(R.id.reminder_name);
+//            TextView tvDesc = newitem.findViewById(R.id.reminder_desc);
+//
+//            tvTitle.setText("No reminders exist");
+//            ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(R.drawable.com_round_shape);
+//        }
+//
+//        else {
+//            for (Reminder all_reminders : items) {
+//                View item = getLayoutInflater().inflate(R.layout.reminder_item_myplant, reminderlinearlayout, false);
+//                item.setTag(String.valueOf(i));
+//
+//                TextView tvTitle = item.findViewById(R.id.reminder_name);
+//                TextView tvDesc = item.findViewById(R.id.reminder_desc);
+//
+//                tvTitle.setText(all_reminders.name);
+//                tvDesc.setText("Repeat: " + all_reminders.repeatInterval + " days" + "\nTime: " + all_reminders.time);
+//                ((RelativeLayout) tvTitle.getParent()).setBackgroundResource(getDrawableForReminder(i));
+//
+//                int finalI = i;
+//                // TODO: change later
+//                item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
+//                reminderlinearlayout.addView(item);
+//
+//                i++;
+//
+//            }
+//        }
+//    }
 
 
 
@@ -460,27 +493,27 @@ public class MyPlant extends AppCompatActivity {
 
     }
 
-    public void getnewTheme() {
+    public void getNewTheme() {
         FragmentManager fm = getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            plantTheme = bundle.getInt(NewPlant.THEME_KEY);
-            plant.selectedTheme = plantTheme;
+            selectedTheme = bundle.getInt(NewPlant.THEME_KEY);
+            plant.selectedTheme = selectedTheme;
             DAO.updateTheme(plant);
-
-            Toast.makeText(this, "Theme set to " + LauncherActivity.getThemeName(plantTheme), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Theme set to " + LauncherActivity.getThemeName(selectedTheme), Toast.LENGTH_SHORT).show();
             ChangeThemeFromDB(true);
         });
         Bundle b = new Bundle();
-        b.putInt(NewPlant.THEME_KEY, plantTheme);
+        b.putInt(NewPlant.THEME_KEY, selectedTheme);
         openSubFragment(new ColorTheme(), b, fm);
     }
 
     public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
+        fragmentOpened = true;
         fg.setArguments(bn);
         fm.beginTransaction()
                 .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
-                .add(R.id.container, fg, "SubFrag")
-                .addToBackStack(fg.getTag())
+                .replace(R.id.container, fg, "SubFrag")
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -505,9 +538,10 @@ public class MyPlant extends AppCompatActivity {
     @Override
     public void onBackPressed() {
             Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");
-            if (frag != null)
-                getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
-            else
-                super.onBackPressed();
+        if (frag != null && fragmentOpened) {
+            getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
+            fragmentOpened = false;
+        } else
+            super.onBackPressed();
     }
 }
