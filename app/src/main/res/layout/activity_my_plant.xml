@@ -18,13 +18,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:paddingTop="70dp"
+        android:paddingTop="60dp"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="20dp"
             android:paddingStart="@dimen/padding_16_dp"
             android:paddingEnd="@dimen/padding_16_dp">
 
@@ -36,7 +37,7 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Theme : "
                 android:textColor="?attr/Button_Primary"
-                android:textSize="@dimen/font_size_17sp" />
+                android:textSize="@dimen/font_size_14sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -97,11 +98,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10_dp"
+                android:layout_marginTop="@dimen/margin_16_dp"
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Reminder"
                 android:textColor="?attr/Primary_Font"
-                android:textSize="@dimen/font_size_18sp" />
+                android:textSize="@dimen/font_size_16sp" />
 
             <!--            TODO: LauncherActivity.getReadableTime(millis)-->
             <TextView
@@ -111,7 +112,7 @@
                 android:fontFamily="@font/opensans_semibold"
                 android:text="Next Reminder in 3 hours"
                 android:textColor="?attr/Button_Primary"
-                android:textSize="@dimen/font_size_16sp" />
+                android:textSize="@dimen/font_size_14sp" />
 
             <!--  TODO: Inflate the reminders the same way u did for new plant fragment
                     Basically change the arrow icon at last to edit icon, make other neccessary changes
@@ -121,7 +122,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10_dp"
-                android:layout_marginBottom="@dimen/margin_10_dp"
+                android:layout_marginBottom="@dimen/margin_16_dp"
                 android:background="@drawable/com_round_shape"
                 android:backgroundTint="?attr/Section_Container"
                 android:orientation="vertical" />
@@ -176,7 +177,7 @@
             <!--             TODO: Inflate the timeline dynamically-->
             <!--            TODO: DRAW LAYOUT FOR TIMELINE -->
             <!--            TODO: TIMELINE NEEDS A SUB LAYOUT CALLED ImageView in another file-->
-<!--            Complete com_layout_timeline.xml-->
+            <!--            Complete com_layout_timeline.xml-->
             <LinearLayout
                 android:id="@+id/timelineLayout"
                 android:layout_width="match_parent"

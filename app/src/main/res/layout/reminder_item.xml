@@ -42,7 +42,7 @@
         android:fontFamily="@font/main_variable_font"
         android:lineHeight="18sp"
         android:textColor="?attr/Secondary_Font"
-        android:textSize="@dimen/font_size_16sp" />
+        android:textSize="@dimen/font_size_14sp" />
 
     <ImageView
         android:id="@+id/arrow"
