@@ -63,7 +63,7 @@ public class Reminder {
     }
 
     @Ignore
-    public static Comparator<Reminder> COMPARE_BY_NAME = Comparator.comparingLong(o -> o.realEpochTime);
+    public static Comparator<Reminder> COMPARE_BY_TIME = Comparator.comparingLong(o -> o.realEpochTime);
 
     @Override
     @NonNull
