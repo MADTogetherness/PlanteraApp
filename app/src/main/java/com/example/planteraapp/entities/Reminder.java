@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.util.Comparator;
 
 @Entity(
         foreignKeys = {
@@ -58,6 +61,9 @@ public class Reminder {
         notify = true;
         this.repeatInterval = repeatInterval;
     }
+
+    @Ignore
+    public static Comparator<Reminder> COMPARE_BY_NAME = Comparator.comparingLong(o -> o.realEpochTime);
 
     @Override
     @NonNull
