@@ -539,6 +539,9 @@ public class MyPlant extends AppCompatActivity {
             else reminders.add(newReminder);
             addRemindersToList(reminders);
             Toast.makeText(this, "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
+            for(Reminder rem: reminders){
+                DAO.updateReminder(rem);
+            }
         });
         Bundle b = new Bundle();
         if(position>=0 && reminder!=null)
