@@ -190,13 +190,11 @@ public class NewPlant extends Fragment {
 
             if (singleBitMap.getWidth()>=0) {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
+                plant.plantName = name;
                 try {
                     if (getArguments() != null) {
                         DAO.updatePlant(plant);
                         Log.d("updateP" + plantName, "Successful");
-
-                        DAO.updateBlog(oldplantName, plant.plantName);
-                        Log.d(oldplantName + "updateBlog ", plant.plantName + "Successful");
 
                         for (Reminder singleRem : reminders) {
                             DAO.updateReminder(singleRem);
@@ -256,6 +254,7 @@ public class NewPlant extends Fragment {
             typeATV.setText(PWE.type.type, false);
             locationATV.setText(PWE.location.location, false);
             plantNameET.setText(PWE.plant.plantName);
+            plantNameET.setEnabled(false);
             oldplantName = PWE.plant.plantName;
             descriptionET.setText(PWE.plant.description);
             reminders = PWE.Reminders;
@@ -398,19 +397,35 @@ public class NewPlant extends Fragment {
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(REMINDER_KEY), Reminder.class);
+            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(NewPlant.REMINDER_KEY), Reminder.class);
             if(position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
             addRemindersToList(reminders);
             Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
         });
-        Bundle b = null;
-        if(position>=0 && reminder!=null){
-            b = new Bundle();
-            b.putString(REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
-        }
+        Bundle b = new Bundle();
+        if(position>=0 && reminder!=null)
+            b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
+        //b.putString("location", everyThing.location.location);
         openSubFragment(new SetReminder(), b, fm);
     }
+
+//    public void getReminder(int position, Reminder... reminder) {
+//        FragmentManager fm = requireActivity().getSupportFragmentManager();
+//        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+//            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(REMINDER_KEY), Reminder.class);
+//            if(position >= 0) reminders.set(position, newReminder);
+//            else reminders.add(newReminder);
+//            addRemindersToList(reminders);
+//            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
+//        });
+//        Bundle b = null;
+//        if(position>=0 && reminder!=null){
+//            b = new Bundle();
+//            b.putString(REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
+//        }
+//        openSubFragment(new SetReminder(), b, fm);
+//    }
 
     public void getTheme() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
