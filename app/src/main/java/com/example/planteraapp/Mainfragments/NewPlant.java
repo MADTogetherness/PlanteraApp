@@ -71,6 +71,7 @@ public class NewPlant extends Fragment {
     private ShapeableImageView plantImage;
     private LinearLayout reminderlinearlayout;
     private List<Reminder> reminders;
+    private List<Reminder> oldreminders;
     private int plantTheme = R.style.Theme_PlanteraApp;
     private String plantName = "";
     // Get the bitmap of image user has just selected from gallery
@@ -189,10 +190,26 @@ public class NewPlant extends Fragment {
                 try {
                     if (getArguments() != null) {
                         DAO.updatePlant(plant);
-                        for (Reminder singleRem : reminders) {
-                            DAO.updateReminder(singleRem);
-                            Log.d("insertR", "Successful");
+//                        for (Reminder singleRem : reminders) {
+//                            DAO.updateReminder(singleRem);
+//                            Log.d("insertR", "Successful");
+//                        }
+                        int crem = 0;
+                        for(int i = 0; i<oldreminders.size(); i++){
+                            DAO.updateReminder(reminders.get(i));
+                            Log.d("updateR", "Successful");
+                            Log.d(String.valueOf(reminders.get(i).reminderID),String.valueOf(oldreminders.get(i).reminderID));
+                            crem++;
                         }
+
+                        if(oldreminders.size() != reminders.size()){
+                            for(;crem<reminders.size();crem++){
+                                DAO.insertReminders(reminders.get(crem));
+                                Log.d("insertR", "Successful");
+                            }
+                        }
+
+
                     } else {
                         successP = DAO.insertNewPlant(plant)[0];
                         for (Reminder singleRem : reminders) {
@@ -236,6 +253,7 @@ public class NewPlant extends Fragment {
         EnableDisable(true);
         reminderlinearlayout = view.findViewById(R.id.reminders);
         reminders = new ArrayList<>();
+        oldreminders = new ArrayList<>();
         if (getArguments() != null) {
             PlantsWithEverything PWE = DAO.getAllPlantAttributes(getArguments().getString(LauncherActivity.plantNameKey));
             typeATV.setText(PWE.type.type, false);
@@ -243,7 +261,10 @@ public class NewPlant extends Fragment {
             plantNameET.setText(PWE.plant.plantName);
             descriptionET.setText(PWE.plant.description);
             reminders = PWE.Reminders;
+            oldreminders = PWE.Reminders;
             imageNameTV.setText(PWE.plant.plantName + ".jpg");
+            Toast.makeText(requireContext(), "PWE.plant.plantName", Toast.LENGTH_SHORT).show();
+            plantNameET.setEnabled(false);
             plantTheme = PWE.plant.selectedTheme;
             themeNameTV.setText(LauncherActivity.getThemeName(plantTheme));
             imagePath = PWE.plant.profile_image;
