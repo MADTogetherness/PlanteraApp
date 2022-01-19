@@ -192,7 +192,7 @@ public class NewPlant extends Fragment {
                 Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
                 try {
                     if (getArguments() != null) {
-                        DAO.insertNewPlant(plant);
+                        DAO.updatePlant(plant);
                         Log.d("updateP" + plantName, "Successful");
 
                         DAO.updateBlog(oldplantName, plant.plantName);
