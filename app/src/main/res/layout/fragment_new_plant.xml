@@ -306,8 +306,6 @@
             android:textSize="@dimen/font_size_16sp"
             android:textStyle="bold"
             app:cornerRadius="6dp"
-            app:strokeWidth="2dp"
-            android:letterSpacing="0"
-            app:strokeColor="@color/Button_Primary" />
+            android:letterSpacing="0" />
     </LinearLayout>
 </RelativeLayout>
