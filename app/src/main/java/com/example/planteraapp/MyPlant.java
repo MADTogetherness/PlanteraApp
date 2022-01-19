@@ -402,7 +402,9 @@ public class MyPlant extends AppCompatActivity {
             TextView descTV = itemnew.findViewById(R.id.timeline_desc);
 
 
-            itemnew.findViewById(R.id.add_pictureBtn).setOnClickListener(v-> getNewBlogImage());
+            itemnew.findViewById(R.id.add_pictureBtn).setOnClickListener(v->{
+                mGetSingleContent.launch("image/*");
+            });
 
 
             itemnew.findViewById(R.id.saveblogBtn).setOnClickListener(v->{
