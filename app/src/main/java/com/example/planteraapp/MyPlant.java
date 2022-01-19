@@ -17,6 +17,7 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,28 +78,29 @@ public class MyPlant extends AppCompatActivity {
 //    int plantTheme;
 
     // Get the bitmap of image user has just selected from gallery
-    private Bitmap singleBitMap;
+    private ArrayList<Bitmap> Bitmaplist = new ArrayList<>();
     // The thread to load the image
     private Thread thread;
     // The image path is in this variable - get imagePath & store in the profile image field
     // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
-    private String imagePath;
+    private ArrayList<String> imagePath = new ArrayList<>();
     // The mGetSingleContent Variable
     // Call mGetSingleContent.launch("image/*")
     @SuppressLint("SetTextI18n")
-    private final ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
+    private final ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetMultipleContents(),
             uri -> {
-                if (uri != null) {
+                int i = 0;
+                for(Uri singleuri : uri ){
                     Toast.makeText(this, "Uploading Image", Toast.LENGTH_SHORT).show();
                     Toast success = Toast.makeText(this, "Image Uploaded Successfully", Toast.LENGTH_SHORT);
                     try {
-                        singleBitMap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(uri));
+                        Bitmaplist.add(BitmapFactory.decodeStream(this.getContentResolver().openInputStream(singleuri)));
                     } catch (FileNotFoundException e) {
                         Toast.makeText(this, "Image loading failed", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                     thread = new Thread(() -> {
-                        imagePath = AttributeConverters.BitMapToString(singleBitMap);
+                        imagePath.add(AttributeConverters.BitMapToString(Bitmaplist.get(i)));
                         success.show();
                     });
                     thread.start();
@@ -478,25 +480,31 @@ public class MyPlant extends AppCompatActivity {
 
 
         long successP = -1;
-        if (singleBitMap != null) {
-            Images image = new Images("blogimg" + plant.plantName, imagePath);
-            try {
-                long imgid = DAO.insertImage(image);
-                Toast.makeText(this, "Image added to image " + imgid, Toast.LENGTH_SHORT).show();
+        if (Bitmaplist.size() != 0) {
+            int curr = 0;
+            for(Bitmap bm : Bitmaplist){
+                Images image = new Images("blogimg" + plant.plantName, imagePath.get(curr));
+                try {
+                    long imgid = DAO.insertImage(image);
+                    Toast.makeText(this, "Image added to image " + imgid, Toast.LENGTH_SHORT).show();
 
-                BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
-                long refid = DAO.insertNewBlogImageCrossRef(BIRef);
-                Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
+                    BlogImagesCrossRef BIRef = new BlogImagesCrossRef(blogid, imgid);
+                    long refid = DAO.insertNewBlogImageCrossRef(BIRef);
+                    Toast.makeText(this, "CrossRef Added " + refid, Toast.LENGTH_SHORT).show();
 
 
-            } catch (SQLiteConstraintException e) {
+                } catch (SQLiteConstraintException e) {
 
-                Toast.makeText(this, "Plant with same name already exists", Toast.LENGTH_SHORT).show();
-                if (successP == -1) {
-                    //DAO.deleteImage(image);
+                    Toast.makeText(this, "Plant with same name already exists", Toast.LENGTH_SHORT).show();
+                    if (successP == -1) {
+                        //DAO.deleteImage(image);
+                    }
+                    e.printStackTrace();
                 }
-                e.printStackTrace();
+                curr++;
             }
+
+
         }
 
         addBlogsToList(timelines, false);
