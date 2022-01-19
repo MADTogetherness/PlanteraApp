@@ -454,7 +454,7 @@ public class MyPlant extends AppCompatActivity {
         }
     }
 
-    public void saveBlog(View itemnew){
+    public long saveBlog(View itemnew){
         Blog blogtoAdd = new Blog(plant.plantName, ((TextView)itemnew.findViewById(R.id.timeline_desc)).getText().toString());
 
 
@@ -492,7 +492,7 @@ public class MyPlant extends AppCompatActivity {
 
 
 
-//        return blogid;
+        return blogid;
 
     }
 
