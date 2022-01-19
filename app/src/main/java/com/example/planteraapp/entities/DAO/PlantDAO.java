@@ -72,7 +72,7 @@ public interface PlantDAO {
     @Query("SELECT * FROM Reminder ORDER BY realEpochTime")
     List<ReminderAndPlant> getRemindersWithPlant();
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     void updateReminder(Reminder reminder);
 
     @Update
@@ -109,14 +109,16 @@ public interface PlantDAO {
     @Transaction
     @Query("SELECT * FROM Blog WHERE plantName = :plantName")
     List<Blog> getAllBlogsPlantID(String plantName);
-//
+
+    //
     @Transaction
     @Query("SELECT * FROM Plant WHERE plantName = :plantName")
     PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
-//
+
+    //
     @Transaction
     @Query("SELECT * FROM Blog WHERE blogID = :ID")
-    public List<BlogWithImages> getBlogwWithImages(long ID);
+    List<BlogWithImages> getBlogwWithImages(long ID);
 
     @Transaction
     @Query("SELECT * FROM Plant")

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SubFragments.SetReminder"
-    android:background="?attr/App_Container">
+    android:background="@color/App_Container">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -27,7 +27,6 @@
             android:padding="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_cross"
-            app:tint="?attr/Primary_Font"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -41,7 +40,7 @@
             android:fontFamily="@font/main_variable_font"
             android:gravity="center_vertical"
             android:text="Add Reminder"
-            android:textColor="?attr/Primary_Font"
+            android:textColor="@color/Primary_Font"
             android:textSize="@dimen/font_size_22sp"
             android:textStyle="bold" />
 
@@ -49,36 +48,69 @@
             android:id="@+id/layout_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/com_round_shape"
             android:layout_below="@id/reminder_close"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_16_dp"
-            android:backgroundTint="?attr/Section_Container"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="@color/Section_Container"
             android:orientation="vertical"
             android:padding="@dimen/padding_16_dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16_dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/test_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_10_dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/main_variable_font"
+                    android:letterSpacing="0"
+                    android:text="Test Reminder"
+                    android:textSize="@dimen/font_size_14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="6dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/delete_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_10_dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#D6003C"
+                    android:fontFamily="@font/main_variable_font"
+                    android:letterSpacing="0"
+                    android:text="Delete Reminder"
+                    android:textColor="#fff"
+                    android:textSize="@dimen/font_size_14sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="6dp" />
+
+            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16_dp"
                 app:endIconMode="clear_text"
-                app:endIconTint="?attr/Primary_Font"
                 app:startIconDrawable="@drawable/ic_bell"
-                app:startIconTint="?attr/Primary_Font"
-                android:textColorHint="?attr/Primary_Font"
-                android:layout_marginBottom="@dimen/margin_16_dp">
+                app:startIconTint="@color/Primary_Font">
 
                 <EditText
                     android:id="@+id/set_reminder_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusedByDefault="true"
                     android:autofillHints="name"
+                    android:focusedByDefault="true"
                     android:fontFamily="@font/main_variable_font"
                     android:hint="Reminder Name"
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences"
-                    android:textColor="?attr/Primary_Font"
                     android:lines="1"
                     android:textSize="@dimen/font_size_17sp" />
 
@@ -88,10 +120,9 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_access_time_24"
-                app:startIconTint="?attr/Primary_Font"
-                android:textColorHint="?attr/Primary_Font"
-                android:layout_marginBottom="@dimen/margin_16_dp">
+                app:startIconTint="@color/Primary_Font">
 
                 <EditText
                     android:id="@+id/set_reminder_time"
@@ -100,7 +131,6 @@
                     android:autofillHints="name"
                     android:focusable="false"
                     android:fontFamily="@font/main_variable_font"
-                    android:textColor="?attr/Primary_Font"
                     android:hint="Set Time"
                     android:inputType="none"
                     android:lines="1"
@@ -112,11 +142,10 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:suffixText="day(s)"
+                android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_repeat_24"
-                app:startIconTint="?attr/Primary_Font"
-                android:textColorHint="?attr/Primary_Font"
-                android:layout_marginBottom="@dimen/margin_16_dp">
+                app:startIconTint="@color/Primary_Font"
+                app:suffixText="day(s)">
 
                 <EditText
                     android:id="@+id/set_repeat_interval"
@@ -124,7 +153,6 @@
                     android:layout_height="wrap_content"
                     android:autofillHints="name"
                     android:fontFamily="@font/main_variable_font"
-                    android:textColor="?attr/Primary_Font"
                     android:hint="Repeat Interval"
                     android:imeOptions="actionDone"
                     android:inputType="number"
@@ -137,63 +165,36 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_previous_24"
-                app:startIconTint="?attr/Primary_Font"
-                android:textColorHint="?attr/Primary_Font"
-                android:layout_marginBottom="@dimen/margin_16_dp">
+                app:startIconTint="@color/Primary_Font">
 
                 <AutoCompleteTextView
                     android:id="@+id/reminder_last_completed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:fontFamily="@font/main_variable_font"
-                    android:textColor="?attr/Primary_Font"
                     android:hint="Last Completed"
                     android:inputType="none"
-                    android:focusable="false"
                     android:lines="1"
                     android:textSize="@dimen/font_size_17sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/layout_1"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/test_notification"
-                android:layout_width="wrap_content"
-                android:layout_height="48dp"
-                android:text="Test"
-                android:textStyle="bold"
-                android:backgroundTint="?attr/Button_Secondary"
-                android:layout_marginStart="@dimen/margin_10_dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/notify_enabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:layout_gravity="end"
                 android:fontFamily="@font/main_variable_font"
                 android:padding="@dimen/padding_16_dp"
                 android:text="Notification "
-                android:textColor="?attr/Primary_Font"
                 android:textSize="@dimen/font_size_17sp"
                 android:textStyle="bold"
                 android:thumb="@drawable/com_thumb_selector"
                 app:switchPadding="@dimen/padding_16_dp"
-                app:track="@drawable/com_track_selector_two" />
+                app:track="@drawable/com_track_selector" />
 
         </LinearLayout>
 
@@ -202,12 +203,12 @@
             android:id="@+id/set_reminder_done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/layout_2"
+            android:layout_below="@+id/layout_1"
             android:layout_marginTop="@dimen/margin_16_dp"
             android:background="@drawable/com_round_shape"
-            android:backgroundTint="?attr/Button_Primary"
+            android:backgroundTint="@color/Button_Primary"
             android:text="Done"
-            android:textColor="?attr/Button_Font" />
+            android:textColor="@color/Button_Font" />
 
     </RelativeLayout>
 </ScrollView>

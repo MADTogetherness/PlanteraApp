@@ -151,8 +151,15 @@ public class SetReminder extends Fragment {
         }
         String name = setReminderName.getText().toString().trim().substring(0, 1).toUpperCase() + setReminderName.getText().toString().trim().substring(1).toLowerCase();
         long repeat = AttributeConverters.getMillisFrom(Integer.parseInt(repeatInterval.getText().toString().trim()));
+        long id = -1;
+        String plantName = null;
+        if (reminderInstance.plantName != null) {
+            id = reminderInstance.reminderID;
+            plantName = reminderInstance.plantName;
+        }
         reminderInstance = new Reminder(
-                null,
+                // Created a variable so that when it is new, then reminder is null otherwise no
+                plantName,
                 name,                                                                                           // Reminder Name
                 AttributeConverters.getMillisFrom(selectedHour, selectedMinute),                                // Time
                 lastCompleted.getLastCompletedInLong() + repeat,              // Real Time Epoch
@@ -172,8 +179,11 @@ public class SetReminder extends Fragment {
         Bundle b = new Bundle();
         b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminderInstance));
         getParentFragmentManager().setFragmentResult("requestKey", b);
-        if(reminderInstance.plantName!=null){
+        if(reminderInstance.plantName!=null) {
+            reminderInstance.reminderID = id;
+            Toast.makeText(requireContext(), "CALLED ME BRUHHHH?", Toast.LENGTH_SHORT).show();
             DAO.updateReminder(reminderInstance);
+            assert getArguments() != null;
             NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"));
         }
         requireActivity().onBackPressed();
