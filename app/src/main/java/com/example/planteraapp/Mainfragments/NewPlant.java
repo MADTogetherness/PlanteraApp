@@ -73,6 +73,7 @@ public class NewPlant extends Fragment {
     private List<Reminder> reminders;
     private int plantTheme = R.style.Theme_PlanteraApp;
     private String plantName = "";
+    private String oldplantName;
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
     // The thread to load the image
@@ -156,6 +157,7 @@ public class NewPlant extends Fragment {
                 LauncherActivity.openSoftKeyboard(requireContext(), descriptionET);
                 return;
             }
+
             String temp = plantNameET.getText().toString().trim();
             String name = temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
             String description = descriptionET.getText().toString().trim();
@@ -192,6 +194,9 @@ public class NewPlant extends Fragment {
                     if (getArguments() != null) {
                         DAO.insertNewPlant(plant);
                         Log.d("updateP" + plantName, "Successful");
+
+                        DAO.updateBlog(oldplantName, plant.plantName);
+                        Log.d(oldplantName + "updateBlog ", plant.plantName + "Successful");
 
                         for (Reminder singleRem : reminders) {
                             DAO.updateReminder(singleRem);
@@ -251,6 +256,7 @@ public class NewPlant extends Fragment {
             typeATV.setText(PWE.type.type, false);
             locationATV.setText(PWE.location.location, false);
             plantNameET.setText(PWE.plant.plantName);
+            oldplantName = PWE.plant.plantName;
             descriptionET.setText(PWE.plant.description);
             reminders = PWE.Reminders;
             imageNameTV.setText(PWE.plant.plantName + ".jpg");

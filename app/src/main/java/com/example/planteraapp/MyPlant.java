@@ -117,6 +117,7 @@ public class MyPlant extends AppCompatActivity {
         DAO = AppDatabase.getInstance(this).plantDAO();
         everyThing = DAO.getAllPlantAttributes(plantName);
         Log.d("getPlant: " + plantName, "Successful");
+        Toast.makeText(getApplicationContext(), plantName, Toast.LENGTH_SHORT).show();
         plant = everyThing.plant;
         selectedTheme = plant.selectedTheme;
         //this.setTheme(plant.selectedTheme);
@@ -428,27 +429,37 @@ public class MyPlant extends AppCompatActivity {
                 descTV.setText(all_blogs.description);
                 dateTV.setText(String.valueOf(getDate(all_blogs.dateCreated)));
 
+                ((RelativeLayout) descTV.getParent()).setBackgroundResource(R.drawable.com_round_shape);
+
                 LinearLayout imageLayout = item.findViewById(R.id.timeline_images);
 
                 List<BlogWithImages> blogWithImages = DAO.getBlogwWithImages(all_blogs.blogID);
 
-                List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
+                try{
+                    List<Images> images = DAO.getBlogwWithImages(all_blogs.blogID).get(j).images;
+                    for(Images img: images){
+                        Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
 
-                for(Images img: images){
-                    Toast.makeText(this, "Image haha", Toast.LENGTH_SHORT).show();
+                        View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
+                        ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
+                        imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
+                        //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
 
-                    View itemimg = getLayoutInflater().inflate(R.layout.com_layout_blogimg, imageLayout, false);
-                    ImageView imgtoadd= itemimg.findViewById(R.id.imgview);
-                    imgtoadd.setImageBitmap(StringToBitMap(img.imageData));
-                    //Toast.makeText(this, img.imageData, Toast.LENGTH_SHORT).show();
-
-                    imageLayout.addView(itemimg);
+                        imageLayout.addView(itemimg);
+                    }
+                } catch(Exception e){
+                    Log.d("Images", e.toString());
                 }
 
-                int finalI = i;
+
+
+
+                int finalJ = j;
                 // TODO: change later
-                //item.setOnClickListener(v -> getReminder(finalI, reminders.get(finalI)));
+                //item.setOnClickListener(v -> getReminder(finalJ, reminders.get(finalJ)));
                 timelinelinearlayout.addView(item);
+
+                j++;
 
             }
         }

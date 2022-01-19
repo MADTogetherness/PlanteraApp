@@ -78,6 +78,12 @@ public interface PlantDAO {
     @Update
     void updatePlant(Plant plant);
 
+    @Query("UPDATE Blog SET plantName = :newplantName WHERE plantName = :oldplantName")
+    void updateBlog(String oldplantName, String newplantName);
+
+    @Update
+    void updateBlog(Blog blog);
+
     @Update
     void updateTheme(Plant plant);
 //    @Transaction

@@ -48,12 +48,12 @@
         android:layout_below="@id/timeline_desc"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_camera"
-        android:text="Add Multiple Images"
         android:drawablePadding="@dimen/padding_10_dp"
         android:fontFamily="@font/main_variable_font"
-        android:textSize="@dimen/font_size_17sp"
+        android:text="Add Multiple Images"
         android:textAllCaps="false"
-        android:textColor="?attr/Primary_Font" />
+        android:textColor="?attr/Primary_Font"
+        android:textSize="@dimen/font_size_17sp" />
 
     <TextView
         android:id="@+id/saveblogBtn"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/timeline_desc"
         android:layout_alignParentEnd="true"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="@dimen/margin_10_dp"
 
         android:layout_toRightOf="@+id/add_pictureBtn"
