@@ -84,10 +84,10 @@ public class MyPlant extends AppCompatActivity {
     // The image path is in this variable - get imagePath & store in the profile image field
     // Always check if(thread.isAlive()), if alive then toast user to try again later after image loads
     private ArrayList<String> imagePath = new ArrayList<>();
-    // The mGetSingleContent Variable
-    // Call mGetSingleContent.launch("image/*")
+    // The mGetMultipleContent Variable
+    // Call mGetMultipleContent.launch("image/*")
     @SuppressLint("SetTextI18n")
-    private final ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetMultipleContents(),
+    private final ActivityResultLauncher<String> mGetMultipleContent = registerForActivityResult(new ActivityResultContracts.GetMultipleContents(),
             uri -> {
                 int i = 0;
                 for(Uri singleuri : uri ){
@@ -405,7 +405,7 @@ public class MyPlant extends AppCompatActivity {
 
 
             itemnew.findViewById(R.id.add_pictureBtn).setOnClickListener(v->{
-                mGetSingleContent.launch("image/*");
+                mGetMultipleContent.launch("image/*");
             });
 
 
@@ -568,6 +568,6 @@ public class MyPlant extends AppCompatActivity {
     }
 
     public void getNewBlogImage() {
-        mGetSingleContent.launch("image/*");
+        mGetMultipleContent.launch("image/*");
     }
 }
