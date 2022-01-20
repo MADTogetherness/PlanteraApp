@@ -195,6 +195,9 @@ public class SetReminder extends Fragment {
         if (reminderInstance != null && reminderInstance.plantName != null) {
             id = reminderInstance.reminderID;
         }
+        long NextTimeReminder = lastCompleted.getLastCompletedInLong() + repeat;
+        while (NextTimeReminder <= System.currentTimeMillis())
+            NextTimeReminder += repeat;
         // Create the reminder instance destroying the previous values
         // thus that's why we saved the ids & plant name before
         reminderInstance = new Reminder(
@@ -202,7 +205,7 @@ public class SetReminder extends Fragment {
                 reminderInstance != null ? reminderInstance.plantName : null,                                                                                      // PlantName? null or not
                 name,                                                                                           // Reminder Name
                 AttributeConverters.getMillisFrom(selectedHour, selectedMinute),                                // Time
-                lastCompleted.getLastCompletedInLong() + repeat,                                    // Real Time Epoch
+                NextTimeReminder,                                                                               // Real Time Epoch
                 lastCompleted.getLastCompletedInLong(),                                                         // Last Completed Epoch
                 repeat                                                                                          // Repeat interval in days (not epoch)
         );
