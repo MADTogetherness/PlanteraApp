@@ -308,6 +308,7 @@ public class MyPlant extends AppCompatActivity {
         bitmapList = new ArrayList<>();
     }
     public void addBlogsToList(@NonNull List<BlogWithImages> items) {
+        findViewById(R.id.empty_timeline).setVisibility(items.size() == 0 ? View.VISIBLE : View.GONE);
         for (BlogWithImages item : items) {
             View view = getLayoutInflater().inflate(R.layout.com_layout_timeline, TimelineContainer, false);
             Calendar c = Calendar.getInstance();

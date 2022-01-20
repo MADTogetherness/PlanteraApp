@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="20dp"
+            android:paddingBottom="@dimen/padding_100_dp"
             android:paddingStart="@dimen/padding_16_dp"
             android:paddingEnd="@dimen/padding_16_dp">
 
@@ -185,10 +186,42 @@
                 android:layout_marginBottom="@dimen/margin_10_dp"
                 android:orientation="vertical" />
 
+            <LinearLayout
+                android:id="@+id/empty_timeline"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/empty_image"
+                    app:shapeAppearance="@style/Image_circle"
+                    android:layout_marginBottom="@dimen/margin_16_dp"
+                    android:contentDescription="Empty Time Line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size_18sp"
+                    android:text="Add your plant stories here"
+                    android:fontFamily="@font/main_variable_font"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="@color/Primary_Font" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/font_size_14sp"
+                    android:text="Did you know? Memories are worth living for...."
+                    android:textColor="@color/Secondary_Font" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-
 
     </ScrollView>
 
@@ -207,7 +240,7 @@
 
         <ImageButton
             android:id="@+id/close"
-            android:layout_width="24dp"
+            android:layout_width="48dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_cross"
             android:background="@android:color/transparent"
