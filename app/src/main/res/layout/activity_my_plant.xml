@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/outer_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MyPlant"
-    android:orientation="vertical"
     android:gravity="center"
     android:background="?attr/App_Container">
 
     <!--@TODO USE ?attr/color for set any type of color-->
     <!--TODO: EXAMPLE -> android:backgroundTint="?attr/Primary_Font"-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,22 +18,247 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:paddingTop="60dp"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:background="@drawable/com_round_shape"
-            android:backgroundTint="?attr/Section_Container"
-            android:layout_margin="16dp"
-            android:padding="16dp">
+            android:layout_marginTop="20dp"
+            android:paddingStart="@dimen/padding_16_dp"
+            android:paddingEnd="@dimen/padding_16_dp">
+
+            <TextView
+                android:id="@+id/themenameTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_16_dp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Theme : "
+                android:textColor="?attr/Button_Primary"
+                android:textSize="@dimen/font_size_14sp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/com_round_shape"
+                android:padding="@dimen/padding_16_dp"
+                android:layout_marginBottom="@dimen/margin_10_dp"
+                android:backgroundTint="?attr/Section_Container">
+
+                <View
+                    android:id="@+id/bubble_view"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/small_circle" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/plant_image"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_default_profile_image"
+                    app:shapeAppearance="@style/Image_circle" />
+
+                <TextView
+                    android:id="@+id/plantNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/plant_image"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/margin_16_dp"
+                    android:fontFamily="@font/main_variable_font"
+                    android:lines="1"
+                    android:text="Platipus Perry"
+                    android:textColor="?attr/Primary_Font"
+                    android:textSize="@dimen/font_size_22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/plantdescriptionTV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/plantNameTV"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif"
+                    android:paddingBottom="@dimen/padding_16_dp"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+                    android:textAlignment="center"
+                    android:textColor="?attr/Secondary_Font"
+                    android:textSize="@dimen/font_size_14sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16_dp"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Reminder"
+                android:textColor="?attr/Primary_Font"
+                android:textSize="@dimen/font_size_16sp" />
+
+            <!--            TODO: LauncherActivity.getReadableTime(millis)-->
+            <TextView
+                android:id="@+id/nextReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/opensans_semibold"
+                android:text="Next Reminder in 3 hours"
+                android:textColor="?attr/Button_Primary"
+                android:textSize="@dimen/font_size_14sp" />
+
+            <!--  TODO: Inflate the reminders the same way u did for new plant fragment
+                    Basically change the arrow icon at last to edit icon, make other neccessary changes
+            -->
+            <LinearLayout
+                android:id="@+id/reminders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10_dp"
+                android:layout_marginBottom="@dimen/margin_16_dp"
+                android:background="@drawable/com_round_shape"
+                android:backgroundTint="?attr/Section_Container"
+                android:orientation="vertical" />
+            <!--            TODO: END   -->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editPlantTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="false"
+                android:fontFamily="@font/opensans_bold"
+                android:letterSpacing="0"
+                android:textSize="@dimen/font_size_16sp"
+                android:textColor="?attr/Button_Font"
+                android:layout_marginBottom="@dimen/margin_16_dp"
+                android:background="@drawable/com_round_shape"
+                app:backgroundTint="?attr/Button_Primary"
+                app:icon="@drawable/ic_paint"
+                app:iconTint="?attr/Button_Font"
+                app:iconGravity="textStart"
+                app:iconPadding="16dp"
+                android:text="Edit Plant Color Theme" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_16_dp"
+                android:layout_marginBottom="@dimen/margin_16_dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_10_dp"
+                    android:fontFamily="@font/opensans_semibold"
+                    android:text="Timeline"
+                    android:layout_weight="1"
+                    android:textColor="?attr/Primary_Font"
+                    android:textSize="@dimen/font_size_18sp" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/add_new_timeline"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerInside"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_add_new_icon_24"
+                    android:background="@android:color/transparent"
+                    app:tint="?attr/Button_Primary" />
+
+            </LinearLayout>
+
+            <!--             TODO: Inflate the timeline dynamically-->
+            <!--            TODO: DRAW LAYOUT FOR TIMELINE -->
+            <!--            TODO: TIMELINE NEEDS A SUB LAYOUT CALLED ImageView in another file-->
+            <!--            Complete com_layout_timeline.xml-->
+            <LinearLayout
+                android:id="@+id/timelineLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10_dp"
+                android:orientation="vertical" />
+
 
         </LinearLayout>
 
+
+
     </ScrollView>
+
 
     <!--    TODO: Add fixed header below or TOOLBAR-->
     <!--Blah blah-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/com_top_app_bar_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_16_dp">
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_cross"
+            android:background="@android:color/transparent"
+            app:tint="?attr/Primary_Font" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/padding_16_dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:fontFamily="@font/main_variable_font"
+            android:text="My Plant"
+            android:textColor="?attr/Primary_Font"
+            android:textStyle="bold"
+            android:textSize="@dimen/font_size_22sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0.03"
+            android:text="Edit"
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            app:cornerRadius="6dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0.03"
+            android:text="Delete"
+            android:textColor="#fff"
+            android:textSize="@dimen/font_size_14sp"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:backgroundTint="#D6003C"
+            app:cornerRadius="6dp" />
+
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 </RelativeLayout>

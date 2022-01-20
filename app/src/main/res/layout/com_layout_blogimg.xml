@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/image_new_blog"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_columnWeight="1"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="16dp"
+    android:clickable="false"
+    android:focusable="false"
+    android:scaleType="centerCrop"
+    app:shapeAppearance="@style/Image_slight_round"
+    android:src="@drawable/img_default_profile_image" />

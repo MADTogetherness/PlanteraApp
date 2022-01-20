@@ -1,5 +1,7 @@
 package com.example.planteraapp.entities.DAO;
 
+import android.location.Location;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -10,11 +12,14 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 import androidx.sqlite.db.SupportSQLiteQuery;
 
+import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 import com.example.planteraapp.entities.Plant;
 import com.example.planteraapp.entities.PlantLocation;
 import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.entities.Relations.BlogWithImages;
+import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Relations.ReminderAndPlant;
 import com.example.planteraapp.entities.Reminder;
@@ -23,10 +28,6 @@ import java.util.List;
 
 @Dao
 public interface PlantDAO {
-    @Transaction
-    @Query("SELECT selectedTheme FROM Plant WHERE plantName = :plantName")
-    int getSelectedThemeOfUser(String plantName);
-
     @RawQuery
     List<PlantsWithEverything> customFilterPlantsRawQuery(SupportSQLiteQuery query);
 
@@ -39,11 +40,14 @@ public interface PlantDAO {
     @Insert
     long[] insertNewPlant(Plant... plant);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
+    long[] insertBlogs(Blog... blog);
+
+    @Insert
     long insertImage(Images image);
 
     @Insert
-    long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
+    void insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
 
     @Insert
     long[] insertReminders(Reminder... reminder);
@@ -52,12 +56,23 @@ public interface PlantDAO {
     @Query("SELECT * FROM PlantType")
     List<PlantType> getAllPlantTypes();
 
+    @Delete
+    void deletePlant(Plant plant);
+
     @Transaction
     @Query("SELECT * FROM PlantLocation")
     List<PlantLocation> getAllPlantLocations();
 
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE blogID=:id")
+    BlogWithImages getBlogWithImagesWithID(long id);
+
     @Delete
     void deleteType(PlantType type);
+
+    @Transaction
+    @Query("DELETE FROM Blog WHERE blogID=:id")
+    void deleteBlog(long id);
 
     @Delete
     void deleteLocation(PlantLocation location);
@@ -70,38 +85,25 @@ public interface PlantDAO {
     void updateReminder(Reminder reminder);
 
     @Update
-    void updatePlant(Plant plant);
-//    @Transaction
-//    @Query("SELECT * FROM Plant")
-//    List<Plant> getAllPlants();
-//
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    Plant getSinglePlantInstance(String plantName);
+    void updatePlantLocation(PlantLocation location);
 
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    ReminderAndPlant getAllRemindersOfPlantFromID(String plantName);
+    @Update
+    void updatePlantType(PlantType location);
+
+    @Update
+    void updatePlant(Plant plant);
+
+    @Update
+    void updateTheme(Plant plant);
 
     @Transaction
     @Query("SELECT * FROM Plant WHERE plantName = :plantName")
     PlantsWithEverything getAllPlantAttributes(String plantName);
 
-    //    @Transaction
-//    @Query("SELECT * FROM Blog WHERE blogID = :ID")
-//    List<Blog> getAllBlogs(long ID);
-//
-//    @Transaction
-//    @Query("SELECT * FROM Blog WHERE plantID = :ID")
-//    List<Blog> getAllBlogsPlantID(long ID);
-//
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
-//
-//    @Transaction
-//    @Query("SELECT * FROM Blog WHERE blogID = :ID")
-//    public List<BlogWithImages> getBlogwWithImages(long ID);
+
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
+    PlantsWithBlogsANDImages getAllBlogsWithPlantID(String plantName);
 
     @Transaction
     @Query("SELECT * FROM Plant")

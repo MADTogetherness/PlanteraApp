@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/padding_16_dp"
+        android:paddingEnd="@dimen/padding_16_dp"
+        android:paddingTop="@dimen/margin_16_dp"
+        android:paddingBottom="32dp"
+        android:background="@drawable/com_bottom_sheet_background">
+
+        <View
+            android:id="@+id/stub_view"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/margin_16_dp"
+            android:background="@drawable/ic_bottom_sheet_top_notch" />
+
+        <TextView
+            android:id="@+id/timeline_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stub_view"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/margin_10_dp"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="?attr/Button_Secondary"
+        android:fontFamily="@font/main_variable_font"
+        android:gravity="center"
+        android:lines="1"
+        android:paddingStart="@dimen/padding_16_dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="@dimen/padding_16_dp"
+        android:paddingBottom="5dp"
+        android:text="Sat, 27 Nov"
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/timeline_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeline_date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_16_dp"
+            android:layout_marginBottom="@dimen/margin_16_dp"
+            android:autofillHints="@null"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="?attr/App_Container"
+            android:fadeScrollbars="true"
+            android:gravity="top"
+            android:hint="My Personal Note"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:maxLines="7"
+            android:minLines="3"
+            android:padding="@dimen/padding_16_dp"
+            android:scrollbars="vertical"
+            android:textColor="?attr/Primary_Font"
+            android:textColorHint="?attr/Secondary_Font"
+            android:textSize="@dimen/font_size_16sp" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/add_pictureBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeline_desc"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/ic_camera"
+        android:drawablePadding="@dimen/padding_10_dp"
+        android:fontFamily="@font/main_variable_font"
+        android:text="Insert Images"
+        android:textAllCaps="false"
+        android:textColor="?attr/Primary_Font"
+        android:textSize="@dimen/font_size_17sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveBlogBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeline_desc"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:backgroundTint="?attr/Button_Primary"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0"
+            android:text="Save"
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
+            android:textStyle="bold"
+            app:cornerRadius="6dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:behavior_hideable="false"
+            android:layout_marginVertical="@dimen/margin_16_dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/saveBlogBtn"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <GridLayout
+                android:id="@+id/gridLayout_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignBounds"
+                android:animateLayoutChanges="true"
+                android:columnCount="3" />
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

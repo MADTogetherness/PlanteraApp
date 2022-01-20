@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:padding="@dimen/padding_16_dp"
+    android:background="@drawable/com_round_shape"
+    android:layout_rowWeight="1"
+    android:backgroundTint="?attr/Section_Container">
+
+    <TextView
+        android:id="@+id/timeline_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/com_round_shape"
+        android:backgroundTint="?attr/Button_Secondary"
+        android:fontFamily="@font/main_variable_font"
+        android:gravity="center"
+        android:lines="1"
+        android:paddingStart="@dimen/padding_16_dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="@dimen/padding_16_dp"
+        android:paddingBottom="5dp"
+        android:text="Sat, 27 Nov"
+        android:textColor="?attr/Button_Font"
+        android:textSize="@dimen/font_size_16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/timeline_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/timeline_date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_10_dp"
+        android:padding="@dimen/margin_10_dp"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam, justo vel pulvinar fringilla, felis velit laoreet massa, ac vestibulum dolor massa vitae sem. Vestibulum varius, nibh sit amet luctus viverra, libero eros vestibulum erat, nec iaculis ipsum nibh in ligula. Donec neque ex, sollicitudin ut sollicitudin et, scelerisque et erat. "
+        android:textColor="?attr/Primary_Font" />
+
+    <GridLayout
+        android:id="@+id/gridLayout_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alignmentMode="alignBounds"
+        android:layout_marginVertical="@dimen/margin_16_dp"
+        android:animateLayoutChanges="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/timeline_desc"
+        android:columnCount="3" />
+
+
+</RelativeLayout>

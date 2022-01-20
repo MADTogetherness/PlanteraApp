@@ -1,18 +1,36 @@
 package com.example.planteraapp.entities;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
 
-import com.example.planteraapp.entities.Blog;
-
-@Entity(primaryKeys = {"blogID", "imageID"})
+@Entity(
+        foreignKeys = {
+                @ForeignKey(
+                        entity = Blog.class,
+                        parentColumns = "blogID",
+                        childColumns = "blogID",
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = Images.class,
+                        parentColumns = "imageID",
+                        childColumns = "imageID",
+                        onDelete = ForeignKey.CASCADE,
+                        onUpdate = ForeignKey.CASCADE
+                )
+        }, indices = {@Index(value = "blogID"), @Index(value = "imageID")}
+)
 public class BlogImagesCrossRef {
-    @ColumnInfo(index = true)
+    @PrimaryKey
+    public long id;
     public long blogID;
-    @ColumnInfo(index = true)
     public long imageID;
 
-    public BlogImagesCrossRef(long blogID, long imageID){
+    public BlogImagesCrossRef(long blogID, long imageID) {
+        this.id = System.currentTimeMillis();
         this.blogID = blogID;
         this.imageID = imageID;
     }

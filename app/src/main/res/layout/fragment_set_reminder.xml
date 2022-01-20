@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".SubFragments.SetReminder"
+    android:theme="@style/Theme.PlanteraApp"
     android:background="@color/App_Container">
 
     <RelativeLayout
@@ -27,6 +28,7 @@
             android:padding="4dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_cross"
+            android:contentDescription="Close activity"
             tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
@@ -99,6 +101,7 @@
                 android:layout_marginBottom="@dimen/margin_16_dp"
                 app:endIconMode="clear_text"
                 app:startIconDrawable="@drawable/ic_bell"
+                app:boxBackgroundColor="@color/Input_Backcolor"
                 app:startIconTint="@color/Primary_Font">
 
                 <EditText
@@ -112,7 +115,9 @@
                     android:imeOptions="actionNext"
                     android:inputType="textCapSentences"
                     android:lines="1"
-                    android:textSize="@dimen/font_size_17sp" />
+                    android:textColor="@color/Primary_Font"
+                    android:textSize="@dimen/font_size_17sp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -122,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_access_time_24"
+                app:boxBackgroundColor="@color/Input_Backcolor"
                 app:startIconTint="@color/Primary_Font">
 
                 <EditText
@@ -134,7 +140,9 @@
                     android:hint="Set Time"
                     android:inputType="none"
                     android:lines="1"
-                    android:textSize="@dimen/font_size_17sp" />
+                    android:textColor="@color/Primary_Font"
+                    android:textSize="@dimen/font_size_17sp"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,6 +153,7 @@
                 android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_repeat_24"
                 app:startIconTint="@color/Primary_Font"
+                app:boxBackgroundColor="@color/Input_Backcolor"
                 app:suffixText="day(s)">
 
                 <EditText
@@ -158,7 +167,9 @@
                     android:inputType="number"
                     android:lines="1"
                     android:maxLength="2"
-                    android:textSize="@dimen/font_size_17sp" />
+                    android:textColor="@color/Primary_Font"
+                    android:textSize="@dimen/font_size_17sp"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -167,6 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_16_dp"
                 app:startIconDrawable="@drawable/ic_previous_24"
+                app:boxBackgroundColor="@color/Input_Backcolor"
                 app:startIconTint="@color/Primary_Font">
 
                 <AutoCompleteTextView
@@ -177,6 +189,7 @@
                     android:fontFamily="@font/main_variable_font"
                     android:hint="Last Completed"
                     android:inputType="none"
+                    android:textColor="@color/Primary_Font"
                     android:lines="1"
                     android:textSize="@dimen/font_size_17sp" />
 
@@ -189,15 +202,16 @@
                 android:layout_gravity="end"
                 android:fontFamily="@font/main_variable_font"
                 android:padding="@dimen/padding_16_dp"
+                android:checked="true"
                 android:text="Notification "
                 android:textSize="@dimen/font_size_17sp"
                 android:textStyle="bold"
+                android:textColor="@color/Primary_Font"
                 android:thumb="@drawable/com_thumb_selector"
                 app:switchPadding="@dimen/padding_16_dp"
                 app:track="@drawable/com_track_selector" />
 
         </LinearLayout>
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/set_reminder_done"

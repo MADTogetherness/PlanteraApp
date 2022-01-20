@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:padding="@dimen/padding_16_dp"
     android:clickable="true"
-    android:backgroundTint="@color/Section_Container"
     android:layout_height="wrap_content">
 
     <ImageView
@@ -17,7 +16,7 @@
         android:layout_marginStart="10dp"
         android:contentDescription="Notification Icon"
         android:src="@drawable/ic_bell"
-        app:tint="@color/Primary_Font" />
+        app:tint="?attr/Primary_Font" />
 
     <TextView
         android:id="@+id/reminder_name"
@@ -28,8 +27,8 @@
         android:layout_toStartOf="@id/bubble"
         android:layout_toEndOf="@id/bell"
         android:text="Water"
-        android:textColor="@color/Primary_Font"
-        android:textSize="@dimen/font_size_17sp"
+        android:textColor="?attr/Primary_Font"
+        android:textSize="@dimen/font_size_16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -42,25 +41,25 @@
         android:layout_toEndOf="@id/bell"
         android:fontFamily="@font/main_variable_font"
         android:lineHeight="18sp"
-        android:textColor="@color/Secondary_Font"
-        android:textSize="@dimen/font_size_16sp" />
+        android:textColor="?attr/Secondary_Font"
+        android:textSize="@dimen/font_size_14sp" />
 
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/margin_16_dp"
-        android:src="@drawable/ic_right_icon"
-        android:contentDescription="Set Reminder" />
+        android:contentDescription="Set Reminder"
+        android:src="@drawable/ic_right_icon" />
 
     <View
         android:id="@+id/bubble"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/margin_16_dp"
         android:layout_toStartOf="@+id/arrow"
         android:background="@drawable/small_circle" />
 </RelativeLayout>
