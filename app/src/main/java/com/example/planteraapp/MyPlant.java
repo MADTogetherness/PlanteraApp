@@ -17,6 +17,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -27,7 +28,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
@@ -41,7 +41,6 @@ import com.example.planteraapp.entities.Relations.BlogWithImages;
 import com.example.planteraapp.entities.Relations.PlantsWithEverything;
 import com.example.planteraapp.entities.Reminder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -131,7 +130,7 @@ public class MyPlant extends AppCompatActivity {
         plantNameTV.setText(plant.plantName);
         descriptionTV.setText(plant.description);
         plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
-        reminders = everyThing.Reminders;
+        reminders = everyThing.Reminders.size() == 0 ? new ArrayList<>() : everyThing.Reminders;
         reminders.sort(Reminder.COMPARE_BY_TIME);
         upComingReminderTV.setText((reminders.size() == 0) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
         addRemindersToList(reminders);
@@ -164,7 +163,7 @@ public class MyPlant extends AppCompatActivity {
     public void showDialog() {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_info)
-                .setTitle("Reset Changes").setMessage("Are you sure you want to declare the plant dead?")
+                .setTitle("Declare Dead?").setMessage("Are you sure you want to declare the plant dead?")
                 .setPositiveButton("Yes", (dialog, which) -> deletePlant()).setNegativeButton("No", null)
                 .show();
     }
@@ -224,7 +223,7 @@ public class MyPlant extends AppCompatActivity {
         tvTitle.setText("Add New Reminder");
         tvDesc.setVisibility(View.GONE);
         bubble.setVisibility(View.GONE);
-        ((RelativeLayout) imgBell.getParent()).setBackgroundResource(BackgroundResource);
+        item.setBackgroundResource(BackgroundResource);
         item.setOnClickListener(v -> getReminder(-1));
         RemindersContainer.addView(item);
     }
@@ -237,10 +236,9 @@ public class MyPlant extends AppCompatActivity {
             case 2:
                 return R.drawable.com_bottom_item_shape;
             default:
-                return R.drawable.com_round_shape;
+                return R.drawable.com_round_color_section;
         }
     }
-
     public void inflateNewTimeImagesInsideBottomSheet() {
         if (newTimeLineImages == null)
             return;
@@ -253,7 +251,6 @@ public class MyPlant extends AppCompatActivity {
             }
         }
     }
-
     private void SlideUpBottomSheetForBlogging() {
         final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.BottomSheetDialog);
         bottomSheetDialog.setContentView(R.layout.com_layout_new_timeline);
@@ -306,12 +303,10 @@ public class MyPlant extends AppCompatActivity {
         bottomSheetDialog.setOnDismissListener(dialog -> resetBottomSheet());
         bottomSheetDialog.show();
     }
-
     public void resetBottomSheet() {
         newImages = new HashMap<>();
         bitmapList = new ArrayList<>();
     }
-
     public void addBlogsToList(@NonNull List<BlogWithImages> items) {
         for (BlogWithImages item : items) {
             View view = getLayoutInflater().inflate(R.layout.com_layout_timeline, TimelineContainer, false);
@@ -328,7 +323,6 @@ public class MyPlant extends AppCompatActivity {
             TimelineContainer.addView(view, 0);
         }
     }
-
     public void getNewTheme() {
         FragmentManager fm = getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
@@ -355,9 +349,9 @@ public class MyPlant extends AppCompatActivity {
         if (position >= 0 && reminder != null)
             b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
         b.putString("location", everyThing.location.location);
+        b.putString("plantName", everyThing.plant.plantName);
         openSubFragment(new SetReminder(), b, fm);
     }
-
     public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
         fragmentOpened = true;
         fg.setArguments(bn);
@@ -367,7 +361,6 @@ public class MyPlant extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
-
     @Override
     public void onBackPressed() {
         Fragment frag = getSupportFragmentManager().findFragmentByTag("SubFrag");

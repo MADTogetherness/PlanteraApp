@@ -213,11 +213,14 @@ public class SetReminder extends Fragment {
         getParentFragmentManager().setFragmentResult("requestKey", b);
         // If below condition is true, the reminder came from MyPlant & it needs to get updated
         // MyPlant should ensure to pass plantName to edit & update reminder
-        if (reminderInstance != null && reminderInstance.plantName != null) {
-            reminderInstance.reminderID = id;
-            Toast.makeText(requireContext(), "CALLED ME BRUHHHH?", Toast.LENGTH_SHORT).show();
-            DAO.updateReminder(reminderInstance);
-            assert getArguments() != null;
+        if (reminderInstance != null && getArguments() != null && getArguments().getString("plantName") != null) {
+            if (reminderInstance.plantName != null) {
+                reminderInstance.reminderID = id;
+                DAO.updateReminder(reminderInstance);
+            } else {
+                reminderInstance.plantName = getArguments().getString("plantName");
+                DAO.insertReminders(reminderInstance);
+            }
             NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"));
         }
         requireActivity().onBackPressed();

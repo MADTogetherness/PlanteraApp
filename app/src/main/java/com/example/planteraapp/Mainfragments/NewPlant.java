@@ -399,7 +399,7 @@ public class NewPlant extends Fragment {
         tvTitle.setText("Add New Reminder");
         tvDesc.setVisibility(View.GONE);
         bubble.setVisibility(View.GONE);
-        ((RelativeLayout) imgBell.getParent()).setBackgroundResource(BackgroundResource);
+        item.setBackgroundResource(BackgroundResource);
         item.setOnClickListener(v -> getReminder(-1));
         reminderlinearlayout.addView(item);
     }
@@ -412,7 +412,7 @@ public class NewPlant extends Fragment {
             case 2:
                 return R.drawable.com_bottom_item_shape;
             default:
-                return R.drawable.com_round_shape;
+                return R.drawable.com_round_color_section;
         }
     }
     public void getReminder(int position, Reminder... reminder) {
@@ -428,7 +428,6 @@ public class NewPlant extends Fragment {
         Bundle b = new Bundle();
         if(position>=0 && reminder!=null)
             b.putString(NewPlant.REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
-        //b.putString("location", everyThing.location.location);
         openSubFragment(new SetReminder(), b, fm);
     }
 

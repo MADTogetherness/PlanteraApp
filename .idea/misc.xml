@@ -50,6 +50,7 @@
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_only_item_reminder_shape.xml" value="0.1673611111111111" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_radio_button_foreground.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_radio_button_select.xml" value="0.1730263157894737" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_color_section.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape.xml" value="0.176" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape_addrem.xml" value="0.1730263157894737" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/drawable/com_round_shape_save.xml" value="0.1730263157894737" />
@@ -112,7 +113,7 @@
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_search_item.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/com_small_view_color_display.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_all_plants.xml" value="0.2" />
-        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.264" />
+        <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_calender.xml" value="0.176" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_color_theme.xml" value="0.16282894736842105" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_new_plant.xml" value="0.176" />
         <entry key="..\:/Users/kamal kumar/Desktop/PlanteraApp/app/src/main/res/layout/fragment_search.xml" value="0.2" />
