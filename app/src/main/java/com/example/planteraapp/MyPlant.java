@@ -16,8 +16,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -61,7 +59,7 @@ public class MyPlant extends AppCompatActivity {
     private LinearLayout TimelineContainer;
     private PlantsWithEverything everyThing;
     private GridLayout newTimeLineImages;
-
+    private List<BlogWithImages> blogs;
     // Get the bitmap of image user has just selected from gallery
     private ArrayList<Bitmap> bitmapList;
     // The thread to load the image
@@ -104,9 +102,7 @@ public class MyPlant extends AppCompatActivity {
         // TODO: GET THE PLANT NAME FROM PREVIOUS ACTIVITY NOT DATABASE
         plantName = getIntent().getStringExtra("plantName");
         DAO = AppDatabase.getInstance(this).plantDAO();
-        everyThing = DAO.getAllPlantAttributes(plantName);
-        Log.d("getPlant: " + plantName, "Successful");
-        plant = everyThing.plant;
+        plant = DAO.getPlant(plantName);
         selectedTheme = plant.selectedTheme;
         ChangeThemeFromDB(false);
         super.onCreate(savedInstanceState);
@@ -123,18 +119,24 @@ public class MyPlant extends AppCompatActivity {
         upComingReminderTV = findViewById(R.id.nextReminder);
         RemindersContainer = findViewById(R.id.reminders);
         TimelineContainer = findViewById(R.id.timelineLayout);
+        plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
+        plantNameTV.setText(plant.plantName);
+        descriptionTV.setText(plant.description);
+        themeNameTV.setText("Theme : " + LauncherActivity.getThemeName(plant.selectedTheme));
         bitmapList = new ArrayList<>();
         newImages = new HashMap<>();
         reminders = new ArrayList<>();
-        themeNameTV.setText("Theme : " + LauncherActivity.getThemeName(plant.selectedTheme));
-        plantNameTV.setText(plant.plantName);
-        descriptionTV.setText(plant.description);
-        plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
-        reminders = everyThing.Reminders.size() == 0 ? new ArrayList<>() : everyThing.Reminders;
-        reminders.sort(Reminder.COMPARE_BY_TIME);
-        upComingReminderTV.setText((reminders.size() == 0) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
-        addRemindersToList(reminders);
-        addBlogsToList(DAO.getAllBlogsWithPlantID(plant.plantName).blogs);
+        new Thread(() -> {
+            everyThing = DAO.getAllPlantAttributes(plantName);
+            blogs = DAO.getAllBlogsWithPlantID(plant.plantName).blogs;
+            reminders = everyThing.Reminders.size() == 0 ? new ArrayList<>() : everyThing.Reminders;
+            reminders.sort(Reminder.COMPARE_BY_TIME);
+            runOnUiThread(() -> {
+                upComingReminderTV.setText((reminders.size() == 0) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
+                addRemindersToList(reminders);
+                addBlogsToList(blogs);
+            });
+        }).start();
         findViewById(R.id.close).setOnClickListener(v -> onBackPressed());
         findViewById(R.id.delete_btn).setOnClickListener(v -> showDialog());
         findViewById(R.id.add_new_timeline).setOnClickListener(v -> SlideUpBottomSheetForBlogging());
@@ -328,6 +330,8 @@ public class MyPlant extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             selectedTheme = bundle.getInt(NewPlant.THEME_KEY);
+            if (plant.selectedTheme == selectedTheme)
+                return;
             plant.selectedTheme = selectedTheme;
             DAO.updateTheme(plant);
             Toast.makeText(this, "Theme set to " + LauncherActivity.getThemeName(selectedTheme), Toast.LENGTH_SHORT).show();

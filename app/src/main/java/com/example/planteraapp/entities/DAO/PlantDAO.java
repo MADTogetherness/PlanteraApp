@@ -108,4 +108,8 @@ public interface PlantDAO {
     @Transaction
     @Query("SELECT * FROM Plant")
     List<PlantsWithEverything> getAllPlantsWithEverything();
+
+    @Transaction
+    @Query("SELECT * FROM Plant WHERE plantName=:name")
+    Plant getPlant(String name);
 }

@@ -1,6 +1,7 @@
 package com.example.planteraapp.Mainfragments;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -69,7 +70,7 @@ public class NewPlant extends Fragment {
     private EditText plantNameET, descriptionET;
     private AppCompatButton saveData, resetData;
     private LinearLayout getNewPicture, getNewTheme;
-    private ShapeableImageView plantImage;
+    private ImageView plantImage;
     private LinearLayout reminderlinearlayout;
     private List<Reminder> reminders;
     private int plantTheme = R.style.Theme_PlanteraApp;
@@ -356,7 +357,7 @@ public class NewPlant extends Fragment {
         resetFields();
         Intent intent = new Intent(requireActivity(), MyPlant.class);
         intent.putExtra("plantName", plantName);
-        startActivity(intent);
+        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), plantImage, "image").toBundle());
         if (PWE != null)
             requireActivity().finish();
     }

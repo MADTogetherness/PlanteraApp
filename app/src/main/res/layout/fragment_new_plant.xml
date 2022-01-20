@@ -95,6 +95,7 @@
                         android:layout_height="110dp"
                         android:layout_marginLeft="@dimen/margin_16_dp"
                         android:layout_marginRight="@dimen/margin_16_dp"
+                        android:transitionName="image"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_default_profile_image"
                         app:shapeAppearance="@style/Image_circle" />

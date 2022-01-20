@@ -1,5 +1,6 @@
 package com.example.planteraapp.Mainfragments;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -201,14 +203,14 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
             for (PlantsWithEverything all_plants : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);
                 TextView plantTag = item.findViewById(R.id.plant_tag);
-                ShapeableImageView imageView = item.findViewById(R.id.image);
+                ImageView imageView = item.findViewById(R.id.image);
                 imageView.setImageBitmap(AttributeConverters.StringToBitMap(all_plants.plant.profile_image));
                 plantTag.setText(all_plants.plant.plantName);
                 gridLayout.addView(item);
                 item.setOnClickListener(v -> {
                     Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
                     intent.putExtra("plantName", all_plants.plant.plantName);
-                    startActivity(intent);
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), imageView, "image").toBundle());
                     requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
                 });
             }
