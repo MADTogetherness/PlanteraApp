@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Mainfragments.Calendar"
     android:gravity="center"
     android:scrollbars="none"
@@ -15,6 +16,7 @@
         android:paddingStart="@dimen/padding_16_dp"
         android:paddingEnd="@dimen/padding_16_dp"
         android:paddingTop="@dimen/padding_16_dp"
+        android:animateLayoutChanges="true"
         android:paddingBottom="@dimen/padding_100_dp"
         android:orientation="vertical">
 
@@ -22,27 +24,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Upcoming Tasks"
+            android:layout_marginTop="@dimen/margin_10_dp"
             android:fontFamily="@font/main_variable_font"
             android:textColor="@color/Primary_Font"
             android:textSize="@dimen/font_size_22sp"
             android:textStyle="bold" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Today"
-            android:fontFamily="@font/main_variable_font"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:textSize="@dimen/font_size_16sp"
+            android:fontFamily="@font/main_variable_font"
             android:textStyle="bold"
-            android:background="@drawable/com_round_shape"
-            android:backgroundTint="@color/Button_Secondary"
-            android:textColor="@color/Button_Font"
+            app:cornerRadius="6dp"
+            app:strokeWidth="2dp"
+            android:letterSpacing="0"
+            app:strokeColor="@color/Button_Primary"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawableTint="@color/Button_Primary"
             android:layout_marginTop="@dimen/margin_16_dp"
-            android:layout_marginBottom="@dimen/margin_16_dp"
-            android:paddingStart="@dimen/padding_16_dp"
-            android:paddingEnd="@dimen/padding_16_dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
+            android:layout_marginBottom="@dimen/margin_16_dp" />
 
         <TextView
             android:id="@+id/empty_today"
@@ -65,24 +69,25 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_today"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Upcoming Reminders"
-            android:fontFamily="@font/main_variable_font"
+            android:textAllCaps="false"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:textSize="@dimen/font_size_16sp"
+            android:fontFamily="@font/main_variable_font"
             android:textStyle="bold"
-            android:background="@drawable/com_round_shape"
-            android:backgroundTint="@color/Button_Secondary"
-            android:textColor="@color/Button_Font"
+            app:cornerRadius="6dp"
+            app:strokeWidth="2dp"
+            android:letterSpacing="0"
+            app:strokeColor="@color/Button_Primary"
+            android:drawableEnd="@drawable/ic_dropdown"
+            android:drawableTint="@color/Button_Primary"
             android:layout_marginTop="@dimen/margin_16_dp"
-            android:layout_marginBottom="@dimen/margin_16_dp"
-            android:paddingStart="@dimen/padding_16_dp"
-            android:paddingEnd="@dimen/padding_16_dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
+            android:layout_marginBottom="@dimen/margin_16_dp" />
 
         <TextView
             android:id="@+id/empty_tomorrow"
@@ -105,7 +110,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tomorrow"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

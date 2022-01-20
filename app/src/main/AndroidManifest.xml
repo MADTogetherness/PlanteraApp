@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.planteraapp">
     <uses-permission android:name="android.permission.SET_ALARM" />
     <application
@@ -12,18 +13,26 @@
         android:theme="@style/Theme.PlanteraApp">
         <activity
             android:name=".MyPlant"
+            android:screenOrientation="fullSensor"
             android:exported="false" />
         <activity
             android:name=".LauncherActivity"
-            android:exported="true">
+            android:turnScreenOn="true"
+            android:screenOrientation="fullSensor"
+            android:exported="true"
+            tools:targetApi="o_mr1">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Intro_Activity" />
-        <activity android:name=".Home" />
+        <activity
+            android:name=".Intro_Activity"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".Home"
+            android:screenOrientation="fullSensor" />
 
         <receiver android:name=".Utilities.AlertReceiver" />
     </application>

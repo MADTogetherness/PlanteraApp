@@ -83,7 +83,7 @@
                             android:lineHeight="@dimen/font_size_16sp"
                             android:text="@string/default_img_name"
                             android:textAlignment="center"
-                            android:textColor="@color/Button_Primary"
+                            android:textColor="@color/Button_Secondary"
                             android:textSize="13sp"
                             android:textStyle="bold" />
 
@@ -128,7 +128,7 @@
                             android:lineHeight="@dimen/font_size_16sp"
                             android:text="@string/default_theme_name"
                             android:textAlignment="center"
-                            android:textColor="@color/Button_Primary"
+                            android:textColor="@color/Button_Secondary"
                             android:textSize="13sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -143,6 +143,7 @@
                     app:endIconMode="clear_text"
                     app:startIconDrawable="@drawable/ic_my_plants_view_icon_v24"
                     app:startIconTint="@color/Primary_Font"
+                    app:boxBackgroundColor="@color/Input_Backcolor"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -167,6 +168,7 @@
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_location_24"
                     app:startIconTint="@color/Primary_Font"
+                    app:boxBackgroundColor="@color/Input_Backcolor"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -191,6 +193,7 @@
                     android:layout_height="wrap_content"
                     app:startIconDrawable="@drawable/ic_type_icon"
                     app:startIconTint="@color/Primary_Font"
+                    app:boxBackgroundColor="@color/Input_Backcolor"
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -214,6 +217,8 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:boxBackgroundColor="@color/Input_Backcolor"
+
                     android:layout_marginStart="@dimen/padding_16_dp"
                     android:layout_marginEnd="@dimen/padding_16_dp"
                     android:layout_marginBottom="@dimen/margin_16_dp">
@@ -293,15 +298,14 @@
             android:text="Add new plant"
             android:textColor="@color/Primary_Font" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/reset_btn"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_marginEnd="@dimen/margin_16_dp"
-            android:backgroundTint="@color/Button_Secondary"
-            android:text="RESET"
-            android:textColor="@color/Button_Font"
-            android:textSize="@dimen/font_size_14sp"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:layout_height="wrap_content"
+            android:text="Reset"
+            android:textSize="@dimen/font_size_16sp"
+            android:textStyle="bold"
+            app:cornerRadius="6dp"
+            android:letterSpacing="0" />
     </LinearLayout>
 </RelativeLayout>

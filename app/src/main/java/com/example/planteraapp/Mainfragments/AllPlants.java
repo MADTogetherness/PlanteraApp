@@ -39,8 +39,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * --------------------- Boolean Flags -------------------------
+ * * --------------------- Static Variable -------------------------
  *
+ * @Variable: query - A default query string
+ * --------------------- Boolean Flags -------------------------
  * @Variable: isBottomSheetOpen - To see if bottom sheet is open
  * @Variable: isTypeFilterOnBottomSheetActive - To see if the type filter is active
  * @Variable: isLocationFilterOnBottomSheetActive - To see if location filter is active
@@ -51,18 +53,18 @@ import java.util.List;
  * @Variable: typeFilterCurrentlyAppliedOnHost - To get the current applied type filter, example fern
  */
 public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeListener {
-    private ImageButton filterImageBtnOnHost;
-    private TextView filtersAppliedLabelOnHost;
-    GridLayout gridLayout;
-    ScrollView default_item_layout;
-    private List<PlantType> all_plant_types;
-    private List<PlantLocation> all_plant_locations;
+    private static final String query = "SELECT * FROM Plant";
     private boolean isTypeFilterOnBottomSheetActive, isLocationFilterOnBottomSheetActive, isBottomSheetOpen, preventMultipleCheckedChange = false;
     private int SortAllPlantsBy, locationFilterCurrentlyAppliedOnHost, typeFilterCurrentlyAppliedOnHost;
-    PlantDAO DAO;
-    RadioGroup locations_radio_group, type_radio_group;
+    private ImageButton filterImageBtnOnHost;
+    private TextView filtersAppliedLabelOnHost;
+    private GridLayout gridLayout;
+    private ScrollView default_item_layout;
+    private List<PlantType> all_plant_types;
+    private List<PlantLocation> all_plant_locations;
+    private PlantDAO DAO;
+    private RadioGroup locations_radio_group, type_radio_group;
     private Thread getFilterThread;
-    private static final String query = "SELECT * FROM Plant";
     private String filterQuery = query;
 
     public AllPlants() {/*REQUIRE EMPTY CONSTRUCTOR*/}
@@ -75,8 +77,8 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_all_plants, container, false);
+        // Initialise views & viewGroups + setup listeners
         init(v, savedInstanceState);
-        Log.d("runtime", "Waiting for all plants to load");
         return v;
     }
 
