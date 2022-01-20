@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -83,6 +84,7 @@ public class NewPlant extends Fragment {
     private String imagePath;
     // The mGetSingleContent Variable
     // Call mGetSingleContent.launch("image/*")
+    private PlantsWithEverything PWE;
     @SuppressLint("SetTextI18n")
     private final ActivityResultLauncher<String> mGetSingleContent = registerForActivityResult(new ActivityResultContracts.GetContent(),
             uri -> {
@@ -136,100 +138,129 @@ public class NewPlant extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         saveData.setOnClickListener(v -> {
-            if (!saveData.isActivated()) {
-                Toast.makeText(requireContext(), "Image is still uploading, Please wait", Toast.LENGTH_SHORT).show();
+            if (!CheckDataVariables())
                 return;
-            }
-            if (plantNameET.getText().toString().trim().isEmpty()) {
-                plantNameET.setError("Name Field is required");
-                LauncherActivity.openSoftKeyboard(requireContext(), plantNameET);
-                return;
-            } else if (locationATV.getText().toString().trim().isEmpty()) {
-                locationATV.setError("Location Field is required");
-                LauncherActivity.openSoftKeyboard(requireContext(), locationATV);
-                return;
-            } else if (typeATV.getText().toString().trim().isEmpty()) {
-                typeATV.setError("Type Field is required");
-                LauncherActivity.openSoftKeyboard(requireContext(), typeATV);
-                return;
-            } else if (descriptionET.getText().toString().trim().isEmpty()) {
-                descriptionET.setError("Type at least 2 words in bio");
-                LauncherActivity.openSoftKeyboard(requireContext(), descriptionET);
-                return;
-            }
-
             String temp = plantNameET.getText().toString().trim();
             String name = temp.substring(0, 1).toUpperCase() + temp.substring(1).toLowerCase();
             String description = descriptionET.getText().toString().trim();
             String type = typeATV.getText().toString().trim();
             String location = locationATV.getText().toString().trim();
-            plantName = name;
+            plantName = PWE != null ? PWE.plant.plantName : name;
             // Change plant Name for all reminders set
             ChangePlantNames();
-            long successT = -1, successL = -1, successP = -1;
-            PlantType newType = new PlantType(type);
-            PlantLocation newLocation = new PlantLocation(location);
-            saveData.setEnabled(false);
-            try {
-                successT = DAO.insertPlantTypes(newType)[0];
-                Log.d("updateT", "Successful");
-            } catch (SQLiteConstraintException e) {
-                e.printStackTrace();
-            }
-            try {
-                successL = DAO.insertPlantLocations(newLocation)[0];
-                Log.d("updateL", "Successful");
-            } catch (SQLiteConstraintException e) {
-                e.printStackTrace();
-            }
-
-            if(singleBitMap == null){
+            if (singleBitMap == null) {
                 singleBitMap = BitmapFactory.decodeResource(requireContext().getResources(), R.drawable.img_default_profile_image);
                 imagePath = AttributeConverters.BitMapToString(singleBitMap);
             }
-
-            if (singleBitMap.getWidth()>=0) {
-                Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
-                plant.plantName = name;
-                try {
-                    if (getArguments() != null) {
-                        DAO.updatePlant(plant);
-                        Log.d("updateP" + plantName, "Successful");
-
-                        for (Reminder singleRem : reminders) {
-                            DAO.updateReminder(singleRem);
-                            Log.d("insertR", "Successful");
-                        }
-                    } else {
-                        successP = DAO.insertNewPlant(plant)[0];
-                        for (Reminder singleRem : reminders) {
-                            long[] successfulR = DAO.insertReminders(singleRem);
-                            Log.d("insertR", "Successful");
-                        }
-                    }
-                    callForMyPlantActivity();
-                } catch (SQLiteConstraintException e) {
-                    saveData.setEnabled(true);
-                    Toast.makeText(requireContext(), "Plant haha with same name already exists", Toast.LENGTH_SHORT).show();
-                    if (successP == -1) {
-                        if (successT != -1){
-                            DAO.deleteType(newType);
-                            Log.d("deleteT", "Successful");
-                        }
-
-                        if (successL != -1){
-                            DAO.deleteLocation(newLocation);
-                            Log.d("deleteL", "Successful");
-                        }
-
-                    }
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(requireContext(), "Profile Image not set", Toast.LENGTH_SHORT).show();
-                saveData.setEnabled(true);
-            }
+            if (PWE != null) updateData(type, location, name, description);
+            else saveNewData(type, location, name, description);
         });
+    }
+
+    public boolean CheckDataVariables() {
+        if (!saveData.isActivated()) {
+            Toast.makeText(requireContext(), "Image is still uploading, Please wait", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (plantNameET.getText().toString().trim().isEmpty()) {
+            plantNameET.setError("Name Field is required");
+            LauncherActivity.openSoftKeyboard(requireContext(), plantNameET);
+            return false;
+        } else if (locationATV.getText().toString().trim().isEmpty()) {
+            locationATV.setError("Location Field is required");
+            LauncherActivity.openSoftKeyboard(requireContext(), locationATV);
+            return false;
+        } else if (typeATV.getText().toString().trim().isEmpty()) {
+            typeATV.setError("Type Field is required");
+            LauncherActivity.openSoftKeyboard(requireContext(), typeATV);
+            return false;
+        } else if (descriptionET.getText().toString().trim().isEmpty()) {
+            descriptionET.setError("Type at least 2 words in bio");
+            LauncherActivity.openSoftKeyboard(requireContext(), descriptionET);
+            return false;
+        }
+        return true;
+    }
+
+    public void updateData(String type, String location, String name, String description) {
+        PlantType newType = new PlantType(type);
+        PlantLocation newLocation = new PlantLocation(location);
+        saveData.setEnabled(false);
+        try {
+            DAO.updatePlantType(newType);
+            Log.d("XX:updateORinsertT", "Successful");
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+        try {
+            DAO.updatePlantLocation(newLocation);
+            Log.d("XX:updateORinsertL", "Successful");
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+
+        Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
+        try {
+            DAO.updatePlant(plant);
+            Log.d("XX:InsertP" + plantName, "Successful");
+            for (Reminder singleRem : reminders) {
+                DAO.updateReminder(singleRem);
+                Log.d("XX:insertR", "Successful");
+            }
+            Log.d("XX:", " I am here");
+            callForMyPlantActivity();
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void saveNewData(String type, String location, String name, String description) {
+        long successT = -1, successL = -1, successP = -1;
+        PlantType newType = new PlantType(type);
+        PlantLocation newLocation = new PlantLocation(location);
+        saveData.setEnabled(false);
+        try {
+            successT = DAO.insertPlantTypes(newType)[0];
+            Log.d("XX:updateORinsertT", "Successful");
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+        try {
+            successL = DAO.insertPlantLocations(newLocation)[0];
+            Log.d("XX:updateORinsertL", "Successful");
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        }
+
+        Plant plant = new Plant(name, imagePath, newType.type, newLocation.location, plantTheme, description);
+        plant.plantName = name;
+        try {
+            successP = DAO.insertNewPlant(plant)[0];
+            Log.d("XX:InsertP" + plantName, "Successful");
+            for (Reminder singleRem : reminders) {
+                long[] successfulR = DAO.insertReminders(singleRem);
+                Log.d("XX:insertR", "Successful");
+            }
+
+            Log.d("XX:", " I am here");
+            callForMyPlantActivity();
+        } catch (SQLiteConstraintException e) {
+            Log.d("XX:", " How did i come here?");
+            saveData.setEnabled(true);
+            Toast.makeText(requireContext(), "Plant with same name already exists", Toast.LENGTH_SHORT).show();
+            if (successP == -1) {
+                if (successT != -1) {
+                    DAO.deleteType(newType);
+                    Log.d("XX:deleteT", "Successful");
+                }
+                if (successL != -1) {
+                    DAO.deleteLocation(newLocation);
+                    Log.d("XX:deleteL", "Successful");
+                }
+            }
+            e.printStackTrace();
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -250,7 +281,7 @@ public class NewPlant extends Fragment {
         reminderlinearlayout = view.findViewById(R.id.reminders);
         reminders = new ArrayList<>();
         if (getArguments() != null) {
-            PlantsWithEverything PWE = DAO.getAllPlantAttributes(getArguments().getString(LauncherActivity.plantNameKey));
+            PWE = DAO.getAllPlantAttributes(getArguments().getString(LauncherActivity.plantNameKey));
             typeATV.setText(PWE.type.type, false);
             locationATV.setText(PWE.location.location, false);
             plantNameET.setText(PWE.plant.plantName);
@@ -269,29 +300,24 @@ public class NewPlant extends Fragment {
     }
 
     public void setTypeAndLocations(AutoCompleteTextView atv, List<?> theList) {
-        final ArrayAdapter<?> arrayAdapter = new ArrayAdapter<>(
-                requireActivity(), android.R.layout.simple_dropdown_item_1line, theList);
+        final ArrayAdapter<?> arrayAdapter = new ArrayAdapter<>(requireActivity(), android.R.layout.simple_dropdown_item_1line, theList);
         atv.setAdapter(arrayAdapter);
     }
-
     public void getNewImage() {
         if (plantImage.isActivated())
             mGetSingleContent.launch("image/*");
         else
             Toast.makeText(requireContext(), "A image is already in process, please wait", Toast.LENGTH_SHORT).show();
     }
-
     public void ChangePlantNames() {
         for (Reminder rem : reminders)
             rem.plantName = plantName;
     }
-
     public void EnableDisable(boolean val) {
         plantImage.setActivated(val);
         getNewPicture.setActivated(val);
         saveData.setActivated(val);
     }
-
     public void showDialog() {
         new AlertDialog.Builder(requireContext())
                 .setIcon(android.R.drawable.ic_dialog_info)
@@ -299,7 +325,6 @@ public class NewPlant extends Fragment {
                 .setPositiveButton("Yes", (dialog, which) -> resetFields()).setNegativeButton("No", null)
                 .show();
     }
-
     public void resetFields() {
         if (thread != null && thread.isAlive())
             thread.interrupt();
@@ -315,7 +340,6 @@ public class NewPlant extends Fragment {
         themeNameTV.setText(R.string.default_theme_name);
         addRemindersToList(reminders);
     }
-
     public static void setAlarm(Context context, Reminder rem, String location){
         AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlertReceiver.class);
@@ -325,7 +349,6 @@ public class NewPlant extends Fragment {
         // TODO: Change the time
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
     }
-
     public void callForMyPlantActivity() {
         for (Reminder rem : reminders) {
             setAlarm(requireContext(), rem, locationATV.getText().toString().trim());
@@ -334,8 +357,9 @@ public class NewPlant extends Fragment {
         Intent intent = new Intent(requireActivity(), MyPlant.class);
         intent.putExtra("plantName", plantName);
         startActivity(intent);
+        if (PWE != null)
+            requireActivity().finish();
     }
-
     @SuppressLint("SetTextI18n")
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinearlayout.removeAllViews();
@@ -365,7 +389,6 @@ public class NewPlant extends Fragment {
             }
         }
     }
-
     public void addNewReminderViewPrompt(int BackgroundResource) {
         View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.reminder_item, reminderlinearlayout, false);
         ImageView imgBell = item.findViewById(R.id.bell);
@@ -380,7 +403,6 @@ public class NewPlant extends Fragment {
         item.setOnClickListener(v -> getReminder(-1));
         reminderlinearlayout.addView(item);
     }
-
     public int getDrawableForReminder(int i) {
         switch (i) {
             case 0:
@@ -393,12 +415,12 @@ public class NewPlant extends Fragment {
                 return R.drawable.com_round_shape;
         }
     }
-
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
             Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(NewPlant.REMINDER_KEY), Reminder.class);
-            if(position >= 0) reminders.set(position, newReminder);
+            if (position >= 0 && PWE != null) newReminder.reminderID = reminder[0].reminderID;
+            if (position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
             addRemindersToList(reminders);
             Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
@@ -409,23 +431,6 @@ public class NewPlant extends Fragment {
         //b.putString("location", everyThing.location.location);
         openSubFragment(new SetReminder(), b, fm);
     }
-
-//    public void getReminder(int position, Reminder... reminder) {
-//        FragmentManager fm = requireActivity().getSupportFragmentManager();
-//        fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
-//            Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(REMINDER_KEY), Reminder.class);
-//            if(position >= 0) reminders.set(position, newReminder);
-//            else reminders.add(newReminder);
-//            addRemindersToList(reminders);
-//            Toast.makeText(requireContext(), "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
-//        });
-//        Bundle b = null;
-//        if(position>=0 && reminder!=null){
-//            b = new Bundle();
-//            b.putString(REMINDER_KEY, AttributeConverters.getGsonParser().toJson(reminder[0]));
-//        }
-//        openSubFragment(new SetReminder(), b, fm);
-//    }
 
     public void getTheme() {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
@@ -438,7 +443,6 @@ public class NewPlant extends Fragment {
         b.putInt(THEME_KEY, plantTheme);
         openSubFragment(new ColorTheme(), b, fm);
     }
-
     public void openSubFragment(Fragment fg, Bundle bn, FragmentManager fm) {
         requireActivity().findViewById(R.id.coordinator_layout).setVisibility(View.GONE);
         fg.setArguments(bn);

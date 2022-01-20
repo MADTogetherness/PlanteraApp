@@ -1,5 +1,7 @@
 package com.example.planteraapp.entities.DAO;
 
+import android.location.Location;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -26,17 +28,13 @@ import java.util.List;
 
 @Dao
 public interface PlantDAO {
-    @Transaction
-    @Query("SELECT selectedTheme FROM Plant WHERE plantName = :plantName")
-    int getSelectedThemeOfUser(String plantName);
-
     @RawQuery
     List<PlantsWithEverything> customFilterPlantsRawQuery(SupportSQLiteQuery query);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     long[] insertPlantLocations(PlantLocation... location);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     long[] insertPlantTypes(PlantType... type);
 
     @Insert
@@ -45,11 +43,11 @@ public interface PlantDAO {
     @Insert
     long[] insertBlogs(Blog... blog);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     long insertImage(Images image);
 
     @Insert
-    long insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
+    void insertNewBlogImageCrossRef(BlogImagesCrossRef blogimagescrossref);
 
     @Insert
     long[] insertReminders(Reminder... reminder);
@@ -58,12 +56,23 @@ public interface PlantDAO {
     @Query("SELECT * FROM PlantType")
     List<PlantType> getAllPlantTypes();
 
+    @Delete
+    void deletePlant(Plant plant);
+
     @Transaction
     @Query("SELECT * FROM PlantLocation")
     List<PlantLocation> getAllPlantLocations();
 
+    @Transaction
+    @Query("SELECT * FROM Blog WHERE blogID=:id")
+    BlogWithImages getBlogWithImagesWithID(long id);
+
     @Delete
     void deleteType(PlantType type);
+
+    @Transaction
+    @Query("DELETE FROM Blog WHERE blogID=:id")
+    void deleteBlog(long id);
 
     @Delete
     void deleteLocation(PlantLocation location);
@@ -76,49 +85,25 @@ public interface PlantDAO {
     void updateReminder(Reminder reminder);
 
     @Update
-    void updatePlant(Plant plant);
-
-    @Query("UPDATE Blog SET plantName = :newplantName WHERE plantName = :oldplantName")
-    void updateBlog(String oldplantName, String newplantName);
+    void updatePlantLocation(PlantLocation location);
 
     @Update
-    void updateBlog(Blog blog);
+    void updatePlantType(PlantType location);
+
+    @Update
+    void updatePlant(Plant plant);
 
     @Update
     void updateTheme(Plant plant);
-//    @Transaction
-//    @Query("SELECT * FROM Plant")
-//    List<Plant> getAllPlants();
-//
-    @Transaction
-    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-    Plant getSinglePlantInstance(String plantName);
-
-//    @Transaction
-//    @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-//    PlantAndReminders getAllRemindersOfPlantFromID(String plantName);
 
     @Transaction
     @Query("SELECT * FROM Plant WHERE plantName = :plantName")
     PlantsWithEverything getAllPlantAttributes(String plantName);
 
-    //    @Transaction
-//    @Query("SELECT * FROM Blog WHERE blogID = :ID")
-//    List<Blog> getAllBlogs(long ID);
-//
-    @Transaction
-    @Query("SELECT * FROM Blog WHERE plantName = :plantName")
-    List<Blog> getAllBlogsPlantID(String plantName);
 
-    //
     @Transaction
     @Query("SELECT * FROM Plant WHERE plantName = :plantName")
-    PlantsWithBlogsANDImages getPlantWithBlogsANDImages(String plantName);
-
-    //
-    @Transaction
-    @Query("SELECT * FROM Blog WHERE blogID = :ID")
-    List<BlogWithImages> getBlogwWithImages(long ID);
+    PlantsWithBlogsANDImages getAllBlogsWithPlantID(String plantName);
 
     @Transaction
     @Query("SELECT * FROM Plant")

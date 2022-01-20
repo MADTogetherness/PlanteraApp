@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "994d282904a852ae467589ccfd965a13",
+    "identityHash": "e6af07d4d9e3576a5c1655cada050e34",
     "entities": [
       {
         "tableName": "Reminder",
@@ -332,8 +332,14 @@
       },
       {
         "tableName": "BlogImagesCrossRef",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`blogID` INTEGER NOT NULL, `imageID` INTEGER NOT NULL, PRIMARY KEY(`blogID`, `imageID`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `blogID` INTEGER NOT NULL, `imageID` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`blogID`) REFERENCES `Blog`(`blogID`) ON UPDATE CASCADE ON DELETE CASCADE , FOREIGN KEY(`imageID`) REFERENCES `Images`(`imageID`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "blogID",
             "columnName": "blogID",
@@ -349,8 +355,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "blogID",
-            "imageID"
+            "id"
           ],
           "autoGenerate": false
         },
@@ -374,13 +379,36 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_BlogImagesCrossRef_imageID` ON `${TABLE_NAME}` (`imageID`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Blog",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "blogID"
+            ],
+            "referencedColumns": [
+              "blogID"
+            ]
+          },
+          {
+            "table": "Images",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "imageID"
+            ],
+            "referencedColumns": [
+              "imageID"
+            ]
+          }
+        ]
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '994d282904a852ae467589ccfd965a13')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e6af07d4d9e3576a5c1655cada050e34')"
     ]
   }
 }

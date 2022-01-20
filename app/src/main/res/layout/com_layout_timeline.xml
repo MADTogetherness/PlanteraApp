@@ -37,18 +37,18 @@
         android:layout_marginTop="@dimen/margin_10_dp"
         android:padding="@dimen/margin_10_dp"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam, justo vel pulvinar fringilla, felis velit laoreet massa, ac vestibulum dolor massa vitae sem. Vestibulum varius, nibh sit amet luctus viverra, libero eros vestibulum erat, nec iaculis ipsum nibh in ligula. Donec neque ex, sollicitudin ut sollicitudin et, scelerisque et erat. "
-        android:textColor="?attr/Primary_Font"
+        android:textColor="?attr/Primary_Font" />
 
-        />
-
-    <LinearLayout
-        android:id="@+id/timeline_images"
+    <GridLayout
+        android:id="@+id/gridLayout_images"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_10_dp"
+        android:alignmentMode="alignBounds"
+        android:layout_marginVertical="@dimen/margin_16_dp"
+        android:animateLayoutChanges="true"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/timeline_desc"
-
-        android:orientation="horizontal" />
+        android:columnCount="3" />
 
 
 </RelativeLayout>

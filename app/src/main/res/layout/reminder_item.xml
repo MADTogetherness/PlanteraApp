@@ -28,7 +28,7 @@
         android:layout_toEndOf="@id/bell"
         android:text="Water"
         android:textColor="?attr/Primary_Font"
-        android:textSize="@dimen/font_size_17sp"
+        android:textSize="@dimen/font_size_16sp"
         android:textStyle="bold" />
 
     <TextView
@@ -46,8 +46,8 @@
 
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/margin_16_dp"
@@ -59,7 +59,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="@dimen/margin_16_dp"
         android:layout_toStartOf="@+id/arrow"
         android:background="@drawable/small_circle" />
 </RelativeLayout>

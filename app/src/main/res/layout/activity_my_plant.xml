@@ -53,8 +53,7 @@
                     android:layout_height="25dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:background="@drawable/small_circle"
-                    android:backgroundTint="#000" />
+                    android:background="@drawable/small_circle" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/plant_image"
@@ -131,11 +130,11 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/editPlantTheme"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
+                android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:fontFamily="@font/opensans_bold"
                 android:letterSpacing="0"
-                android:textSize="@dimen/font_size_18sp"
+                android:textSize="@dimen/font_size_16sp"
                 android:textColor="?attr/Button_Font"
                 android:layout_marginBottom="@dimen/margin_16_dp"
                 android:background="@drawable/com_round_shape"
@@ -168,6 +167,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:scaleType="centerInside"
+                    android:padding="6dp"
                     android:src="@drawable/ic_add_new_icon_24"
                     android:background="@android:color/transparent"
                     app:tint="?attr/Button_Primary" />
@@ -183,12 +183,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10_dp"
-
                 android:orientation="vertical" />
 
-            <View 
-                android:layout_height="120dp"
-                android:layout_width="match_parent" />
 
         </LinearLayout>
 
@@ -210,6 +206,7 @@
         android:padding="@dimen/padding_16_dp">
 
         <ImageButton
+            android:id="@+id/close"
             android:layout_width="24dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_cross"
@@ -228,31 +225,33 @@
             android:textStyle="bold"
             android:textSize="@dimen/font_size_22sp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_btn"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:backgroundTint="?attr/Button_Primary"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0.03"
             android:text="Edit"
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:textColor="?attr/Button_Font"
-            android:textSize="@dimen/font_size_16sp"
-            android:fontFamily="@font/main_variable_font"
-            tools:ignore="TouchTargetSizeCheck" />
+            app:cornerRadius="6dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_btn"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:backgroundTint="#D6003C"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0.03"
             android:text="Delete"
+            android:textColor="#fff"
+            android:textSize="@dimen/font_size_14sp"
             android:textAllCaps="false"
             android:textStyle="bold"
-            android:textColor="#fff"
-            android:textSize="@dimen/font_size_16sp"
-            android:fontFamily="@font/main_variable_font"
-            tools:ignore="TouchTargetSizeCheck" />
+            android:backgroundTint="#D6003C"
+            app:cornerRadius="6dp" />
 
 
     </LinearLayout>

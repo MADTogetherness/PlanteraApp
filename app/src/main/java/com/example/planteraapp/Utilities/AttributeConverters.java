@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class AttributeConverters {
     @TypeConverter
     public static String BitMapToString(Bitmap bitmap) {
+        if (bitmap == null)
+            return null;
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] b = byteArrayOutputStream.toByteArray();
@@ -108,10 +110,10 @@ public class AttributeConverters {
         long remaining = durationRemaining - System.currentTimeMillis();
         Duration d = Duration.ofMillis(remaining);
         long days = abs(d.toDays()), hours = abs(d.toHours() % 24);
-        String prefix = remaining < 1000 ? "Overdue by " : "In ";
-        String dy = days > 0 ? String.format(Locale.getDefault(), "%d day(s) ", days) : "";
-        String h = hours > 0 ? String.format(Locale.getDefault(), "%02d hr(s) ", hours) : "";
-        String m = String.format(Locale.getDefault(), "%02d min(s)", abs(d.toMinutes() % 60));
+        String prefix = remaining < 1000 ? "overdue by " : "In ";
+        String dy = days > 0 ? String.format(Locale.getDefault(), "%dd ", days) : "";
+        String h = hours > 0 ? String.format(Locale.getDefault(), "%dh ", hours) : "";
+        String m = String.format(Locale.getDefault(), "%dm", abs(d.toMinutes() % 60));
         return prefix + dy + h + m;
     }
 

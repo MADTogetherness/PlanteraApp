@@ -1,6 +1,7 @@
 package com.example.planteraapp.entities.Relations;
 
 import androidx.room.Embedded;
+import androidx.room.Ignore;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
@@ -8,6 +9,7 @@ import com.example.planteraapp.entities.Blog;
 import com.example.planteraapp.entities.BlogImagesCrossRef;
 import com.example.planteraapp.entities.Images;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class BlogWithImages {

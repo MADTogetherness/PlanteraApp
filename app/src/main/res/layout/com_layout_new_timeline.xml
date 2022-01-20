@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="@dimen/padding_16_dp"
-    android:background="@drawable/com_round_shape"
-    android:layout_rowWeight="1"
-    android:backgroundTint="?attr/Section_Container"
-    >
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/timeline_date"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/com_round_shape"
-        android:backgroundTint="?attr/Button_Secondary"
+        android:paddingStart="@dimen/padding_16_dp"
+        android:paddingEnd="@dimen/padding_16_dp"
+        android:paddingTop="@dimen/margin_16_dp"
+        android:paddingBottom="32dp"
+        android:background="@drawable/com_bottom_sheet_background">
+
+        <View
+            android:id="@+id/stub_view"
+            android:layout_width="50dp"
+            android:layout_height="5dp"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="@dimen/margin_16_dp"
+            android:background="@drawable/ic_bottom_sheet_top_notch" />
+
+        <TextView
+            android:id="@+id/timeline_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/stub_view"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="@dimen/margin_10_dp"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="?attr/Button_Secondary"
         android:fontFamily="@font/main_variable_font"
         android:gravity="center"
         android:lines="1"
@@ -24,60 +40,85 @@
         android:paddingEnd="@dimen/padding_16_dp"
         android:paddingBottom="5dp"
         android:text="Sat, 27 Nov"
-        android:textColor="?attr/Button_Font"
-        android:textSize="@dimen/font_size_16sp"
-        android:textStyle="bold" />
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
+            android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/timeline_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timeline_date"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_10_dp"
-        android:padding="@dimen/margin_10_dp"
-        android:text="Lorem ipsum dolor sit amet"
-        android:textColor="?attr/Primary_Font"
+        <EditText
+            android:id="@+id/timeline_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeline_date"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_16_dp"
+            android:layout_marginBottom="@dimen/margin_16_dp"
+            android:autofillHints="@null"
+            android:background="@drawable/com_round_shape"
+            android:backgroundTint="?attr/App_Container"
+            android:fadeScrollbars="true"
+            android:gravity="top"
+            android:hint="My Personal Note"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:maxLines="7"
+            android:minLines="3"
+            android:padding="@dimen/padding_16_dp"
+            android:scrollbars="vertical"
+            android:textColor="?attr/Primary_Font"
+            android:textColorHint="?attr/Secondary_Font"
+            android:textSize="@dimen/font_size_16sp" />
 
-        />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/add_pictureBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/timeline_desc"
+        android:layout_alignParentStart="true"
         android:background="@android:color/transparent"
         android:drawableStart="@drawable/ic_camera"
         android:drawablePadding="@dimen/padding_10_dp"
         android:fontFamily="@font/main_variable_font"
-        android:text="Add Multiple Images"
+        android:text="Insert Images"
         android:textAllCaps="false"
         android:textColor="?attr/Primary_Font"
         android:textSize="@dimen/font_size_17sp" />
 
-    <TextView
-        android:id="@+id/saveblogBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/timeline_desc"
-        android:layout_alignParentEnd="true"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="@dimen/margin_10_dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saveBlogBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/timeline_desc"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:backgroundTint="?attr/Button_Primary"
+            android:fontFamily="@font/main_variable_font"
+            android:letterSpacing="0"
+            android:text="Save"
+            android:textColor="?attr/Button_Font"
+            android:textSize="@dimen/font_size_14sp"
+            android:textStyle="bold"
+            app:cornerRadius="6dp" />
 
-        android:layout_toRightOf="@+id/add_pictureBtn"
-        android:background="@drawable/com_round_shape"
-        android:backgroundTint="?attr/Button_Primary"
-        android:paddingStart="@dimen/padding_16_dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="@dimen/padding_16_dp"
-        android:paddingBottom="5dp"
-        android:text="Save"
-        android:textAlignment="center"
-        android:textColor="?attr/Button_Font"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:behavior_hideable="false"
+            android:layout_marginVertical="@dimen/margin_16_dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/saveBlogBtn"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
+            <GridLayout
+                android:id="@+id/gridLayout_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignBounds"
+                android:animateLayoutChanges="true"
+                android:columnCount="3" />
+        </androidx.core.widget.NestedScrollView>
 
-        />
-
-
-
-</RelativeLayout>
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
