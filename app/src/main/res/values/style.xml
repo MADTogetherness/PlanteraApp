@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="themeOnverlay_timePicker" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+    <style name="themeOnverlay_timePicker" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
         <item name="colorControlActivated">@color/Button_Primary</item>
-        <item name="android:colorControlHighlight">@color/Button_Font</item>
         <item name="colorAccent">@color/Button_Primary</item>
+        <item name="colorPrimary">@color/Button_Primary</item>
         <item name="android:textColorPrimary">@color/Primary_Font</item>
         <item name="android:textColorSecondary">@color/Secondary_Font</item>
     </style>
@@ -38,7 +38,7 @@
         <item name="Section_Container">#FFEFF7</item>
         <item name="Primary_Font">#000000</item>
         <item name="Secondary_Font">#7C7C7C</item>
-        <item name="Button_Font">#FFFFFF</item>
+        <item name="Button_Font">#E1E1E1</item>
         <item name="Section_Shadow">#DBDBDB</item>
         <item name="Button_Primary">#5E35B1</item>
         <item name="Button_Secondary">#716AEA</item>
@@ -63,7 +63,7 @@
         <!-- Theme Colors -->
         <item name="App_Container">#011111</item>
         <item name="Section_Container">#333939</item>
-        <item name="Primary_Font">#f8f8f2</item>
+        <item name="Primary_Font">#E1E1E1</item>
         <item name="Secondary_Font">#EAEAEA</item>
         <item name="Button_Font">#000000</item>
         <item name="Section_Shadow">#000000</item>
@@ -90,7 +90,7 @@
         <!-- Theme Colors -->
         <item name="App_Container">#001F38</item>
         <item name="Section_Container">#233E55</item>
-        <item name="Primary_Font">#FFFFFF</item>
+        <item name="Primary_Font">#E1E1E1</item>
         <item name="Secondary_Font">#EAEAEA</item>
         <item name="Button_Font">#000000</item>
         <item name="Section_Shadow">#000000</item>
@@ -115,14 +115,14 @@
     <!-- THEME 4 - Dracula Dark-->
     <style name="Theme.PlanteraApp.Dracula.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Theme Colors -->
-        <item name="App_Container">#282a36</item>
-        <item name="Section_Container">#44475A</item>
-        <item name="Primary_Font">#f8f8f2</item>
-        <item name="Secondary_Font">#B1BBD9</item>
-        <item name="Button_Font">#000000</item>
+        <item name="App_Container">#1C1E2A</item>
+        <item name="Section_Container">#262837</item>
+        <item name="Primary_Font">#E1E1E1</item>
+        <item name="Secondary_Font">#BBBBBB</item>
+        <item name="Button_Font">#000</item>
         <item name="Section_Shadow">#000000</item>
-        <item name="Button_Primary">#ffb86c</item>
-        <item name="Button_Secondary">#FFEEDC</item>
+        <item name="Button_Primary">#FFBF00</item>
+        <item name="Button_Secondary">#FFDC73</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">?attr/Button_Primary</item>
         <item name="colorPrimaryVariant">?attr/App_Container</item>
