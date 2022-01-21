@@ -148,6 +148,7 @@ public class MyPlant extends AppCompatActivity {
             b.putString(LauncherActivity.plantNameKey, plantName);
             i.putExtra(LauncherActivity.BundleKey, b);
             startActivity(i);
+            finish();
         });
 
     }

@@ -82,7 +82,7 @@ public interface PlantDAO {
     List<ReminderAndPlant> getRemindersWithPlant();
 
     @Update
-    void updateReminder(Reminder reminder);
+    int updateReminder(Reminder reminder);
 
     @Update
     void updatePlantLocation(PlantLocation location);

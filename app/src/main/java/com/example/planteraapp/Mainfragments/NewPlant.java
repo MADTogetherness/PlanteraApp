@@ -205,7 +205,9 @@ public class NewPlant extends Fragment {
             DAO.updatePlant(plant);
             Log.d("XX:InsertP" + plantName, "Successful");
             for (Reminder singleRem : reminders) {
-                DAO.updateReminder(singleRem);
+                int u = DAO.updateReminder(singleRem);
+                if (u == 0)
+                    DAO.insertReminders(singleRem);
                 Log.d("XX:insertR", "Successful");
             }
             Log.d("XX:", " I am here");
@@ -332,7 +334,8 @@ public class NewPlant extends Fragment {
         plantImage.setImageResource(R.drawable.img_default_profile_image);
         imageNameTV.setText(R.string.default_img_name);
         reminders = new ArrayList<>();
-        plantNameET.setText("");
+        if (PWE == null)
+            plantNameET.setText("");
         typeATV.setText("");
         locationATV.setText("");
         descriptionET.setText("");

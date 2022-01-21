@@ -65,12 +65,12 @@ public class Calendar extends Fragment implements ReminderRecyclerAdapter.Calend
         rvTomorrowReminder = view.findViewById(R.id.rv_tomorrow);
         RecyclerView.LayoutManager todayLayoutManager = new LinearLayoutManager(getContext());
         rvTodayReminder.setLayoutManager(todayLayoutManager);
-        rvTodayReminder.setItemAnimator(new DefaultItemAnimator());
-        rvTodayReminder.setHasFixedSize(true);
+//        rvTodayReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTodayReminder.setNestedScrollingEnabled(false);
         RecyclerView.LayoutManager tomorrowLayoutManager = new LinearLayoutManager(getContext());
         rvTomorrowReminder.setLayoutManager(tomorrowLayoutManager);
-        rvTomorrowReminder.setItemAnimator(new DefaultItemAnimator());
-        rvTomorrowReminder.setHasFixedSize(true);
+//        rvTomorrowReminder.setItemAnimator(new DefaultItemAnimator());
+        rvTomorrowReminder.setNestedScrollingEnabled(false);
         initialiseAdapter();
     }
 
