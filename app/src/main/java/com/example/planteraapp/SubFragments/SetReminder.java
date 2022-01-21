@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.planteraapp.AppDatabase;
 import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.Mainfragments.NewPlant;
+import com.example.planteraapp.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.Utilities.AlertReceiver;
 import com.example.planteraapp.Utilities.AttributeConverters;
@@ -48,7 +49,7 @@ public class SetReminder extends Fragment {
     private SwitchCompat switchCompat;
     // Button to test sample notification right now in time
     // Button to save the data & proceed forward
-    private AppCompatButton test_notification, btnDone;
+    private AppCompatButton test_notification, delete_btn, btnDone;
     // Choosing the day when the reminder was last completed, Uneditable & inputType="None"
     private AutoCompleteTextView lastCompletedATV;
     // Setting the selectedHour & SelectedMinute to -1 for the time picker clock dialog
@@ -119,6 +120,7 @@ public class SetReminder extends Fragment {
         switchCompat = view.findViewById(R.id.notify_enabled);
         lastCompletedATV = view.findViewById(R.id.reminder_last_completed);
         test_notification = view.findViewById(R.id.test_notification);
+        delete_btn = view.findViewById(R.id.delete_btn);
         btnDone = view.findViewById(R.id.set_reminder_done);
         arrayAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, generateList());
         Log.d("opened", "yes3");
@@ -155,6 +157,36 @@ public class SetReminder extends Fragment {
             test.notify(1999, builder.build());
             Toast.makeText(requireContext(), "Testing notification Now", Toast.LENGTH_LONG).show();
         });
+
+        //DELETE
+//        if(reminderInstance != null && getArguments() != null && getArguments().getString("plantName") != null){
+//            delete_btn.setOnClickListener(v -> {
+//                if (reminderInstance != null && reminderInstance.plantName != null) {
+//                    long id = reminderInstance.reminderID;
+//                    DAO.deleteReminder(reminderInstance);
+//
+//                    callForMyPlantActivity();
+//                } else{
+//                    requireActivity().onBackPressed();
+//                }
+//            });
+//        }
+
+        delete_btn.setOnClickListener(v -> {
+            if (reminderInstance != null && reminderInstance.plantName != null) {
+                long id = reminderInstance.reminderID;
+                DAO.deleteReminder(reminderInstance);
+
+                callForMyPlantActivity();
+            } else{
+                requireActivity().onBackPressed();
+            }
+        });
+
+
+
+
+
         // Call function to finally setUP everything perfectly
         btnDone.setOnClickListener(v -> setReminder());
     }
@@ -303,6 +335,13 @@ public class SetReminder extends Fragment {
             return name;
         }
 
+    }
+
+    public void callForMyPlantActivity() {
+        Intent intent = new Intent(requireActivity(), MyPlant.class);
+        intent.putExtra("plantName", getArguments().getString("plantName"));
+        startActivity(intent);
+        requireActivity().finish();
     }
 
 }

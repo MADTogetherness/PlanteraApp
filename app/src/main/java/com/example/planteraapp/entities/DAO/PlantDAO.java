@@ -77,6 +77,9 @@ public interface PlantDAO {
     @Delete
     void deleteLocation(PlantLocation location);
 
+    @Delete
+    void deleteReminder(Reminder reminder);
+
     @Transaction
     @Query("SELECT * FROM Reminder ORDER BY realEpochTime")
     List<ReminderAndPlant> getRemindersWithPlant();
