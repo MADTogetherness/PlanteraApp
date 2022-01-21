@@ -157,6 +157,14 @@ public class SetReminder extends Fragment {
         });
         // Call function to finally setUP everything perfectly
         btnDone.setOnClickListener(v -> setReminder());
+        view.findViewById(R.id.delete_btn).setOnClickListener(v -> {
+            if (getArguments() != null && getArguments().getString("plantName") != null) {
+                NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"), false);
+                DAO.deleteReminder(reminderInstance);
+            }
+            Toast.makeText(requireContext(), "Reminder was successfully removed", Toast.LENGTH_SHORT).show();
+            requireActivity().onBackPressed();
+        });
     }
 
     public void setReminder() {
@@ -224,7 +232,7 @@ public class SetReminder extends Fragment {
                 reminderInstance.plantName = getArguments().getString("plantName");
                 DAO.insertReminders(reminderInstance);
             }
-            NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"));
+            NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"), true);
         }
         requireActivity().onBackPressed();
     }
@@ -234,7 +242,7 @@ public class SetReminder extends Fragment {
         Calendar mCurrentTime = Calendar.getInstance();
         int hour = mCurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mCurrentTime.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), R.style.themeOnverlay_timePicker, (timePicker, selectedHour, selectedMinute) -> {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(requireContext(), R.style.themeOverlay_timePicker, (timePicker, selectedHour, selectedMinute) -> {
             this.selectedHour = selectedHour;
             this.selectedMinute = selectedMinute;
             setTime.setText(AttributeConverters.getReadableTime(selectedHour, selectedMinute));

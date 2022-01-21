@@ -19,9 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -35,6 +37,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.planteraapp.AppDatabase;
@@ -75,7 +78,7 @@ public class NewPlant extends Fragment {
     private List<Reminder> reminders;
     private int plantTheme = R.style.Theme_PlanteraApp;
     private String plantName = "";
-    private String oldplantName;
+    private NestedScrollView scrollview;
     // Get the bitmap of image user has just selected from gallery
     private Bitmap singleBitMap;
     // The thread to load the image
@@ -280,6 +283,7 @@ public class NewPlant extends Fragment {
         getNewPicture = view.findViewById(R.id.new_picture);
         getNewTheme = view.findViewById(R.id.new_theme);
         plantImage = view.findViewById(R.id.profile_image);
+        scrollview = view.findViewById(R.id.scrollView);
         EnableDisable(true);
         reminderlinearlayout = view.findViewById(R.id.reminders);
         reminders = new ArrayList<>();
@@ -289,7 +293,6 @@ public class NewPlant extends Fragment {
             locationATV.setText(PWE.location.location, false);
             plantNameET.setText(PWE.plant.plantName);
             plantNameET.setEnabled(false);
-            oldplantName = PWE.plant.plantName;
             descriptionET.setText(PWE.plant.description);
             reminders = PWE.Reminders;
             imageNameTV.setText(PWE.plant.plantName + ".jpg");
@@ -343,26 +346,32 @@ public class NewPlant extends Fragment {
         saveData.setEnabled(true);
         themeNameTV.setText(R.string.default_theme_name);
         addRemindersToList(reminders);
+        scrollview.fullScroll(View.FOCUS_UP);
+        scrollview.smoothScrollTo(0, 0);
     }
-    public static void setAlarm(Context context, Reminder rem, String location){
+
+    public static void setAlarm(Context context, Reminder rem, String location, boolean create) {
         AlarmManager alarmManager = (AlarmManager) context.getApplicationContext().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlertReceiver.class);
         intent.putExtra("Title", "Reminder to " + rem.name);
         intent.putExtra("BigText", "Plant " + rem.plantName + " is used to your care and is waiting for you in the " + location);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), (int) rem.reminderID, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         // TODO: Change the time
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+        if (create)
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, rem.realEpochTime, rem.repeatInterval, pendingIntent);
+        else alarmManager.cancel(pendingIntent);
     }
     public void callForMyPlantActivity() {
-        for (Reminder rem : reminders) {
-            setAlarm(requireContext(), rem, locationATV.getText().toString().trim());
-        }
+        for (Reminder rem : reminders)
+            setAlarm(requireContext(), rem, locationATV.getText().toString().trim(), true);
         resetFields();
-        Intent intent = new Intent(requireActivity(), MyPlant.class);
-        intent.putExtra("plantName", plantName);
-        startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), plantImage, "image").toBundle());
-        if (PWE != null)
-            requireActivity().finish();
+        new Handler().postDelayed(() -> {
+            Intent intent = new Intent(requireActivity(), MyPlant.class);
+            intent.putExtra("plantName", plantName);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), plantImage, "image").toBundle());
+            if (PWE != null)
+                requireActivity().finish();
+        }, 1000);
     }
     @SuppressLint("SetTextI18n")
     public void addRemindersToList(@NonNull List<Reminder> items) {

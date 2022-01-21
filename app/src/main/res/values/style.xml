@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="themeOnverlay_timePicker" parent="@style/ThemeOverlay.MaterialComponents.TimePicker">
-        <item name="colorControlActivated">@color/Button_Primary</item>
-        <item name="colorAccent">@color/Button_Primary</item>
-        <item name="colorPrimary">@color/Button_Primary</item>
-        <item name="android:textColorPrimary">@color/Primary_Font</item>
-        <item name="android:textColorSecondary">@color/Secondary_Font</item>
+    <style name="themeOverlay_timePicker" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:colorControlActivated">?attr/Button_Primary</item>
+        <item name="colorAccent">?attr/Button_Primary</item>
+        <item name="colorPrimary">?attr/Button_Primary</item>
+        <item name="android:textColorPrimary">#000</item>
+        <item name="android:textColorSecondary">?attr/Secondary_Font</item>
     </style>
 
     <style name="Image_oval_bottom">
@@ -34,6 +34,7 @@
     <!-- THEME 1 - Chiffon_Purple-->
     <style name="Theme.PlanteraApp.Chiffon_Purple" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Theme Colors -->
+        <item name="android:dialogTheme">@style/themeOverlay_timePicker</item>
         <item name="App_Container">#FFFFFF</item>
         <item name="Section_Container">#FFEFF7</item>
         <item name="Primary_Font">#000000</item>

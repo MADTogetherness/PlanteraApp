@@ -8,6 +8,4 @@
     <attr name="Section_Shadow" format="reference|color" />
     <attr name="Button_Primary" format="reference|color" />
     <attr name="Button_Secondary" format="reference|color" />
-    <attr name="PrimaryButtonTheme" format="reference" />
-    <attr name="SecondaryButtonTheme" format="reference" />
 </resources>
