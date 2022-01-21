@@ -61,9 +61,9 @@ public class SlideAdapter extends PagerAdapter {
 
     // Constants: Descriptions for each slide
     public String[] descriptions = {
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, ",
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, ",
-            "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nihil magnm atque necessitatibus quibusdam consequuntur velit dolore, "
+            "Keep forgetting to water plants? Never let another plant dry out",
+            "Keep record of all the events that takes place in your plant's life, such as the day it bears its first fruit ",
+            "Store records of your plants based on location as well as type of plant"
     };
 
     // Get total number of slides = 3
