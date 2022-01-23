@@ -5,6 +5,6 @@
         android:height="16dp"
         android:width="16dp" />
     <stroke
-        android:color="?attr/Primary_Font"
+        android:color="@color/Primary_Font"
         android:width="1.5dp" />
 </shape>

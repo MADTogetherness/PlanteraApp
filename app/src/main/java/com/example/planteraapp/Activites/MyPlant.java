@@ -279,7 +279,11 @@ public class MyPlant extends AppCompatActivity {
         assert insertImages != null;
         assert Date != null;
         Date.setText(new SimpleDateFormat("EEE, dd MMM").format(Calendar.getInstance().getTime()));
-        insertImages.setOnClickListener(v -> mGetMultipleContent.launch("image/*"));
+        insertImages.setOnClickListener(v -> {
+            if (thread != null && thread.isAlive())
+                Toast.makeText(this, "Please wait while previous images upload before inserting more!", Toast.LENGTH_LONG).show();
+            else mGetMultipleContent.launch("image/*");
+        });
         SaveBlog.setOnClickListener(v -> {
             if (timeline_desc.getText().toString().trim().isEmpty()) {
                 timeline_desc.setError("Please enter some timeline description");

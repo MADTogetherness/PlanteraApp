@@ -210,14 +210,14 @@
                     android:fontFamily="@font/main_variable_font"
                     android:textStyle="bold"
                     android:layout_marginBottom="2dp"
-                    android:textColor="@color/Primary_Font" />
+                    android:textColor="?attr/Primary_Font" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/font_size_14sp"
                     android:text="Did you know? Memories are worth living for...."
-                    android:textColor="@color/Secondary_Font" />
+                    android:textColor="?attr/Secondary_Font" />
 
             </LinearLayout>
 
