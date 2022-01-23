@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Intro_Activity"
+    tools:context=".Activites.Intro_Activity"
     android:background="@color/App_Container">
 
     <androidx.viewpager.widget.ViewPager

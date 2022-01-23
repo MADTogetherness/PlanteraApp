@@ -1,10 +1,10 @@
-package com.example.planteraapp.entities.Relations;
+package com.example.planteraapp.Model.Relations;
 
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.Plant;
+import com.example.planteraapp.Model.Entities.Blog;
+import com.example.planteraapp.Model.Entities.Plant;
 
 import java.util.List;
 

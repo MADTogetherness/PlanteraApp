@@ -3,13 +3,11 @@ package com.example.planteraapp.Mainfragments;
 
 import android.animation.Animator;
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,21 +16,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Database.AppDatabase;
 import com.example.planteraapp.R;
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.Utilities.ReminderRecyclerAdapter;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Relations.ReminderAndPlant;
-import com.example.planteraapp.entities.Reminder;
+import com.example.planteraapp.Utilities.Adapters.ReminderRecyclerAdapter;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Relations.ReminderAndPlant;
+import com.example.planteraapp.Model.Entities.Reminder;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class Calendar extends Fragment implements ReminderRecyclerAdapter.CalendarItemCheckListener {
     private PlantDAO DAO;

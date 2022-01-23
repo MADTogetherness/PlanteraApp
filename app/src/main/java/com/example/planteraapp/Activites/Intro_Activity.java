@@ -1,8 +1,7 @@
-package com.example.planteraapp;
+package com.example.planteraapp.Activites;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Notification;
@@ -13,15 +12,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.planteraapp.Utilities.SlideAdapter;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
+import com.example.planteraapp.Database.AppDatabase;
+import com.example.planteraapp.R;
+import com.example.planteraapp.Utilities.Adapters.SlideAdapter;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.PlantLocation;
+import com.example.planteraapp.Model.Entities.PlantType;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 // Intro_Activity inflates R.layout.activity_intro layout

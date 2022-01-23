@@ -1,4 +1,4 @@
-package com.example.planteraapp.Utilities;
+package com.example.planteraapp.Utilities.Other;
 
 import static java.lang.Math.abs;
 

@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PlanteraApp">
         <activity
-            android:name=".MyPlant"
+            android:name=".Activites.MyPlant"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden"
             android:exported="false"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".LauncherActivity"
+            android:name=".Activites.LauncherActivity"
             android:turnScreenOn="true"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden"
@@ -31,17 +31,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Intro_Activity"
+            android:name=".Activites.Intro_Activity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".Home"
+            android:name=".Activites.Home"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden"
             tools:ignore="LockedOrientationActivity" />
 
-        <receiver android:name=".Utilities.AlertReceiver" />
+        <receiver android:name=".Utilities.Other.AlertReceiver" />
     </application>
 
 </manifest>

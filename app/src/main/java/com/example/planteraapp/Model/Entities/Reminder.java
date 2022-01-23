@@ -1,4 +1,4 @@
-package com.example.planteraapp.entities;
+package com.example.planteraapp.Model.Entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
@@ -6,8 +6,6 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.google.gson.annotations.SerializedName;
 
 import java.util.Comparator;
 

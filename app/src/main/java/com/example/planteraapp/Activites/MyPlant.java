@@ -1,5 +1,7 @@
-package com.example.planteraapp;
-import static com.example.planteraapp.Utilities.AttributeConverters.StringToBitMap;
+package com.example.planteraapp.Activites;
+
+import static com.example.planteraapp.Utilities.Other.AttributeConverters.StringToBitMap;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +19,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -26,19 +31,25 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.planteraapp.Activites.Home;
+import com.example.planteraapp.Activites.LauncherActivity;
+import com.example.planteraapp.Database.AppDatabase;
 import com.example.planteraapp.Mainfragments.NewPlant;
+import com.example.planteraapp.R;
 import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Images;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.Relations.BlogWithImages;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.Entities.Blog;
+import com.example.planteraapp.Model.Entities.BlogImagesCrossRef;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.Images;
+import com.example.planteraapp.Model.Entities.Plant;
+import com.example.planteraapp.Model.Relations.BlogWithImages;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
+import com.example.planteraapp.Model.Entities.Reminder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -119,24 +130,24 @@ public class MyPlant extends AppCompatActivity {
         upComingReminderTV = findViewById(R.id.nextReminder);
         RemindersContainer = findViewById(R.id.reminders);
         TimelineContainer = findViewById(R.id.timelineLayout);
-        plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
         plantNameTV.setText(plant.plantName);
         descriptionTV.setText(plant.description);
         themeNameTV.setText("Theme : " + LauncherActivity.getThemeName(plant.selectedTheme));
         bitmapList = new ArrayList<>();
         newImages = new HashMap<>();
         reminders = new ArrayList<>();
-        new Thread(() -> {
+        new Handler().postDelayed(() -> new Thread(() -> {
             everyThing = DAO.getAllPlantAttributes(plantName);
             blogs = DAO.getAllBlogsWithPlantID(plant.plantName).blogs;
             reminders = everyThing.Reminders.size() == 0 ? new ArrayList<>() : everyThing.Reminders;
             reminders.sort(Reminder.COMPARE_BY_TIME);
             runOnUiThread(() -> {
+                plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
                 upComingReminderTV.setText((reminders.size() == 0) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
                 addRemindersToList(reminders);
                 addBlogsToList(blogs);
             });
-        }).start();
+        }).start(), 300);
         findViewById(R.id.close).setOnClickListener(v -> onBackPressed());
         findViewById(R.id.delete_btn).setOnClickListener(v -> showDialog());
         findViewById(R.id.add_new_timeline).setOnClickListener(v -> SlideUpBottomSheetForBlogging());
@@ -345,8 +356,16 @@ public class MyPlant extends AppCompatActivity {
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            if (bundle.getString(NewPlant.REMINDER_KEY) == null) {
+                if (position >= 0) {
+                    reminders.remove(position);
+                    addRemindersToList(reminders);
+                }
+                return;
+            }
+            Log.d("hello", "lol22");
             Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(NewPlant.REMINDER_KEY), Reminder.class);
-            if(position >= 0) reminders.set(position, newReminder);
+            if (position >= 0) reminders.set(position, newReminder);
             else reminders.add(newReminder);
             addRemindersToList(reminders);
             Toast.makeText(this, "Reminder" + (position < 0 ? " set to " : " edited for ") + newReminder.name, Toast.LENGTH_SHORT).show();
@@ -373,7 +392,7 @@ public class MyPlant extends AppCompatActivity {
         if (frag != null && fragmentOpened) {
             getSupportFragmentManager().beginTransaction().remove(frag).commitNowAllowingStateLoss();
             fragmentOpened = false;
-        } else
-            super.onBackPressed();
+        }
+        super.onBackPressed();
     }
 }

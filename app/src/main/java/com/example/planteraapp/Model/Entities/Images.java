@@ -1,17 +1,7 @@
-package com.example.planteraapp.entities;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
+package com.example.planteraapp.Model.Entities;
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Calendar;
-
 @Entity
 public class Images {
     @PrimaryKey(autoGenerate = true)

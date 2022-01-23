@@ -1,6 +1,5 @@
 package com.example.planteraapp.Mainfragments;
 
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteException;
@@ -20,22 +19,19 @@ import android.widget.CheckBox;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.MyPlant;
+import com.example.planteraapp.Database.AppDatabase;
+import com.example.planteraapp.Activites.MyPlant;
 import com.example.planteraapp.R;
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.PlantLocation;
+import com.example.planteraapp.Model.Entities.PlantType;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,7 +206,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
                 item.setOnClickListener(v -> {
                     Intent intent = new Intent(requireContext().getApplicationContext(), MyPlant.class);
                     intent.putExtra("plantName", all_plants.plant.plantName);
-                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), imageView, "image").toBundle());
+                    startActivity(intent);
                     requireActivity().overridePendingTransition(R.anim.fragment_enter_anim, R.anim.fragment_exit_anim);
                 });
             }

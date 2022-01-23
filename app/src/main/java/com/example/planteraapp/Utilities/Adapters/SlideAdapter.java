@@ -1,4 +1,4 @@
-package com.example.planteraapp.Utilities;
+package com.example.planteraapp.Utilities.Adapters;
 
 import android.content.Context;
 import android.content.res.ColorStateList;

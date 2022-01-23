@@ -1,4 +1,5 @@
-package com.example.planteraapp.entities.DAO;
+package com.example.planteraapp.Model.DAO;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -7,17 +8,19 @@ import androidx.room.RawQuery;
 import androidx.room.Transaction;
 import androidx.room.Update;
 import androidx.sqlite.db.SupportSQLiteQuery;
-import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
-import com.example.planteraapp.entities.Images;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Relations.BlogWithImages;
-import com.example.planteraapp.entities.Relations.PlantsWithBlogsANDImages;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Relations.ReminderAndPlant;
-import com.example.planteraapp.entities.Reminder;
+
+import com.example.planteraapp.Model.Entities.Blog;
+import com.example.planteraapp.Model.Entities.BlogImagesCrossRef;
+import com.example.planteraapp.Model.Entities.Images;
+import com.example.planteraapp.Model.Entities.Plant;
+import com.example.planteraapp.Model.Entities.PlantLocation;
+import com.example.planteraapp.Model.Entities.PlantType;
+import com.example.planteraapp.Model.Relations.BlogWithImages;
+import com.example.planteraapp.Model.Relations.PlantsWithBlogsANDImages;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
+import com.example.planteraapp.Model.Relations.ReminderAndPlant;
+import com.example.planteraapp.Model.Entities.Reminder;
+
 import java.util.List;
 
 @Dao

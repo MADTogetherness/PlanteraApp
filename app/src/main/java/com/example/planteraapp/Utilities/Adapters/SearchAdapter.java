@@ -1,4 +1,4 @@
-package com.example.planteraapp.Utilities;
+package com.example.planteraapp.Utilities.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.planteraapp.LauncherActivity;
+
+import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.R;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
+
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {

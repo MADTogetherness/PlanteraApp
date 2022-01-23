@@ -24,14 +24,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Database.AppDatabase;
+import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
-import com.example.planteraapp.Utilities.AlertReceiver;
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Reminder;
+import com.example.planteraapp.Utilities.Other.AlertReceiver;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.Reminder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -158,10 +158,12 @@ public class SetReminder extends Fragment {
         // Call function to finally setUP everything perfectly
         btnDone.setOnClickListener(v -> setReminder());
         view.findViewById(R.id.delete_btn).setOnClickListener(v -> {
-            if (getArguments() != null && getArguments().getString("plantName") != null) {
+            if (getArguments() != null && getArguments().getString("plantName") != null && reminderInstance != null) {
                 NewPlant.setAlarm(requireContext(), reminderInstance, getArguments().getString("location"), false);
                 DAO.deleteReminder(reminderInstance);
+
             }
+            getParentFragmentManager().setFragmentResult("requestKey", new Bundle());
             Toast.makeText(requireContext(), "Reminder was successfully removed", Toast.LENGTH_SHORT).show();
             requireActivity().onBackPressed();
         });

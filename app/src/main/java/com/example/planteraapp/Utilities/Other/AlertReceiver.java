@@ -1,4 +1,4 @@
-package com.example.planteraapp.Utilities;
+package com.example.planteraapp.Utilities.Other;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,11 +9,9 @@ import android.media.RingtoneManager;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.planteraapp.Home;
-import com.example.planteraapp.LauncherActivity;
-import com.example.planteraapp.Mainfragments.Calendar;
+import com.example.planteraapp.Activites.Home;
+import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.R;
-import com.example.planteraapp.entities.DAO.PlantDAO;
 
 public class AlertReceiver extends BroadcastReceiver {
     @Override

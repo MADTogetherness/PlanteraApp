@@ -1,8 +1,7 @@
-package com.example.planteraapp;
+package com.example.planteraapp.Activites;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuItemImpl;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -11,30 +10,19 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Reminder;
+import com.example.planteraapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 // The Home.java inflates activity_home.xml & sets up the fragment container to inflate different fragments

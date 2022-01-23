@@ -1,4 +1,4 @@
-package com.example.planteraapp;
+package com.example.planteraapp.Activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -6,13 +6,12 @@ import androidx.appcompat.app.AppCompatDelegate;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+
+import com.example.planteraapp.R;
 
 public class LauncherActivity extends AppCompatActivity {
     // Default Constants used throughout the app java files

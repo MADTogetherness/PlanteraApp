@@ -1,6 +1,6 @@
 package com.example.planteraapp.Mainfragments;
 import static android.content.Context.ACTIVITY_SERVICE;
-import static com.example.planteraapp.LauncherActivity.SharedFile;
+import static com.example.planteraapp.Activites.LauncherActivity.SharedFile;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -24,8 +24,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.planteraapp.Home;
-import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.R;
 
 public class Settings extends Fragment {

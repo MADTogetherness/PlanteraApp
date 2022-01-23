@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPlant"
+    tools:context=".Activites.MyPlant"
     android:gravity="center"
     android:background="?attr/App_Container">
 
@@ -64,7 +64,6 @@
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/img_default_profile_image"
-                    android:transitionName="image"
                     app:shapeAppearance="@style/Image_circle" />
 
                 <TextView

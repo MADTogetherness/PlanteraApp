@@ -1,13 +1,11 @@
 package com.example.planteraapp.Mainfragments;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -24,44 +22,37 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.LauncherActivity;
-import com.example.planteraapp.MyPlant;
+
+import com.example.planteraapp.Database.AppDatabase;
+import com.example.planteraapp.Activites.LauncherActivity;
+import com.example.planteraapp.Activites.MyPlant;
 import com.example.planteraapp.R;
 import com.example.planteraapp.SubFragments.ColorTheme;
 import com.example.planteraapp.SubFragments.SetReminder;
-import com.example.planteraapp.Utilities.AlertReceiver;
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
-import com.example.planteraapp.entities.Reminder;
-import com.google.android.material.imageview.ShapeableImageView;
+import com.example.planteraapp.Utilities.Other.AlertReceiver;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.Plant;
+import com.example.planteraapp.Model.Entities.PlantLocation;
+import com.example.planteraapp.Model.Entities.PlantType;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
+import com.example.planteraapp.Model.Entities.Reminder;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class NewPlant extends Fragment {
@@ -368,7 +359,7 @@ public class NewPlant extends Fragment {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(requireActivity(), MyPlant.class);
             intent.putExtra("plantName", plantName);
-            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(requireActivity(), plantImage, "image").toBundle());
+            startActivity(intent);
             if (PWE != null)
                 requireActivity().finish();
         }, 1000);
@@ -431,6 +422,13 @@ public class NewPlant extends Fragment {
     public void getReminder(int position, Reminder... reminder) {
         FragmentManager fm = requireActivity().getSupportFragmentManager();
         fm.setFragmentResultListener("requestKey", this, (requestKey, bundle) -> {
+            if (bundle.getString(NewPlant.REMINDER_KEY) == null) {
+                if (position >= 0) {
+                    reminders.remove(position);
+                    addRemindersToList(reminders);
+                }
+                return;
+            }
             Reminder newReminder = AttributeConverters.getGsonParser().fromJson(bundle.getString(NewPlant.REMINDER_KEY), Reminder.class);
             if (position >= 0 && PWE != null) newReminder.reminderID = reminder[0].reminderID;
             if (position >= 0) reminders.set(position, newReminder);

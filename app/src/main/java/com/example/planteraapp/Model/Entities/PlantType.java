@@ -1,9 +1,7 @@
-package com.example.planteraapp.entities;
+package com.example.planteraapp.Model.Entities;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 //Composite Key

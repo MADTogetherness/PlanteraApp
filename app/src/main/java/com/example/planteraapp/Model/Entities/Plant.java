@@ -1,4 +1,4 @@
-package com.example.planteraapp.entities;
+package com.example.planteraapp.Model.Entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
-import com.example.planteraapp.LauncherActivity;
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
 

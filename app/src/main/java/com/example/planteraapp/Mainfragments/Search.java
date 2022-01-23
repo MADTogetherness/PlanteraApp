@@ -14,12 +14,12 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.MyPlant;
+import com.example.planteraapp.Database.AppDatabase;
+import com.example.planteraapp.Activites.MyPlant;
 import com.example.planteraapp.R;
-import com.example.planteraapp.Utilities.SearchAdapter;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Relations.PlantsWithEverything;
+import com.example.planteraapp.Utilities.Adapters.SearchAdapter;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Relations.PlantsWithEverything;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,22 +1,21 @@
-package com.example.planteraapp;
+package com.example.planteraapp.Database;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.example.planteraapp.Utilities.AttributeConverters;
-import com.example.planteraapp.entities.Blog;
-import com.example.planteraapp.entities.BlogImagesCrossRef;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Images;
-import com.example.planteraapp.entities.Plant;
-import com.example.planteraapp.entities.PlantLocation;
-import com.example.planteraapp.entities.PlantType;
-import com.example.planteraapp.entities.Reminder;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.Entities.Blog;
+import com.example.planteraapp.Model.Entities.BlogImagesCrossRef;
+import com.example.planteraapp.Model.DAO.PlantDAO;
+import com.example.planteraapp.Model.Entities.Images;
+import com.example.planteraapp.Model.Entities.Plant;
+import com.example.planteraapp.Model.Entities.PlantLocation;
+import com.example.planteraapp.Model.Entities.PlantType;
+import com.example.planteraapp.Model.Entities.Reminder;
 
 @Database(entities = {
         Reminder.class,

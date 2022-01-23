@@ -1,4 +1,4 @@
-package com.example.planteraapp.Utilities;
+package com.example.planteraapp.Utilities.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,15 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.AppLaunchChecker;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.planteraapp.AppDatabase;
-import com.example.planteraapp.LauncherActivity;
+import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.R;
-import com.example.planteraapp.entities.DAO.PlantDAO;
-import com.example.planteraapp.entities.Relations.ReminderAndPlant;
+import com.example.planteraapp.Utilities.Other.AttributeConverters;
+import com.example.planteraapp.Model.Relations.ReminderAndPlant;
 
 import java.util.List;
 
