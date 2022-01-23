@@ -25,7 +25,7 @@ import com.example.planteraapp.Model.Entities.Reminder;
         Images.class,
         Blog.class,
         BlogImagesCrossRef.class
-}, version = 1)
+}, version = 2)
 @TypeConverters({AttributeConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract PlantDAO plantDAO();
