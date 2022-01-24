@@ -39,7 +39,7 @@
         <item name="Section_Container">#FFEFF7</item>
         <item name="Primary_Font">#000000</item>
         <item name="Secondary_Font">#7C7C7C</item>
-        <item name="Button_Font">#E1E1E1</item>
+        <item name="Button_Font">#FFF</item>
         <item name="Section_Shadow">#DBDBDB</item>
         <item name="Button_Primary">#5E35B1</item>
         <item name="Button_Secondary">#716AEA</item>

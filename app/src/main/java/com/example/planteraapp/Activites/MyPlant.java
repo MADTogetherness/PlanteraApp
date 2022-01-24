@@ -322,6 +322,8 @@ public class MyPlant extends AppCompatActivity {
         bottomSheetDialog.show();
     }
     public void resetBottomSheet() {
+        if (thread != null && thread.isAlive())
+            thread.interrupt();
         newImages = new HashMap<>();
         bitmapList = new ArrayList<>();
     }
