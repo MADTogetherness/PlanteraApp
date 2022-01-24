@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ import com.example.planteraapp.Model.Relations.BlogWithImages;
 import com.example.planteraapp.Model.Relations.PlantsWithEverything;
 import com.example.planteraapp.Model.Entities.Reminder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -322,8 +324,7 @@ public class MyPlant extends AppCompatActivity {
         bottomSheetDialog.show();
     }
     public void resetBottomSheet() {
-        if (thread != null && thread.isAlive())
-            thread.interrupt();
+        Thread.currentThread().interrupt();
         newImages = new HashMap<>();
         bitmapList = new ArrayList<>();
     }

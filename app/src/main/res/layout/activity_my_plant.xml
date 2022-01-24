@@ -243,6 +243,7 @@
             android:layout_width="48dp"
             android:layout_height="match_parent"
             android:src="@drawable/ic_cross"
+            android:layout_marginStart="-5dp"
             android:background="@android:color/transparent"
             app:tint="?attr/Primary_Font" />
 
@@ -261,9 +262,9 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/edit_btn"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_10_dp"
+            android:layout_marginEnd="5dp"
             android:fontFamily="@font/main_variable_font"
             android:letterSpacing="0.03"
             android:text="Edit"
@@ -275,7 +276,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete_btn"
-            android:layout_width="75dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/main_variable_font"
             android:letterSpacing="0.03"
