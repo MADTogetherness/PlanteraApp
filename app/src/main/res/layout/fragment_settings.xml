@@ -22,21 +22,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/settings"
-            android:textSize="@dimen/font_size_22sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/main_variable_font"
-            android:textColor="@color/Primary_Font" />
+            style="@style/TextAppearance.Title"
+            android:text="@string/settings" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Subtitle.16"
             android:layout_marginVertical="@dimen/margin_16_dp"
-            android:text="App visuals"
-            android:textSize="@dimen/font_size_18sp"
-            android:fontFamily="@font/main_variable_font"
-            android:textStyle="bold"
-            android:textColor="@color/Secondary_Font" />
+            android:text="App visuals" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/dark_mode_switch"
@@ -92,11 +86,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Subtitle.16"
             android:layout_marginVertical="@dimen/padding_16_dp"
-            android:text="Help"
-            android:textSize="@dimen/font_size_18sp"
-            android:fontFamily="@font/main_variable_font"
-            android:textStyle="bold" />
+            android:text="Help" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -145,12 +137,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Subtitle.16"
             android:text="Plantera v1.0"
             android:textAlignment="center"
             android:layout_marginTop="50dp"
-            android:layout_marginBottom="20dp"
-            android:fontFamily="@font/main_variable_font"
-            android:textSize="@dimen/font_size_16sp" />
+            android:layout_marginBottom="20dp" />
 
     </LinearLayout>
 

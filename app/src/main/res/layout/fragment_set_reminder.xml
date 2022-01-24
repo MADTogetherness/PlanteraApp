@@ -35,16 +35,13 @@
             android:id="@+id/header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Title"
             android:layout_above="@+id/layout_1"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_toEndOf="@+id/reminder_close"
-            android:fontFamily="@font/main_variable_font"
             android:gravity="center_vertical"
-            android:text="Add Reminder"
-            android:textColor="@color/Primary_Font"
-            android:textSize="@dimen/font_size_22sp"
-            android:textStyle="bold" />
+            android:text="Add Reminder" />
 
         <LinearLayout
             android:id="@+id/layout_1"

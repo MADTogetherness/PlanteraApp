@@ -23,12 +23,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/TextAppearance.Title"
             android:text="Upcoming Tasks"
-            android:layout_marginTop="@dimen/margin_10_dp"
-            android:fontFamily="@font/main_variable_font"
-            android:textColor="@color/Primary_Font"
-            android:textSize="@dimen/font_size_22sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="@dimen/margin_10_dp" />
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"

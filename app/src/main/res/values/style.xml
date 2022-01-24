@@ -139,4 +139,23 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="TextAppearance.Private" parent="android:Widget.TextView">
+        <item name="android:textColor">?attr/Primary_Font</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    // TEXT STYLES
+
+    <style name="TextAppearance.Title" parent="TextAppearance.Private">
+        <item name="android:textSize">@dimen/font_size_22sp</item>
+        <item name="android:fontFamily">@font/main_variable_font</item>
+    </style>
+
+    <style name="TextAppearance.Subtitle.16" parent="TextAppearance.Private">
+        <item name="android:textSize">@dimen/font_size_17sp</item>
+        <item name="android:fontFamily">@font/main_variable_font</item>
+        <item name="android:textColor">?attr/Secondary_Font</item>
+    </style>
 </resources>

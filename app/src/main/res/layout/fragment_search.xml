@@ -15,13 +15,10 @@
         android:id="@+id/app_bar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/TextAppearance.Title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/main_variable_font"
-        android:text="Search your garden"
-        android:textColor="@color/Primary_Font"
-        android:textSize="@dimen/font_size_22sp"
-        android:textStyle="bold" />
+        android:text="Search your garden" />
 
     <EditText
         android:id="@+id/search_bar"

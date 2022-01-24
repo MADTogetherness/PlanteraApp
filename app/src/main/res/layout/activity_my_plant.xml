@@ -70,15 +70,11 @@
                     android:id="@+id/plantNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/TextAppearance.Title"
                     android:layout_below="@+id/plant_image"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_16_dp"
-                    android:fontFamily="@font/main_variable_font"
-                    android:lines="1"
-                    android:text="Platipus Perry"
-                    android:textColor="?attr/Primary_Font"
-                    android:textSize="@dimen/font_size_22sp"
-                    android:textStyle="bold" />
+                    android:text="Platipus Perry" />
 
                 <TextView
                     android:id="@+id/plantdescriptionTV"
@@ -250,14 +246,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            style="@style/TextAppearance.Title"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:maxLines="1"
             android:gravity="center_vertical"
-            android:fontFamily="@font/main_variable_font"
             android:text="My Plant"
-            android:textColor="?attr/Primary_Font"
-            android:textStyle="bold"
             android:textSize="@dimen/font_size_22sp" />
 
         <com.google.android.material.button.MaterialButton

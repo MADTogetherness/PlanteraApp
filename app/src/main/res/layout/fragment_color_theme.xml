@@ -39,11 +39,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose a plant theme"
-                android:textColor="@color/Primary_Font"
-                android:textSize="@dimen/font_size_22sp"
-                android:fontFamily="@font/main_variable_font"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.Title"
+                android:text="Choose a plant theme" />
 
         </LinearLayout>
 
