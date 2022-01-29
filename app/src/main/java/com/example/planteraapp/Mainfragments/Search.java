@@ -50,14 +50,18 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
         PlantDAO plantDAO = AppDatabase.getInstance(getContext()).plantDAO();
         allPlants = plantDAO.getAllPlantsWithEverything();
+
         recyclerView = view.findViewById(R.id.search_list);
         no_search = view.findViewById(R.id.no_search);
         no_search_sub = view.findViewById(R.id.no_search_sub);
+
         // View to display when list search result is empty
         emptyView = view.findViewById(R.id.empty_view);
         searchBar = view.findViewById(R.id.search_bar);
+
         // Calling it initially to display all plants
         filter_plants("");
+
         // Filter plants every keystroke instead of pressing enter
         // This way is much smoother and responsive
         searchBar.addTextChangedListener(new TextWatcher() {
@@ -79,9 +83,12 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
     }
 
     public void filter_plants(String txt) {
+        // Filter plants via names using search string
         filteredPlants = allPlants.stream().filter(
                 p -> p.plant.plantName.toLowerCase()
                         .contains(txt)).collect(Collectors.toList());
+
+        // Set "no plants found" text accordingly
         if (filteredPlants.size() == 0) {
             if (searchBar.getText().toString().trim().isEmpty()) {
                 no_search.setText(R.string.nothing_search_result);
@@ -94,6 +101,8 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
 
         } else
             emptyView.setVisibility(View.GONE);
+
+        // Populate recycler view with results
         recyclerView.setAdapter(new SearchAdapter(filteredPlants, Search.this, requireContext()));
     }
 
