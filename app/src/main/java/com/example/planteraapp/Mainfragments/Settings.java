@@ -1,4 +1,5 @@
 package com.example.planteraapp.Mainfragments;
+
 import static android.content.Context.ACTIVITY_SERVICE;
 import static com.example.planteraapp.Activites.LauncherActivity.SharedFile;
 
@@ -28,22 +29,13 @@ import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.R;
 
 public class Settings extends Fragment {
-    SwitchCompat darkModeSwitch;
-    AppCompatSpinner fontSizeSpinner;
-    AppCompatButton aboutButton, helpButton, clearDataButton;
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private SwitchCompat darkModeSwitch;
+    private AppCompatSpinner fontSizeSpinner;
+    private AppCompatButton aboutButton, helpButton, clearDataButton;
+
     private boolean initializedSpinner;
 
-    public Settings() {/*Required empty public constructor*/}
-
-    public static Settings newInstance(String param1, String param2) {
-        Settings fragment = new Settings();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public Settings() {
     }
 
     @Override
@@ -54,14 +46,24 @@ public class Settings extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
+
         darkModeSwitch = view.findViewById(R.id.dark_mode_switch);
         fontSizeSpinner = view.findViewById(R.id.font_size_spinner);
         aboutButton = view.findViewById(R.id.about_button);
         helpButton = view.findViewById(R.id.help_button);
-        darkModeSwitch.setChecked((getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
-        fontSizeSpinner.setSelection(getScale(requireActivity().getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).getFloat("font", 1f)));
         clearDataButton = view.findViewById(R.id.clear_data);
+
+        // Set dark mode and font size UI based on saved config
+        darkModeSwitch.setChecked((getResources()
+                .getConfiguration()
+                .uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
+
+        fontSizeSpinner.setSelection(getScale(requireActivity()
+                .getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE)
+                .getFloat("font", 1f)));
+
         initializedSpinner = false;
+
         return view;
     }
 
@@ -70,13 +72,18 @@ public class Settings extends Fragment {
         aboutButton.setOnClickListener(v -> redirectToGithub());
         helpButton.setOnClickListener(v -> redirectToGithub());
         clearDataButton.setOnClickListener(v -> showDialog());
+
+        // Save dark mode value to SharedPrefs and recreate fragment
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             int mode = isChecked ? 2 : 1;
             edit("mode", mode);
-            AppCompatDelegate.setDefaultNightMode(mode == 2 ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+            AppCompatDelegate.setDefaultNightMode(
+                    mode == 2 ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
+
             requireActivity().recreate();
         });
 
+        // Save font size value to SharedPrefs and recreate fragment
         fontSizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -125,7 +132,9 @@ public class Settings extends Fragment {
     }
 
     public void edit(String key, Object value) {
-        SharedPreferences.Editor editor = requireActivity().getSharedPreferences(SharedFile, Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = requireActivity()
+                .getSharedPreferences(SharedFile, Context.MODE_PRIVATE).edit();
+
         if (value instanceof Integer)
             editor.putInt(key, (Integer) value);
         else if (value instanceof Float)
