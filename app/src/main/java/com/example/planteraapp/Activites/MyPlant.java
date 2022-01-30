@@ -28,18 +28,15 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.planteraapp.Activites.Home;
-import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.Database.AppDatabase;
 import com.example.planteraapp.Mainfragments.NewPlant;
 import com.example.planteraapp.R;
-import com.example.planteraapp.SubFragments.ColorTheme;
-import com.example.planteraapp.SubFragments.SetReminder;
+import com.example.planteraapp.Mainfragments.SubFragments.ColorTheme;
+import com.example.planteraapp.Mainfragments.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.Other.AttributeConverters;
 import com.example.planteraapp.Model.Entities.Blog;
 import com.example.planteraapp.Model.Entities.BlogImagesCrossRef;
@@ -50,7 +47,6 @@ import com.example.planteraapp.Model.Relations.BlogWithImages;
 import com.example.planteraapp.Model.Relations.PlantsWithEverything;
 import com.example.planteraapp.Model.Entities.Reminder;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;

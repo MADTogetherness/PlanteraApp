@@ -1,5 +1,4 @@
 package com.example.planteraapp.Mainfragments;
-
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,7 +8,6 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -20,7 +18,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,8 +36,8 @@ import com.example.planteraapp.Database.AppDatabase;
 import com.example.planteraapp.Activites.LauncherActivity;
 import com.example.planteraapp.Activites.MyPlant;
 import com.example.planteraapp.R;
-import com.example.planteraapp.SubFragments.ColorTheme;
-import com.example.planteraapp.SubFragments.SetReminder;
+import com.example.planteraapp.Mainfragments.SubFragments.ColorTheme;
+import com.example.planteraapp.Mainfragments.SubFragments.SetReminder;
 import com.example.planteraapp.Utilities.Other.AlertReceiver;
 import com.example.planteraapp.Utilities.Other.AttributeConverters;
 import com.example.planteraapp.Model.DAO.PlantDAO;
