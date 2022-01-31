@@ -45,30 +45,30 @@ public class Settings extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // Get references
         darkModeSwitch = view.findViewById(R.id.dark_mode_switch);
         fontSizeSpinner = view.findViewById(R.id.font_size_spinner);
         aboutButton = view.findViewById(R.id.about_button);
         helpButton = view.findViewById(R.id.help_button);
         clearDataButton = view.findViewById(R.id.clear_data);
 
-        // Set dark mode and font size UI based on saved config
+        // Set dark mode based on device theme
         darkModeSwitch.setChecked((getResources()
                 .getConfiguration()
                 .uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES);
 
+        // Set font size UI based on saved config
         fontSizeSpinner.setSelection(getScale(requireActivity()
                 .getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE)
                 .getFloat("font", 1f)));
 
         initializedSpinner = false;
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         aboutButton.setOnClickListener(v -> redirectToGithub());
         helpButton.setOnClickListener(v -> redirectToGithub());
         clearDataButton.setOnClickListener(v -> showDialog());
@@ -77,6 +77,7 @@ public class Settings extends Fragment {
         darkModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             int mode = isChecked ? 2 : 1;
             edit("mode", mode);
+
             AppCompatDelegate.setDefaultNightMode(
                     mode == 2 ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO);
 
@@ -91,8 +92,10 @@ public class Settings extends Fragment {
                     initializedSpinner = true;
                     return;
                 }
+
                 float scale = 0.75f + 0.25f * position;
                 edit("font", scale);
+
                 requireActivity().recreate();
             }
 
@@ -112,7 +115,8 @@ public class Settings extends Fragment {
         new AlertDialog.Builder(requireContext())
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .setTitle("Delete App Data").setMessage("Are you sure you want to delete your entire application data?")
-                .setPositiveButton("Yes", (dialog, which) -> clearAppData()).setNegativeButton("No", null)
+                .setPositiveButton("Yes", (dialog, which) -> clearAppData())
+                .setNegativeButton("No", null)
                 .show();
     }
 

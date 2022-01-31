@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/App_Container"
-    android:paddingStart="@dimen/padding_16_dp"
-    android:paddingEnd="@dimen/padding_16_dp"
+    android:paddingHorizontal="@dimen/padding_16_dp"
     android:paddingTop="@dimen/padding_16_dp"
     android:paddingBottom="@dimen/padding_100_dp"
     tools:context=".Mainfragments.Search">
 
     <TextView
         android:id="@+id/app_bar_title"
+        style="@style/TextAppearance.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextAppearance.Title"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Search your garden" />
+        android:layout_marginTop="16dp"
+        android:text="Search your garden"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/search_bar"
@@ -36,7 +40,10 @@
         android:imeOptions="actionSearch"
         android:inputType="text"
         android:padding="@dimen/padding_16_dp"
-        android:textColor="@color/Primary_Font" />
+        android:textColor="@color/Primary_Font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_bar_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_list"
@@ -45,46 +52,54 @@
         android:layout_below="@+id/search_bar"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:layout_marginTop="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar" />
 
     <LinearLayout
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_bar">
 
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:padding="@dimen/padding_10_dp"
-            android:src="@drawable/ic_search_icon_24"
+            android:layout_marginBottom="@dimen/margin_10_dp"
             android:background="@drawable/com_round_shape"
             android:backgroundTint="@color/Section_Container"
-            app:tint="@color/Primary_Font"
-            android:layout_marginBottom="@dimen/margin_10_dp"
-            android:contentDescription="@string/no_search_result" />
+            android:contentDescription="@string/no_search_result"
+            android:padding="@dimen/padding_10_dp"
+            android:src="@drawable/ic_search_icon_24"
+            app:tint="@color/Primary_Font" />
 
         <TextView
             android:id="@+id/no_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/main_variable_font"
             android:text="@string/no_search_result"
-            android:textSize="@dimen/font_size_18sp"
-            android:textStyle="bold"
             android:textColor="@color/Primary_Font"
-            android:fontFamily="@font/main_variable_font" />
+            android:textSize="@dimen/font_size_18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/no_search_sub"
             android:layout_width="265dp"
             android:layout_height="wrap_content"
             android:text="@string/no_search_result_sub"
-            android:textSize="@dimen/font_size_14sp"
             android:textAlignment="center"
-            android:textColor="@color/Secondary_Font" />
+            android:textColor="@color/Secondary_Font"
+            android:textSize="@dimen/font_size_14sp" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

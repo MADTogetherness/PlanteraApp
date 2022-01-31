@@ -138,7 +138,9 @@ public class Home extends AppCompatActivity implements NavigationBarView.OnItemS
     @Override
     protected void attachBaseContext(Context newBase) {
         Configuration newConfig = new Configuration(newBase.getResources().getConfiguration());
-        newConfig.fontScale = newBase.getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE).getFloat("font", 1f);
+        newConfig.fontScale = newBase
+                .getSharedPreferences(LauncherActivity.SharedFile, Context.MODE_PRIVATE)
+                .getFloat("font", 1f);
         applyOverrideConfiguration(newConfig);
         super.attachBaseContext(newBase);
     }

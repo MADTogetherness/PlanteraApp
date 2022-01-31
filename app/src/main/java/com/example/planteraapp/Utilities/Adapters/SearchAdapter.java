@@ -39,6 +39,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
         PlantsWithEverything plant = plants.get(position);
+
         // Build up reminder string eg. "Water & Fertilize"
         StringBuilder reminderStr = new StringBuilder();
         for (int i = 0; i < plant.Reminders.size(); i++) {
@@ -48,14 +49,21 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             }
             reminderStr.append(" & ").append(plant.Reminders.get(i).name);
         }
+
         if (reminderStr.length() == 0)
             reminderStr.append("No reminders set");
 
+        // Setup values
         holder.plantName.setText(plant.plant.plantName);
         holder.plantReminders.setText(reminderStr.toString());
         holder.plantDescription.setText(plant.plant.description.replaceAll("\\R+", " "));
+
+        // Set color
         if (plant.Reminders.size() != 0)
-            holder.view.setBackgroundTintList(ContextCompat.getColorStateList(context, LauncherActivity.getColour(reminderStr.toString().trim())));
+            holder.view
+                    .setBackgroundTintList(ContextCompat.
+                            getColorStateList(context, LauncherActivity
+                                    .getColour(reminderStr.toString().trim())));
     }
 
     @Override
