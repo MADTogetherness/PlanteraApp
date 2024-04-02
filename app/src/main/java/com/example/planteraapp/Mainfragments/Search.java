@@ -89,7 +89,7 @@ public class Search extends Fragment implements SearchAdapter.SearchItemClickLis
                         .contains(txt)).collect(Collectors.toList());
 
         // Set "no plants found" text accordingly
-        if (filteredPlants.size() == 0) {
+        if (filteredPlants.isEmpty()) {
             if (searchBar.getText().toString().trim().isEmpty()) {
                 no_search.setText(R.string.nothing_search_result);
                 no_search_sub.setText(R.string.nothing_search_result_sub);

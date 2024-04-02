@@ -32,7 +32,6 @@ import java.util.List;
 public class Calendar extends Fragment implements ReminderRecyclerAdapter.CalendarItemCheckListener {
     private PlantDAO DAO;
     private RecyclerView rvTodayReminder, rvTomorrowReminder;
-    private ReminderRecyclerAdapter todayReminderRVA, tomorrowReminderRVA;
     private List<ReminderAndPlant> today, tomorrow;
 
     public Calendar() {/*Required empty public constructor*/}
@@ -86,13 +85,13 @@ public class Calendar extends Fragment implements ReminderRecyclerAdapter.Calend
         List<List<ReminderAndPlant>> all_rem = getReminderList();
         today = all_rem.get(0);
         tomorrow = all_rem.get(1);
-        todayReminderRVA = new ReminderRecyclerAdapter(rvTodayReminder.getId(), today, this, requireContext());
-        tomorrowReminderRVA = new ReminderRecyclerAdapter(rvTomorrowReminder.getId(), tomorrow, this, requireContext());
+        ReminderRecyclerAdapter todayReminderRVA = new ReminderRecyclerAdapter(rvTodayReminder.getId(), today, this, requireContext());
+        ReminderRecyclerAdapter tomorrowReminderRVA = new ReminderRecyclerAdapter(rvTomorrowReminder.getId(), tomorrow, this, requireContext());
         rvTodayReminder.setAdapter(todayReminderRVA);
         rvTomorrowReminder.setAdapter(tomorrowReminderRVA);
-        if (today.size() == 0)
+        if (today.isEmpty())
             requireView().findViewById(R.id.empty_today).setVisibility(View.VISIBLE);
-        if (tomorrow.size() == 0)
+        if (tomorrow.isEmpty())
             requireView().findViewById(R.id.empty_tomorrow).setVisibility(View.VISIBLE);
     }
 

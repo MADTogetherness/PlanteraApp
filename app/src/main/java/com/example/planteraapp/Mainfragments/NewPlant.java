@@ -4,9 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -19,6 +21,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.os.Handler;
+import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +53,8 @@ import com.example.planteraapp.Model.Entities.Reminder;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 
 public class NewPlant extends Fragment {
@@ -95,7 +100,7 @@ public class NewPlant extends Fragment {
                     thread = new Thread(() -> {
                         imagePath = AttributeConverters.BitMapToString(singleBitMap);
                         requireActivity().runOnUiThread(() -> {
-                            imageNameTV.setText(uri.getPath().split(":")[1] + ".png");
+                            imageNameTV.setText(getFileName(uri, requireActivity().getApplicationContext()));
                             EnableDisable(true);
                         });
                         success.show();
@@ -104,6 +109,21 @@ public class NewPlant extends Fragment {
                 }
             });
 
+    public String getFileName(Uri uri, Context context) {
+        String result = null;
+        if (Objects.equals(uri.getScheme(), "content")) {
+            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+                int index = (cursor != null && cursor.moveToFirst()) ? cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME) : -1;
+                if (index != -1) {
+                    result = cursor.getString(index);
+                }
+            }
+        }
+        if (result == null)
+            result = Optional.ofNullable(uri.getPath()).map(path -> path.substring(path.lastIndexOf('/') + 1)).orElse("sample.bin");
+
+        return result;
+    }
 
     public NewPlant() {/*Required empty public constructor*/}
 
@@ -233,7 +253,7 @@ public class NewPlant extends Fragment {
             successP = DAO.insertNewPlant(plant)[0];
             Log.d("XX:InsertP" + plantName, "Successful");
             for (Reminder singleRem : reminders) {
-                long[] successfulR = DAO.insertReminders(singleRem);
+                DAO.insertReminders(singleRem);
                 Log.d("XX:insertR", "Successful");
             }
 
@@ -365,7 +385,7 @@ public class NewPlant extends Fragment {
     public void addRemindersToList(@NonNull List<Reminder> items) {
         reminderlinearlayout.removeAllViews();
         int i = 0;
-        if (items.size() == 0)
+        if (items.isEmpty())
             addNewReminderViewPrompt(getDrawableForReminder(-1));
         else {
             for (Reminder all_reminders : items) {

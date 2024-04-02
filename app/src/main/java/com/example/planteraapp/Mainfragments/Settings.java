@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -118,14 +117,7 @@ public class Settings extends Fragment {
 
     private void clearAppData() {
         try {
-            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-                ((ActivityManager) requireActivity().getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
-            } else {
-                String packageName = requireContext().getApplicationContext().getPackageName();
-                Runtime runtime = Runtime.getRuntime();
-                runtime.exec("pm clear " + packageName);
-            }
-
+            ((ActivityManager) requireActivity().getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData();
         } catch (Exception e) {
             e.printStackTrace();
         }

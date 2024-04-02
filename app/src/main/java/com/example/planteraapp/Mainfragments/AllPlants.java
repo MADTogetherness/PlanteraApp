@@ -181,7 +181,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
             group.setVisibility(View.GONE);
             return;
         }
-        if (list == null || list.size() == 0)
+        if (list == null || list.isEmpty())
             return;
         group.check(-1);
         addRadioButtons(list, group);
@@ -194,7 +194,7 @@ public class AllPlants extends Fragment implements RadioGroup.OnCheckedChangeLis
 
     public void addPlantViewsToGrid(@NonNull List<PlantsWithEverything> items) {
         gridLayout.removeAllViews();
-        if (items.size() != 0) {
+        if (!items.isEmpty()) {
             default_item_layout.setVisibility(View.GONE);
             for (PlantsWithEverything all_plants : items) {
                 View item = ((LayoutInflater) requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_all_plants_grid_item_layout, gridLayout, false);

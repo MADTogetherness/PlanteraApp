@@ -140,7 +140,7 @@ public class SetReminder extends Fragment {
             // Telling the class that this is just a test notification & do appropriately with random unimportant value
             actionIntent.putExtra("test", 1999);
             // Broadcasting notification using the pending intent,intent that will be fired only on user click of notification
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 1999, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 1999, actionIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             // Build the notification
             NotificationCompat.Builder builder = new NotificationCompat.Builder(requireContext(), LauncherActivity.CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_my_plants_view_icon_v24)
@@ -171,7 +171,7 @@ public class SetReminder extends Fragment {
 
     public void setReminder() {
         // Check usual text empty & not fitting the criteria mentioned
-        if (setReminderName.getText().toString().trim().length() == 0) {
+        if (setReminderName.getText().toString().trim().isEmpty()) {
             setReminderName.setError("Reminder Name is required");
             LauncherActivity.openSoftKeyboard(requireContext(), setReminderName);
             return;
@@ -184,7 +184,7 @@ public class SetReminder extends Fragment {
             return;
         }
         // Check usual repeat interval is not set & not fitting the criteria mentioned
-        if (repeatInterval.getText().toString().trim().length() == 0) {
+        if (repeatInterval.getText().toString().trim().isEmpty()) {
             repeatInterval.setError("Repeat not provided");
             LauncherActivity.openSoftKeyboard(requireContext(), repeatInterval);
             return;
@@ -287,7 +287,7 @@ public class SetReminder extends Fragment {
         return null;
     }
 
-    class WeekDay {
+    public class WeekDay {
         String name;
         int day;
 

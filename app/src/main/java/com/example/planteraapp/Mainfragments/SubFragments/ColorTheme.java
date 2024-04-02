@@ -25,7 +25,6 @@ import com.example.planteraapp.R;
  */
 public class ColorTheme extends Fragment {
     private LinearLayout[] theme_layouts;
-    private int[] colors;
     private RadioGroup group;
     private int selectedTheme;
     public ColorTheme() {/* Required empty public constructor */}
@@ -48,7 +47,7 @@ public class ColorTheme extends Fragment {
         View v = inflater.inflate(R.layout.fragment_color_theme, container, false);
         theme_layouts = new LinearLayout[5];
         group = v.findViewById(R.id.colorTheme_radio_group);
-        colors = new int[]{R.attr.App_Container, R.attr.Section_Container, R.attr.Primary_Font, R.attr.Secondary_Font, R.attr.Button_Font, R.attr.Section_Shadow, R.attr.Button_Primary, R.attr.Button_Secondary};
+        int[] colors = new int[]{R.attr.App_Container, R.attr.Section_Container, R.attr.Primary_Font, R.attr.Secondary_Font, R.attr.Button_Font, R.attr.Section_Shadow, R.attr.Button_Primary, R.attr.Button_Secondary};
         theme_layouts[0] = v.findViewById(R.id.layout_default_them);
         theme_layouts[1] = v.findViewById(R.id.layout_monochromatic_brown);
         theme_layouts[2] = v.findViewById(R.id.layout_chiffon_purple);

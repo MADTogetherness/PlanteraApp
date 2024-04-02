@@ -1,6 +1,5 @@
 package com.example.planteraapp.Activites;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
@@ -10,7 +9,6 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -65,7 +63,7 @@ public class Intro_Activity extends AppCompatActivity {
         PlantDAO DAO = AppDatabase.getInstance(this).plantDAO();
         // Inserting Default PlantLocations for users to use later from the dropdown
         // Users will also be able to type custom locations other than these mentioned below
-        long[] success1 = DAO.insertPlantLocations(
+        DAO.insertPlantLocations(
                 new PlantLocation("Hallway"),
                 new PlantLocation("Bedroom"),
                 new PlantLocation("Living room"),
@@ -73,7 +71,7 @@ public class Intro_Activity extends AppCompatActivity {
         );
         // Inserting Default PlantType for users to use later from the dropdown
         // Users will also be able to type custom Plant Types other than these mentioned below
-        long[] success2 = DAO.insertPlantTypes(
+        DAO.insertPlantTypes(
                 new PlantType("Cactus"),
                 new PlantType("Fern"),
                 new PlantType("Foliage")
@@ -117,7 +115,6 @@ public class Intro_Activity extends AppCompatActivity {
     // Create channel for notification & Insert Broadcast receiver in manifest
     // Create a single notification Channel for entire app notifications
     // Used to initialise the notification priority, sounds, turn on lights, notification visibility
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library

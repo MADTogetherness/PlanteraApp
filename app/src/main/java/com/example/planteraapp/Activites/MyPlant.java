@@ -81,7 +81,7 @@ public class MyPlant extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private final ActivityResultLauncher<String> mGetMultipleContent = registerForActivityResult(new ActivityResultContracts.GetMultipleContents(),
             uri -> {
-                if (uri.size() != 0) {
+                if (!uri.isEmpty()) {
                     Toast.makeText(this, "Uploading " + uri.size() + " Image(s)", Toast.LENGTH_SHORT).show();
                     Toast success = Toast.makeText(this, "Images Uploaded Successfully", Toast.LENGTH_SHORT);
                     for (Uri URI : uri) {
@@ -137,11 +137,11 @@ public class MyPlant extends AppCompatActivity {
         new Handler().postDelayed(() -> new Thread(() -> {
             everyThing = DAO.getAllPlantAttributes(plantName);
             blogs = DAO.getAllBlogsWithPlantID(plant.plantName).blogs;
-            reminders = everyThing.Reminders.size() == 0 ? new ArrayList<>() : everyThing.Reminders;
+            reminders = everyThing.Reminders.isEmpty() ? new ArrayList<>() : everyThing.Reminders;
             reminders.sort(Reminder.COMPARE_BY_TIME);
             runOnUiThread(() -> {
                 plantImage.setImageBitmap(StringToBitMap(plant.profile_image));
-                upComingReminderTV.setText((reminders.size() == 0) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
+                upComingReminderTV.setText((reminders.isEmpty()) ? "No reminders set" : "Next Reminder is " + AttributeConverters.getRemainingTime(reminders.get(0).realEpochTime));
                 addRemindersToList(reminders);
                 addBlogsToList(blogs);
             });
@@ -200,7 +200,7 @@ public class MyPlant extends AppCompatActivity {
     public void addRemindersToList(@NonNull List<Reminder> items) {
         RemindersContainer.removeAllViews();
         int i = 0;
-        if (items.size() == 0)
+        if (items.isEmpty())
             addNewReminderViewPrompt(getDrawableForReminder(-1));
         else {
             for (Reminder all_reminders : items) {
@@ -255,7 +255,7 @@ public class MyPlant extends AppCompatActivity {
         if (newTimeLineImages == null)
             return;
         newTimeLineImages.removeAllViews();
-        if (bitmapList.size() != 0) {
+        if (!bitmapList.isEmpty()) {
             for (Bitmap bitmap : bitmapList) {
                 View item = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.com_layout_blogimg, newTimeLineImages, false);
                 ((ImageView) item).setImageBitmap(bitmap);
@@ -325,7 +325,7 @@ public class MyPlant extends AppCompatActivity {
         bitmapList = new ArrayList<>();
     }
     public void addBlogsToList(@NonNull List<BlogWithImages> items) {
-        findViewById(R.id.empty_timeline).setVisibility(items.size() == 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.empty_timeline).setVisibility(items.isEmpty() ? View.VISIBLE : View.GONE);
         for (BlogWithImages item : items) {
             View view = getLayoutInflater().inflate(R.layout.com_layout_timeline, TimelineContainer, false);
             Calendar c = Calendar.getInstance();
